@@ -1,0 +1,19 @@
+{% comment %}
+  Renders a Meldwood SVG icon from assets/mw-icon-{name}.svg as a decorative image.
+
+  Accepts:
+  - name: {String} Icon name, e.g. 'arrow-right'
+  - class: {String} Extra classes (optional)
+
+  Usage:
+  {% render 'mw-icon', name: 'arrow-right', class: 'mw-rot-90' %}
+{% endcomment %}
+<img
+  src="{{ 'mw-icon-' | append: name | append: '.svg' | asset_url }}"
+  alt=""
+  aria-hidden="true"
+  class="mw-icon mw-icon--{{ name }}{% if class %} {{ class }}{% endif %}"
+  width="24"
+  height="24"
+  loading="lazy"
+>

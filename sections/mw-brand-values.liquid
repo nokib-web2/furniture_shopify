@@ -1,0 +1,425 @@
+{{ 'mw-brand-values.css' | asset_url | stylesheet_tag }}
+
+{%- assign chips = section.blocks | where: 'type', 'chip' -%}
+
+<section class="mw mw-section mw-values" style="{% render 'mw-section-style', section: section %}">
+  <div class="mw-container mw-values__inner">
+    <div class="mw-values__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="mw-values__heading">{{ section.settings.heading | escape | newline_to_br }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="mw-values__subheading">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="mw-values__grid">
+      {%- comment -%} Column 1: story card {%- endcomment -%}
+      <div class="mw-values__card mw-values__story">
+        <div class="mw-values__story-top">
+          {%- if section.settings.story_eyebrow != blank -%}
+            <p class="mw-values__eyebrow">{{ section.settings.story_eyebrow | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.story_title != blank -%}
+            <h3 class="mw-values__story-title">{{ section.settings.story_title | escape }}</h3>
+          {%- endif -%}
+          {%- if section.settings.story_text != blank -%}
+            <p class="mw-values__story-text">{{ section.settings.story_text | escape }}</p>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.show_line_art -%}
+          <span class="mw-values__line-art" aria-hidden="true">
+            {% render 'mw-icon', name: 'circle-x' %}
+          </span>
+        {%- endif -%}
+        {%- if section.settings.story_link_label != blank -%}
+          <a href="{{ section.settings.story_link | default: '#' }}" class="mw-link mw-values__story-link">
+            <span>{{ section.settings.story_link_label | escape }}</span>
+            {% render 'mw-icon', name: 'arrow-right' %}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Column 2: trust, identity and values cards {%- endcomment -%}
+      <div class="mw-values__stack">
+        <div class="mw-values__card mw-values__trust">
+          <div class="mw-values__trust-text">
+            {%- if section.settings.stat_value != blank -%}
+              <p class="mw-values__stat">{{ section.settings.stat_value | escape }}</p>
+            {%- endif -%}
+            {%- if section.settings.stat_label != blank -%}
+              <p class="mw-values__stat-label">{{ section.settings.stat_label | escape }}</p>
+            {%- endif -%}
+          </div>
+          <div class="mw-values__avatars">
+            <span class="mw-values__avatar">
+              {%- if section.settings.avatar_1 != blank -%}
+                {{
+                  section.settings.avatar_1
+                  | image_url: width: 160
+                  | image_tag: loading: 'lazy', widths: '80, 120, 160', sizes: '60px'
+                }}
+              {%- endif -%}
+            </span>
+            <span class="mw-values__heart">
+              {% render 'mw-icon', name: 'heart' %}
+            </span>
+            <span class="mw-values__avatar">
+              {%- if section.settings.avatar_2 != blank -%}
+                {{
+                  section.settings.avatar_2
+                  | image_url: width: 160
+                  | image_tag: loading: 'lazy', widths: '80, 120, 160', sizes: '60px'
+                }}
+              {%- endif -%}
+            </span>
+          </div>
+        </div>
+
+        <div class="mw-values__card mw-values__identity">
+          {%- if section.settings.identity_logo != blank -%}
+            {{
+              section.settings.identity_logo
+              | image_url: width: 600
+              | image_tag:
+                class: 'mw-values__identity-logo mw-values__identity-logo--custom',
+                alt: shop.name,
+                loading: 'lazy',
+                widths: '300, 600',
+                sizes: '248px'
+            }}
+          {%- else -%}
+            <img
+              src="{{ 'mw-logo.svg' | asset_url }}"
+              alt="{{ shop.name | escape }}"
+              class="mw-values__identity-logo"
+              width="155"
+              height="14"
+              loading="lazy"
+            >
+          {%- endif -%}
+          {%- if section.settings.identity_text_mobile != blank -%}
+            <p class="mw-values__identity-text">{{ section.settings.identity_text_mobile | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.identity_tagline != blank -%}
+            <p class="mw-values__identity-tagline">{{ section.settings.identity_tagline | escape }}</p>
+          {%- endif -%}
+        </div>
+
+        <div class="mw-values__card mw-values__brand">
+          {%- if section.settings.quote != blank -%}
+            <p class="mw-values__quote">{{ section.settings.quote | escape }}</p>
+          {%- endif -%}
+          {%- if chips.size > 0 -%}
+            <ul class="mw-values__chips">
+              {%- for block in chips -%}
+                <li class="mw-values__chip mw-values__chip--{{ block.settings.style }}" {{ block.shopify_attributes }}>
+                  <span class="mw-values__chip-dot" aria-hidden="true"></span>
+                  {{- block.settings.text | escape -}}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if section.settings.brand_button_label != blank -%}
+            <a href="{{ section.settings.brand_button_link | default: routes.all_products_collection_url }}" class="mw-btn mw-values__btn">
+              {{- section.settings.brand_button_label | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} Column 3: lifestyle image card {%- endcomment -%}
+      <div class="mw-values__card mw-values__lifestyle">
+        <span class="mw-values__lifestyle-media" aria-hidden="true">
+          {%- if section.settings.lifestyle_image != blank -%}
+            {{
+              section.settings.lifestyle_image
+              | image_url: width: 1400
+              | image_tag:
+                class: 'mw-values__lifestyle-img',
+                loading: 'lazy',
+                widths: '400, 600, 800, 1100, 1400',
+                sizes: '(min-width: 1200px) 30vw, 100vw'
+            }}
+          {%- endif -%}
+        </span>
+        <span class="mw-values__leaf">
+          {% render 'mw-icon', name: 'leaf-white' %}
+        </span>
+        <div class="mw-values__lifestyle-bottom">
+          <div class="mw-values__lifestyle-text">
+            {%- if section.settings.lifestyle_title != blank -%}
+              <h3 class="mw-values__lifestyle-title">{{ section.settings.lifestyle_title | escape | newline_to_br }}</h3>
+            {%- endif -%}
+            {%- if section.settings.lifestyle_label != blank -%}
+              <p class="mw-values__lifestyle-label">{{ section.settings.lifestyle_label | escape }}</p>
+            {%- endif -%}
+          </div>
+          {%- if section.settings.lifestyle_button_label != blank -%}
+            <a href="{{ section.settings.lifestyle_button_link | default: '#' }}" class="mw-btn mw-btn--light mw-values__btn mw-values__lifestyle-btn">
+              {{- section.settings.lifestyle_button_label | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood brand values",
+  "tag": "div",
+  "class": "mw-values-section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "heading",
+      "default": "Furniture Made for Living\nDesigned to Last",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "default": "Thoughtfully crafted pieces made with honest materials, timeless forms, and everyday living in mind.",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Story card"
+    },
+    {
+      "type": "text",
+      "id": "story_eyebrow",
+      "default": "Designed With Intention",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "story_title",
+      "default": "Made for Everyday Living",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "story_text",
+      "default": "Simple forms, honest premium materials, and thoughtful details come together to create structural masterpieces meant to survive generations.",
+      "label": "Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_line_art",
+      "default": true,
+      "label": "Show line art"
+    },
+    {
+      "type": "text",
+      "id": "story_link_label",
+      "default": "Our Complete Story",
+      "label": "Link label"
+    },
+    {
+      "type": "url",
+      "id": "story_link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Customer card"
+    },
+    {
+      "type": "text",
+      "id": "stat_value",
+      "default": "12K+",
+      "label": "Number"
+    },
+    {
+      "type": "text",
+      "id": "stat_label",
+      "default": "Vetted Customer Spaces Furnished",
+      "label": "Label"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_1",
+      "label": "Avatar 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_2",
+      "label": "Avatar 2"
+    },
+    {
+      "type": "header",
+      "content": "Brand card"
+    },
+    {
+      "type": "image_picker",
+      "id": "identity_logo",
+      "label": "Logo",
+      "info": "Leave empty to use the Meldwood wordmark."
+    },
+    {
+      "type": "text",
+      "id": "identity_text_mobile",
+      "default": "Meldwood",
+      "label": "Brand name on mobile"
+    },
+    {
+      "type": "text",
+      "id": "identity_tagline",
+      "default": "F U R N I T U R E",
+      "label": "Tagline"
+    },
+    {
+      "type": "header",
+      "content": "Values card"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "default": "\"Thoughtfully designed furniture, crafted intentionally with honest organic materials and timeless geometric form.\"",
+      "label": "Quote"
+    },
+    {
+      "type": "text",
+      "id": "brand_button_label",
+      "default": "Explore Collection",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "brand_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Image card"
+    },
+    {
+      "type": "image_picker",
+      "id": "lifestyle_image",
+      "label": "Image"
+    },
+    {
+      "type": "textarea",
+      "id": "lifestyle_title",
+      "default": "Crafted with genuine care.\nBuilt to be lived in.",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "lifestyle_label",
+      "default": "OAK INTEGRITY GUARANTEE",
+      "label": "Label"
+    },
+    {
+      "type": "text",
+      "id": "lifestyle_button_label",
+      "default": "Learn More",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "lifestyle_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background",
+      "info": "Leave empty to use the theme color."
+    },
+    {
+      "type": "range",
+      "id": "space_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space above"
+    },
+    {
+      "type": "range",
+      "id": "space_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space below"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "chip",
+      "name": "Value chip",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Timeless Design",
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "default": "tan",
+          "options": [
+            {
+              "value": "tan",
+              "label": "Tan"
+            },
+            {
+              "value": "dark",
+              "label": "Dark"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meldwood brand values",
+      "blocks": [
+        {
+          "type": "chip",
+          "settings": {
+            "text": "Timeless Design",
+            "style": "tan"
+          }
+        },
+        {
+          "type": "chip",
+          "settings": {
+            "text": "Natural Oak & Linen",
+            "style": "dark"
+          }
+        },
+        {
+          "type": "chip",
+          "settings": {
+            "text": "Tool-Free Assembly",
+            "style": "dark"
+          }
+        },
+        {
+          "type": "chip",
+          "settings": {
+            "text": "Built to Last",
+            "style": "tan"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,139 @@
+{{ 'mw-testimonial.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="mw mw-section mw-testimonial mw-testimonial--{{ section.settings.style }}"
+  style="--mw-testimonial-pb: {{ section.settings.bottom_spacing }}; {% render 'mw-section-style', section: section %}"
+>
+  <div class="mw-container mw-testimonial__inner">
+    <div class="mw-testimonial__card">
+      <span class="mw-testimonial__media" aria-hidden="true">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 3000
+            | image_tag:
+              class: 'mw-testimonial__img',
+              loading: 'lazy',
+              widths: '750, 1100, 1500, 2000, 2500, 3000',
+              sizes: '100vw'
+          }}
+        {%- endif -%}
+      </span>
+      <div class="mw-testimonial__content">
+        {%- if section.settings.label != blank -%}
+          <p class="mw-testimonial__label">{{ section.settings.label | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.quote != blank -%}
+          <blockquote class="mw-testimonial__quote">{{ section.settings.quote | escape }}</blockquote>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <p class="mw-testimonial__text">{{ section.settings.text | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.signature != blank and section.settings.style == 'sentence' -%}
+          <p class="mw-testimonial__signature">{{ section.settings.signature | escape | newline_to_br }}</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood testimonial",
+  "tag": "div",
+  "class": "mw-testimonial-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "default": "uppercase",
+      "options": [
+        {
+          "value": "uppercase",
+          "label": "Uppercase quote (homepage)"
+        },
+        {
+          "value": "sentence",
+          "label": "Sentence case with signature (shop, product)"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "bottom_spacing",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 132,
+      "label": "Bottom spacing (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "default": "What people said",
+      "label": "Label"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "default": "We design our furniture with a focus on simplicity, thoughtful craftsmanship, and timeless form.",
+      "label": "Quote"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "default": "Every curve, connection, and material is considered to create pieces that feel natural in your space. Using honest materials and functional proportions, we create furniture that is made to be lived with, assembled with ease, and enjoyed for years.",
+      "label": "Text"
+    },
+    {
+      "type": "textarea",
+      "id": "signature",
+      "default": "From thoughtful design to everyday living\nMade with intention.",
+      "label": "Signature",
+      "info": "Shown with the sentence case style."
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background",
+      "info": "Leave empty to use the theme color."
+    },
+    {
+      "type": "range",
+      "id": "space_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space above"
+    },
+    {
+      "type": "range",
+      "id": "space_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space below"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meldwood testimonial"
+    }
+  ]
+}
+{% endschema %}

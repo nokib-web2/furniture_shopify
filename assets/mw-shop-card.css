@@ -1,0 +1,180 @@
+/* Shop product card. Sizes scale with --cs (1 = 425px Figma card, 1.272 = 541px card)
+   and --cu (1 Figma px at the current breakpoint). */
+.mw-shop-card {
+  --cs: 1;
+  --cu: var(--mw-u);
+  --cx: calc(var(--cs) * var(--cu));
+  display: flex;
+  flex-direction: column;
+  gap: calc(16.09 * var(--cx));
+  min-width: 0;
+  padding: calc(16.09 * var(--cx));
+  border: max(1px, calc(1.341 * var(--cx))) solid var(--mw-border);
+  border-radius: calc(21.46 * var(--cx));
+  background: var(--mw-panel);
+  color: var(--mw-ink);
+}
+
+.mw-shop-card--lg {
+  --cs: 1.272;
+}
+
+.mw-shop-card__plate {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 392.92 / 268.21;
+  border-radius: calc(16.09 * var(--cx));
+  background: var(--mw-soft);
+}
+
+.mw-shop-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.mw-shop-card:hover .mw-shop-card__img {
+  transform: scale(1.04);
+}
+
+.mw-shop-card__tag {
+  position: absolute;
+  top: calc(10.73 * var(--cx));
+  right: calc(10.73 * var(--cx));
+  z-index: 1;
+  padding: calc(5.36 * var(--cx)) calc(10.73 * var(--cx));
+  border-radius: calc(8.05 * var(--cx));
+  background: color-mix(in srgb, var(--mw-ink) 5%, transparent);
+  color: var(--mw-secondary);
+  font-family: var(--mw-font-ui);
+  font-weight: 600;
+  font-size: calc(max(10px, calc(13.41 * var(--cx))) * var(--mw-ts, 1));
+  line-height: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.mw-shop-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: calc(8.05 * var(--cx));
+  min-width: 0;
+}
+
+.mw-shop-card__title {
+  overflow: hidden;
+  color: var(--mw-ink);
+  font-family: var(--mw-font-ui);
+  font-weight: 700;
+  font-size: calc(max(15px, calc(18.78 * var(--cx))) * var(--mw-ts, 1));
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mw-shop-card__rating {
+  display: flex;
+  align-items: center;
+  gap: calc(5.36 * var(--cx));
+  font-family: var(--mw-font-ui);
+  white-space: nowrap;
+}
+
+.mw-shop-card__rating--empty {
+  gap: calc(8 * var(--cx));
+  font-family: var(--mw-font-body);
+}
+
+.mw-shop-card__star {
+  width: calc(16.09 * var(--cx));
+  height: calc(16.09 * var(--cx));
+}
+
+.mw-shop-card__rating-value {
+  color: var(--mw-ink);
+  font-weight: 600;
+  font-size: calc(max(13px, calc(16.09 * var(--cx))) * var(--mw-ts, 1));
+}
+
+.mw-shop-card__rating-count {
+  color: var(--mw-subtle);
+  font-size: calc(max(12px, calc(14.75 * var(--cx))) * var(--mw-ts, 1));
+}
+
+.mw-shop-card__price {
+  color: var(--mw-ink);
+  font-family: var(--mw-font-ui);
+  font-weight: 600;
+  font-size: calc(max(16px, calc(21.46 * var(--cx))) * var(--mw-ts, 1));
+}
+
+.mw-shop-card__actions {
+  display: flex;
+  align-items: center;
+  gap: calc(14 * var(--cu));
+  margin: 0;
+}
+
+.mw-shop-card__btn {
+  display: inline-flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: max(42px, calc(51 * var(--cu)));
+  padding: 0 calc(12 * var(--cu));
+  border: max(1px, calc(1.341 * var(--cu))) solid var(--mw-border);
+  border-radius: var(--mw-btn-radius);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+}
+
+.mw-shop-card__btn--outline {
+  background: var(--mw-panel);
+  color: var(--mw-dark);
+  font-family: var(--mw-font-body);
+  font-weight: 500;
+  font-size: calc(max(15px, calc(20 * var(--cu))) * var(--mw-ts, 1));
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+}
+
+.mw-shop-card__btn--outline:hover {
+  border-color: var(--mw-dark);
+}
+
+.mw-shop-card__btn--dark {
+  height: max(43px, calc(52 * var(--cu)));
+  border-color: var(--mw-dark);
+  background: var(--mw-dark);
+  color: var(--mw-on-dark);
+  font-family: var(--mw-font-body);
+  font-weight: 600;
+  font-size: calc(max(14px, calc(16.09 * var(--cu))) * var(--mw-ts, 1));
+}
+
+.mw-shop-card__btn--dark:hover {
+  opacity: 0.85;
+}
+
+.mw-shop-card__btn[disabled],
+.mw-shop-card__btn[aria-busy='true'] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media screen and (max-width: 1199px) {
+  .mw-shop-card {
+    --cu: 0.85px;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .mw-shop-card {
+    --cu: 0.8px;
+  }
+}

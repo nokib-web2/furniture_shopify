@@ -1,0 +1,19 @@
+{% comment %}
+  Outputs the inline CSS variables for a Meldwood section's "Section style" settings
+  (section_bg, space_top, space_bottom). Use inside an element's style attribute.
+
+  Accepts:
+  - section: {Object} The section object
+
+  Usage:
+  <section style="{% render 'mw-section-style', section: section %}">
+{% endcomment %}
+{%- if section.settings.section_bg != blank and section.settings.section_bg.alpha != 0.0 -%}
+  --mw-section-bg: {{ section.settings.section_bg }};
+{%- endif -%}
+{%- if section.settings.space_top != blank -%}
+  --mw-space-top: {{ section.settings.space_top }};
+{%- endif -%}
+{%- if section.settings.space_bottom != blank -%}
+  --mw-space-bottom: {{ section.settings.space_bottom }};
+{%- endif -%}

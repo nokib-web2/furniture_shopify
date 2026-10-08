@@ -1,0 +1,5 @@
+.shopify/
+remote-backup/
+*.bak
+.DS_Store
+Thumbs.db

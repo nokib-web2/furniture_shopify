@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp C:/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/figma/arrow-next.svg /c/pixelora/meldWood/assets/mw-icon-chevron.svg)",
+      "Bash(cp C:/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/figma/caret-down.svg /c/pixelora/meldWood/assets/mw-icon-caret-down.svg)",
+      "Bash(cp C:/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/figma/cart-white.svg /c/pixelora/meldWood/assets/mw-icon-cart.svg)",
+      "Bash(cp C:/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/figma/contact-arrow.svg /c/pixelora/meldWood/assets/mw-icon-arrow-up-white.svg)",
+      "Bash(cp C:/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/figma/pricing-arrow.svg /c/pixelora/meldWood/assets/mw-icon-arrow-up.svg)",
+      "Bash(node -e ' *)",
+      "Bash(cp templates/index.json \"/c/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/index.json.bak\" && echo backed up)",
+      "Bash(curl -sL -o shop.png \"https://www.figma.com/api/mcp/asset/1db2b7a2-79b0-4454-99fc-b668525bac92.png\")",
+      "Bash(curl -sL -o pdp.png \"https://www.figma.com/api/mcp/asset/91240340-ee0e-4d0d-a9ab-cf1add86bc4c.png\")",
+      "Bash(python -I -c ' *)",
+      "mcp__plugin_figma_figma__use_figma",
+      "Bash(sed -i 's/reviews\\\\.count/reviews.size/g' sections/mw-product-reviews.liquid)",
+      "Bash(sed -i 's/custom\\\\.reviews\\\\.value\\\\.count/custom.reviews.value.size/g' snippets/mw-shop-card.liquid)",
+      "Bash(python -I -)",
+      "Bash(cp templates/collection.json /c/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/collection.json.bak)",
+      "Bash(cp templates/product.json /c/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/product.json.bak)",
+      "Bash(node -e \"const t=require\\('fs'\\).readFileSync\\('sections/mw-testimonial.liquid','utf8'\\); JSON.parse\\(t.match\\(/{% schema %}\\([\\\\s\\\\S]*\\){% endschema %}/\\)[1]\\); console.log\\('schema ok'\\)\")",
+      "Bash(awk '{print $2\" x\"$1}')",
+      "Bash(awk '{print $2, $1, $3}')",
+      "Bash(awk '{c[$1]=c[$1]\" \"$2\"\\(\"$3\"\\)\"} END{for\\(k in c\\) print k\":\"c[k]}')",
+      "Bash(cp config/settings_schema.json \"/c/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/settings_schema.json.bak\")",
+      "Bash(grep -ohE \"var\\\\\\(--mw-[a-z0-9-]+\" assets/mw-*.css sections/mw-*.liquid snippets/mw-*.liquid | sort -u | sed 's/var\\(//' > /tmp/used.txt; grep -ohE \"^\\\\s*--mw-[a-z0-9-]+:\" snippets/mw-fonts.liquid assets/mw-*.css | sed 's/[ :]//g' | sort -u > /tmp/def.txt; echo \"used but not defined globally:\"; comm -23 /tmp/used.txt /tmp/def.txt; echo \"--- base :root:\"; sed -n '1,35p' assets/mw-base.css)",
+      "Read(//tmp/**)",
+      "Bash(python -I \"C:/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/patch_reviews.py\" sections/mw-product-reviews.liquid)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\Nokib\\AppData\\Local\\Temp\\claude\\c--pixelora-meldWood\\5e6f4bb4-b93c-4631-9236-62bdff747f2c\\scratchpad"
+    ]
+  }
+}

@@ -1,0 +1,593 @@
+{{ 'mw-product.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mw-product.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign featured_media_id = variant.featured_media.id | default: product.featured_media.id
+-%}
+
+<section class="mw mw-section mw-product" id="MwProduct-{{ section.id }}" style="{% render 'mw-section-style', section: section %}">
+  <mw-product class="mw-product__inner" data-url="{{ product.url }}">
+    <div class="mw-product__gallery">
+      <div class="mw-product__main">
+        {%- for media in product.media -%}
+          <div
+            class="mw-product__slide"
+            data-media-id="{{ media.id }}"
+            {% unless media.id == featured_media_id %}
+              hidden
+            {% endunless %}
+          >
+            {{
+              media.preview_image
+              | image_url: width: 2400
+              | image_tag:
+                class: 'mw-product__img',
+                widths: '600, 900, 1200, 1600, 2000, 2400',
+                sizes: '(min-width: 1200px) 60vw, 100vw',
+                loading: 'eager',
+                alt: media.alt
+            }}
+          </div>
+        {%- else -%}
+          <div class="mw-product__slide"></div>
+        {%- endfor -%}
+        {%- if product.media.size > 1 and section.settings.show_arrows -%}
+          <button type="button" class="mw-product__nav mw-product__nav--prev" data-mw-media-prev aria-label="{{ 'general.slider.previous_slide' | t }}">
+            {% render 'mw-icon', name: 'chevron-left' %}
+          </button>
+          <button type="button" class="mw-product__nav mw-product__nav--next" data-mw-media-next aria-label="{{ 'general.slider.next_slide' | t }}">
+            {% render 'mw-icon', name: 'chevron-right' %}
+          </button>
+        {%- endif -%}
+      </div>
+
+      {%- if product.media.size > 1 and section.settings.show_thumbnails -%}
+        <ul class="mw-product__thumbs">
+          {%- for media in product.media -%}
+            <li>
+              <button
+                type="button"
+                class="mw-product__thumb{% if media.id == featured_media_id %} is-active{% endif %}"
+                data-mw-thumb="{{ media.id }}"
+                aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}"
+              >
+                {{
+                  media.preview_image
+                  | image_url: width: 600
+                  | image_tag:
+                    class: 'mw-product__thumb-img',
+                    widths: '300, 450, 600',
+                    sizes: '(min-width: 1200px) 15vw, 25vw',
+                    loading: 'lazy',
+                    alt: ''
+                }}
+              </button>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <div class="mw-product__details">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when '@app' -%}
+            <div class="mw-product__blk mw-product__blk--app">{% render block %}</div>
+
+          {%- when 'title' -%}
+            <div class="mw-product__blk mw-product__blk--title" {{ block.shopify_attributes }}>
+              <h1 class="mw-product__title">{{ product.title | escape }}</h1>
+            </div>
+
+          {%- when 'price' -%}
+            <div class="mw-product__blk mw-product__blk--price" {{ block.shopify_attributes }}>
+              <p class="mw-product__price">
+                <span data-mw-price>{{ variant.price | money_with_currency }}</span>
+                <s class="mw-product__compare" data-mw-compare>
+                  {%- if variant.compare_at_price > variant.price -%}
+                    {{- variant.compare_at_price | money_with_currency -}}
+                  {%- endif -%}
+                </s>
+              </p>
+            </div>
+
+          {%- when 'description' -%}
+            {%- if product.description != blank -%}
+              <div class="mw-product__blk mw-product__block" {{ block.shopify_attributes }}>
+                {%- if block.settings.label != blank -%}
+                  <h2 class="mw-product__label mw-product__label--dark">{{ block.settings.label | escape }}</h2>
+                {%- endif -%}
+                <div class="mw-product__description">{{ product.description }}</div>
+              </div>
+            {%- endif -%}
+
+          {%- when 'variant_picker' -%}
+            {%- unless product.has_only_default_variant -%}
+              {%- assign swatch_lines = block.settings.swatch_map | newline_to_br | split: '<br />' -%}
+              <div class="mw-product__blk mw-product__options" {{ block.shopify_attributes }}>
+                {%- for option in product.options_with_values -%}
+                  {%- liquid
+                    assign option_index = forloop.index0
+                    assign option_name = option.name | downcase
+                    assign is_color = false
+                    if option_name contains 'color' or option_name contains 'colour'
+                      assign is_color = true
+                    endif
+                  -%}
+                  <div class="mw-product__block mw-product__option">
+                    <p class="mw-product__label" id="MwOptionLabel-{{ section.id }}-{{ option.position }}">
+                      {{- option.name | escape -}}
+                    </p>
+                    <div
+                      class="mw-product__values"
+                      role="radiogroup"
+                      aria-labelledby="MwOptionLabel-{{ section.id }}-{{ option.position }}"
+                    >
+                      {%- for value in option.values -%}
+                        {%- liquid
+                          assign swatch_color = value.swatch.color
+                          if swatch_color == blank and is_color
+                            assign value_key = value | downcase | strip
+                            for line in swatch_lines
+                              assign pair = line | strip | split: ':'
+                              assign pair_key = pair.first | downcase | strip
+                              if pair_key == value_key
+                                assign swatch_color = pair.last | strip
+                              endif
+                            endfor
+                          endif
+                        -%}
+                        <label
+                          class="mw-product__value{% if swatch_color != blank or value.swatch.image %} mw-product__value--swatch{% endif %}"
+                          {% if swatch_color != blank %}
+                            style="--swatch: {{ swatch_color }};"
+                          {% elsif value.swatch.image %}
+                            style="--swatch: url({{ value.swatch.image | image_url: width: 96 }}) center / cover;"
+                          {% endif %}
+                          title="{{ value | escape }}"
+                        >
+                          <input
+                            type="radio"
+                            class="visually-hidden"
+                            name="MwOption-{{ section.id }}-{{ option.position }}"
+                            value="{{ value | escape }}"
+                            data-mw-option="{{ option_index }}"
+                            {% if option.selected_value == value %}
+                              checked
+                            {% endif %}
+                          >
+                          <span class="mw-product__value-text">{{ value | escape }}</span>
+                        </label>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endunless -%}
+
+          {%- when 'buy_buttons' -%}
+            <div class="mw-product__blk mw-product__buy" {{ block.shopify_attributes }}>
+              {%- form 'product', product, class: 'mw-product__actions', data-mw-add: '' -%}
+                <input type="hidden" name="id" value="{{ variant.id }}" data-mw-variant-id>
+                {%- if block.settings.show_quantity -%}
+                  <div class="mw-product__qty">
+                    <button type="button" class="mw-product__qty-btn" data-mw-qty="-1" aria-label="{{ 'products.product.quantity.decrease' | t: product: product.title | escape }}">-</button>
+                    <label class="visually-hidden" for="MwQty-{{ section.id }}">{{ 'products.product.quantity.label' | t }}</label>
+                    <input
+                      id="MwQty-{{ section.id }}"
+                      class="mw-product__qty-input"
+                      type="number"
+                      name="quantity"
+                      value="1"
+                      min="1"
+                      inputmode="numeric"
+                    >
+                    <button type="button" class="mw-product__qty-btn" data-mw-qty="1" aria-label="{{ 'products.product.quantity.increase' | t: product: product.title | escape }}">+</button>
+                  </div>
+                {%- endif -%}
+                <button
+                  type="submit"
+                  class="mw-product__add"
+                  data-mw-add-button
+                  data-label-add="{{ block.settings.add_to_cart_label | escape }}"
+                  data-label-sold-out="{{ block.settings.sold_out_label | escape }}"
+                  data-label-unavailable="{{ 'products.product.unavailable' | t | escape }}"
+                  {% unless variant.available %}
+                    disabled
+                  {% endunless %}
+                >
+                  {%- if variant.available -%}
+                    {{ block.settings.add_to_cart_label | escape }}
+                  {%- else -%}
+                    {{ block.settings.sold_out_label | escape }}
+                  {%- endif -%}
+                </button>
+                {%- if block.settings.show_dynamic_checkout -%}
+                  <div class="mw-product__checkout">{{ form | payment_button }}</div>
+                {%- endif -%}
+              {%- endform -%}
+            </div>
+
+          {%- when 'divider' -%}
+            <span class="mw-product__blk mw-product__divider" aria-hidden="true" {{ block.shopify_attributes }}></span>
+
+          {%- when 'meta' -%}
+            <dl class="mw-product__blk mw-product__meta" {{ block.shopify_attributes }}>
+              {%- if block.settings.sku_label != blank -%}
+                <div class="mw-product__meta-row">
+                  <dt>{{ block.settings.sku_label | escape }}</dt>
+                  <dd data-mw-sku>{{ variant.sku | default: '—' }}</dd>
+                </div>
+              {%- endif -%}
+              {%- assign category = product.category.name | default: product.type -%}
+              {%- if category != blank and block.settings.category_label != blank -%}
+                <div class="mw-product__meta-row">
+                  <dt>{{ block.settings.category_label | escape }}</dt>
+                  <dd>{{ category | escape }}</dd>
+                </div>
+              {%- endif -%}
+              {%- if product.tags.size > 0 and block.settings.tags_label != blank -%}
+                <div class="mw-product__meta-row">
+                  <dt>{{ block.settings.tags_label | escape }}</dt>
+                  <dd>{{ product.tags | join: ', ' | escape }}</dd>
+                </div>
+              {%- endif -%}
+              {%- if block.settings.share_label != blank -%}
+                <div class="mw-product__meta-row">
+                  <dt>{{ block.settings.share_label | escape }}</dt>
+                  <dd class="mw-product__share">
+                    {%- if block.settings.show_instagram -%}
+                      <a
+                        href="{{ block.settings.instagram_url | default: settings.social_instagram_link | default: '#' }}"
+                        target="_blank"
+                        rel="noopener"
+                        aria-label="Instagram"
+                      >
+                        {% render 'mw-icon', name: 'instagram' %}
+                      </a>
+                    {%- endif -%}
+                    {%- if block.settings.show_facebook -%}
+                      <a
+                        href="https://www.facebook.com/sharer/sharer.php?u={{ request.origin | append: product.url | url_encode }}"
+                        target="_blank"
+                        rel="noopener"
+                        aria-label="Facebook"
+                      >
+                        {% render 'mw-icon', name: 'facebook' %}
+                      </a>
+                    {%- endif -%}
+                  </dd>
+                </div>
+              {%- endif -%}
+            </dl>
+
+          {%- when 'text' -%}
+            {%- if block.settings.text != blank -%}
+              <div class="mw-product__blk mw-product__text mw-product__text--{{ block.settings.style }}" {{ block.shopify_attributes }}>
+                {{ block.settings.text }}
+              </div>
+            {%- endif -%}
+
+          {%- when 'collapsible_tab' -%}
+            <details class="mw-product__blk mw-product__tab" {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
+              <summary class="mw-product__tab-summary">
+                <span class="mw-product__label mw-product__label--dark">{{ block.settings.heading | escape }}</span>
+                {% render 'mw-icon', name: 'caret-down', class: 'mw-product__tab-caret' %}
+              </summary>
+              <div class="mw-product__tab-content mw-product__description">
+                {{ block.settings.content }}
+                {{ block.settings.page.content }}
+              </div>
+            </details>
+
+          {%- when 'image' -%}
+            {%- if block.settings.image != blank -%}
+              <div class="mw-product__blk mw-product__image-block" {{ block.shopify_attributes }}>
+                {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{%- endif -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 1200
+                  | image_tag: loading: 'lazy', widths: '400, 600, 800, 1200', sizes: '(min-width: 1200px) 30vw, 100vw'
+                }}
+                {%- if block.settings.link != blank -%}</a>{%- endif -%}
+              </div>
+            {%- endif -%}
+
+          {%- when 'custom_liquid' -%}
+            <div class="mw-product__blk mw-product__custom" {{ block.shopify_attributes }}>
+              {{ block.settings.custom_liquid }}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    <script type="application/json" data-mw-variants>
+      [
+        {%- for v in product.variants -%}
+          {%- liquid
+            assign compare = ''
+            if v.compare_at_price > v.price
+              assign compare = v.compare_at_price | money_with_currency
+            endif
+          -%}
+          {
+            "id": {{ v.id }},
+            "options": {{ v.options | json }},
+            "available": {{ v.available | json }},
+            "price": {{ v.price | money_with_currency | json }},
+            "compare": {{ compare | json }},
+            "sku": {{ v.sku | default: '—' | json }},
+            "media": {{ v.featured_media.id | json }}
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    </script>
+  </mw-product>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood product",
+  "tag": "div",
+  "class": "mw-product-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Gallery"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "default": true,
+      "label": "Show image arrows"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "default": true,
+      "label": "Show thumbnails"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background",
+      "info": "Leave empty to use the theme color."
+    },
+    {
+      "type": "range",
+      "id": "space_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space above"
+    },
+    {
+      "type": "range",
+      "id": "space_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space below"
+    }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1,
+      "settings": []
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "default": "Description",
+          "label": "Label"
+        }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "swatch_map",
+          "label": "Color swatches",
+          "default": "Raw Birch: #EAD6C0\nWalnut: #513A2E\nBlack: #1C1C1C\nNatural: #D7B58F",
+          "info": "One per line as Name: #hex. Used for Color options that have no swatch set in Shopify admin."
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Quantity and add to cart",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_quantity",
+          "default": true,
+          "label": "Show quantity picker"
+        },
+        {
+          "type": "text",
+          "id": "add_to_cart_label",
+          "default": "Add to Cart",
+          "label": "Add to cart label"
+        },
+        {
+          "type": "text",
+          "id": "sold_out_label",
+          "default": "Sold out",
+          "label": "Sold out label"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "default": false,
+          "label": "Show Buy it now / express checkout buttons"
+        }
+      ]
+    },
+    {
+      "type": "divider",
+      "name": "Divider",
+      "settings": []
+    },
+    {
+      "type": "meta",
+      "name": "Product details",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Leave a label empty to hide that row."
+        },
+        {
+          "type": "text",
+          "id": "sku_label",
+          "default": "SKU",
+          "label": "SKU label"
+        },
+        {
+          "type": "text",
+          "id": "category_label",
+          "default": "Category",
+          "label": "Category label",
+          "info": "Shows the product category, or the product type."
+        },
+        {
+          "type": "text",
+          "id": "tags_label",
+          "default": "Tags",
+          "label": "Tags label"
+        },
+        {
+          "type": "text",
+          "id": "share_label",
+          "default": "Share",
+          "label": "Share label"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_instagram",
+          "default": true,
+          "label": "Show Instagram"
+        },
+        {
+          "type": "url",
+          "id": "instagram_url",
+          "label": "Instagram link",
+          "info": "Defaults to Theme settings → Social media."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_facebook",
+          "default": true,
+          "label": "Show Facebook share"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Add a note, delivery info or a promotion.</p>",
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "default": "body",
+          "options": [
+            { "value": "body", "label": "Body" },
+            { "value": "label", "label": "Uppercase label" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "collapsible_tab",
+      "name": "Collapsible tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Shipping & Returns",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Content from page"
+        },
+        {
+          "type": "checkbox",
+          "id": "open",
+          "default": false,
+          "label": "Open by default"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "custom_liquid",
+      "name": "Custom Liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom Liquid",
+          "info": "Add app snippets or other Liquid code."
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

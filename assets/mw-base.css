@@ -1,0 +1,339 @@
+/* Meldwood — shared tokens and components.
+   Breakpoints follow the Figma frames: mobile (390) < 750 ≤ tablet (834) < 1200 ≤ desktop (1920).
+   Desktop values scale with --mw-u (1px at a 1920px viewport). */
+
+/* Color, font, text-size and button tokens are set from Theme settings in snippets/mw-fonts.liquid. */
+:root {
+  --mw-dark-2: var(--mw-dark);
+  --mw-u: calc(min(100vw, 1920px) / 1920);
+  --mw-space-unit: var(--mw-u);
+}
+
+body {
+  background: var(--mw-bg);
+}
+
+.mw {
+  background: var(--mw-section-bg, var(--mw-bg));
+  color: var(--mw-ink);
+  font-family: var(--mw-font-body);
+  letter-spacing: 0;
+  line-height: normal;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mw *,
+.mw *::before,
+.mw *::after {
+  box-sizing: border-box;
+}
+
+/* Resets use :where() so component classes always win. */
+.mw :where(p, h1, h2, h3, ul) {
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  font-family: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+}
+
+.mw :where(ul) {
+  list-style: none;
+}
+
+.mw :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.mw :where(img) {
+  display: block;
+  max-width: none;
+}
+
+.mw :where(button) {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+.mw-display {
+  font-family: var(--mw-font-display);
+  font-variation-settings: 'opsz' 14, 'wdth' 100;
+}
+
+.mw-display strong,
+.mw-display b {
+  font-weight: 700;
+}
+
+.mw-icon {
+  display: block;
+  flex: none;
+}
+
+.mw-rot-90 {
+  transform: rotate(90deg);
+}
+
+.mw-rot--90 {
+  transform: rotate(-90deg);
+}
+
+/* Gradient divider (Figma "Line 1") */
+.mw-line {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--mw-line) 50%, transparent 100%);
+}
+
+/* Dark pill button (Primary) */
+.mw-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--mw-btn-radius);
+  background: var(--mw-dark);
+  color: var(--mw-on-dark);
+  font-family: var(--mw-font-body);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.mw-btn:hover {
+  opacity: 0.85;
+}
+
+.mw-btn--light {
+  background: var(--mw-panel);
+  color: var(--mw-ink);
+}
+
+/* Text link with arrow */
+.mw-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--mw-dark);
+  white-space: nowrap;
+}
+
+.mw-link:hover span {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* White floating label on images */
+.mw-tag {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--mw-panel);
+  color: var(--mw-ink-soft);
+  font-family: var(--mw-font-ui);
+  line-height: 1;
+  white-space: nowrap;
+  filter: drop-shadow(0 4px 19.7px rgba(38, 40, 46, 0.19)) drop-shadow(0 4px 19.7px rgba(38, 40, 46, 0.19));
+}
+
+/* Section wrapper. Extra top/bottom spacing comes from each section's settings. */
+.mw-section::before,
+.mw-section::after {
+  content: '';
+  display: block;
+}
+
+.mw-section::before {
+  height: calc(var(--mw-space-top, 0) * var(--mw-space-unit));
+}
+
+.mw-section::after {
+  height: calc(var(--mw-space-bottom, 0) * var(--mw-space-unit));
+}
+
+@media screen and (max-width: 1199px) {
+  :root {
+    --mw-space-unit: 0.5px;
+  }
+}
+
+.mw-section {
+  padding-bottom: calc(80 * var(--mw-u));
+}
+
+.mw-container {
+  padding-inline: calc(80 * var(--mw-u));
+}
+
+/* ---------- Product card ---------- */
+.mw-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  color: var(--mw-ink);
+}
+
+.mw-card__media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--mw-placeholder);
+}
+
+.mw-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.mw-card:hover .mw-card__img {
+  transform: scale(1.04);
+}
+
+.mw-card__info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mw-card__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mw-card__price {
+  opacity: 0.8;
+}
+
+@media screen and (min-width: 1200px) {
+  .mw-card__media {
+    border-radius: calc(40 * var(--mw-u));
+  }
+
+  .mw-card--featured .mw-card__media {
+    aspect-ratio: 560 / 513.63;
+  }
+
+  .mw-card--featured .mw-card__info {
+    padding-top: calc(16.5 * var(--mw-u));
+    gap: calc(10 * var(--mw-u));
+  }
+
+  .mw-card--featured .mw-card__title {
+    font-family: var(--mw-font-body);
+    font-size: calc(calc(24 * var(--mw-u)) * var(--mw-ts, 1));
+    line-height: calc(30 * var(--mw-u));
+    color: var(--mw-ink);
+  }
+
+  .mw-card--compact .mw-card__media {
+    aspect-ratio: 407 / 399.71;
+  }
+
+  .mw-card--compact .mw-card__info {
+    padding-top: calc(12.8 * var(--mw-u));
+    gap: calc(10 * var(--mw-u));
+  }
+
+  .mw-card--compact .mw-card__title {
+    font-family: var(--mw-font-card);
+    font-weight: 500;
+    font-size: calc(calc(24 * var(--mw-u)) * var(--mw-ts, 1));
+    line-height: calc(32 * var(--mw-u));
+    letter-spacing: calc(-1 * var(--mw-u));
+  }
+
+  .mw-card__price {
+    font-family: var(--mw-font-ui);
+    font-size: calc(max(14px, calc(20 * var(--mw-u))) * var(--mw-ts, 1));
+    line-height: calc(28 * var(--mw-u));
+    letter-spacing: calc(-1 * var(--mw-u));
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .mw-card__media {
+    border-radius: 24px;
+  }
+
+  .mw-card__info {
+    padding-top: 12px;
+    gap: 4px;
+  }
+
+  .mw-card__title {
+    font-weight: 600;
+    font-size: calc(20px * var(--mw-ts, 1));
+  }
+
+  .mw-card__price {
+    font-size: calc(16px * var(--mw-ts, 1));
+  }
+
+  .mw-card--featured .mw-card__media {
+    aspect-ratio: 357 / 321;
+  }
+
+  .mw-card--compact .mw-card__media {
+    aspect-ratio: 230 / 207;
+  }
+
+  .mw-card--compact .mw-card__title {
+    font-size: calc(18px * var(--mw-ts, 1));
+  }
+
+  .mw-card--compact .mw-card__price {
+    font-size: calc(15px * var(--mw-ts, 1));
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .mw-section {
+    padding-bottom: 0;
+  }
+
+  .mw-container {
+    padding-inline: 16px;
+  }
+
+  .mw-card--featured .mw-card__media,
+  .mw-card--compact .mw-card__media {
+    aspect-ratio: 358 / 322;
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 1199px) {
+  .mw-section {
+    padding-bottom: 0;
+  }
+
+  .mw-container {
+    padding-inline: 40px;
+  }
+}
+
+/* Rating star: the Figma star outline, tinted with the theme's star color. */
+.mw-star {
+  display: block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  background: var(--mw-star);
+  -webkit-mask: url('mw-icon-star.svg') center / contain no-repeat;
+  mask: url('mw-icon-star.svg') center / contain no-repeat;
+}
+
+.mw-star.is-off {
+  background: var(--mw-border);
+}

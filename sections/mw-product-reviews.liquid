@@ -1,0 +1,411 @@
+{{ 'mw-product.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mw-product.js' | asset_url }}" defer="defer"></script>
+
+{%- comment -%}
+  Reviews come from the product metafield custom.reviews (list of "review" metaobjects with
+  fields: author, rating, body, avatar). When that is empty, the average falls back to the
+  standard reviews.rating / reviews.rating_count metafields written by review apps.
+{%- endcomment -%}
+{%- liquid
+  assign reviews = product.metafields.custom.reviews.value
+  assign review_count = 0
+  assign rating_total = 0
+  assign c1 = 0
+  assign c2 = 0
+  assign c3 = 0
+  assign c4 = 0
+  assign c5 = 0
+
+  for review in reviews
+    assign r = review.rating.value | default: 0 | round
+    assign rating_total = rating_total | plus: r
+    assign review_count = review_count | plus: 1
+    case r
+      when 1
+        assign c1 = c1 | plus: 1
+      when 2
+        assign c2 = c2 | plus: 1
+      when 3
+        assign c3 = c3 | plus: 1
+      when 4
+        assign c4 = c4 | plus: 1
+      when 5
+        assign c5 = c5 | plus: 1
+    endcase
+  endfor
+
+  if review_count > 0
+    assign average = rating_total | times: 1.0 | divided_by: review_count | round: 1
+    assign bar_total = review_count
+  elsif product.metafields.reviews.rating_count.value > 0
+    assign average = product.metafields.reviews.rating.value.rating | times: 1.0 | round: 1
+    assign review_count = product.metafields.reviews.rating_count.value
+    assign bar_total = 0
+  endif
+-%}
+
+{%- capture write_button -%}
+  {%- if section.settings.write_label != blank -%}
+    {%- if section.settings.write_link != blank -%}
+      <a href="{{ section.settings.write_link }}" class="mw-btn mw-reviews__write">
+        {{- section.settings.write_label | escape -}}
+      </a>
+    {%- else -%}
+      <button
+        type="button"
+        class="mw-btn mw-reviews__write"
+        data-mw-review-open
+        aria-controls="MwReviewForm-{{ section.id }}"
+        aria-expanded="false"
+      >
+        {{- section.settings.write_label | escape -}}
+      </button>
+    {%- endif -%}
+  {%- endif -%}
+{%- endcapture -%}
+{%- assign app_blocks = section.blocks | where: 'type', '@app' -%}
+
+<section class="mw mw-section mw-reviews" id="MwReviews-{{ section.id }}" style="{% render 'mw-section-style', section: section %}">
+  <div class="mw-reviews__inner">
+    <div class="mw-reviews__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="mw-reviews__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if review_count > 0 and app_blocks.size == 0 -%}
+        {{ write_button }}
+      {%- endif -%}
+    </div>
+
+    {%- if app_blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}
+          {% render block %}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- elsif review_count > 0 -%}
+      <div class="mw-reviews__stats">
+        <p class="mw-reviews__grade">
+          <span class="mw-reviews__grade-value">{{ average }}</span>
+          <span class="mw-reviews__grade-scale">/5</span>
+        </p>
+
+        <ul class="mw-reviews__bars" aria-label="Rating distribution">
+          {%- for star in (1..5) reversed -%}
+            {%- liquid
+              case star
+                when 5
+                  assign star_count = c5
+                when 4
+                  assign star_count = c4
+                when 3
+                  assign star_count = c3
+                when 2
+                  assign star_count = c2
+                else
+                  assign star_count = c1
+              endcase
+              assign bar_width = 0
+              if bar_total > 0
+                assign bar_width = star_count | times: 100.0 | divided_by: bar_total
+              endif
+            -%}
+            <li class="mw-reviews__bar-row">
+              <span class="mw-reviews__bar-label">{{ star }}</span>
+              <span class="mw-reviews__bar-track">
+                <span class="mw-reviews__bar-value" style="width: {{ bar_width }}%;"></span>
+              </span>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        {%- if reviews.size > 0 -%}
+          <mw-review-slider class="mw-reviews__card">
+            <div class="mw-reviews__slides">
+              {%- for review in reviews -%}
+                {%- assign r = review.rating.value | default: 0 | round -%}
+                <article
+                  class="mw-reviews__slide"
+                  data-mw-review
+                  {% unless forloop.first %}
+                    hidden
+                  {% endunless %}
+                >
+                  <span class="mw-reviews__avatar">
+                    {%- if review.avatar.value != blank -%}
+                      {{ review.avatar.value | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
+                    {%- else -%}
+                      {{- review.author.value | slice: 0 | upcase -}}
+                    {%- endif -%}
+                  </span>
+                  <div class="mw-reviews__quote">
+                    <p class="mw-reviews__author">- {{ review.author.value | escape }}</p>
+                    <div class="mw-reviews__stars" role="img" aria-label="{{ r }} / 5">
+                      {%- for i in (1..5) -%}
+                        <span class="mw-star{% if i > r %} is-off{% endif %}"></span>
+                      {%- endfor -%}
+                    </div>
+                    <p class="mw-reviews__text">"{{ review.body.value | strip | escape }}"</p>
+                  </div>
+                </article>
+              {%- endfor -%}
+            </div>
+            {%- if reviews.size > 1 -%}
+              <button type="button" class="mw-reviews__next" data-mw-review-next aria-label="{{ 'general.slider.next_slide' | t }}">
+                {% render 'mw-icon', name: 'chevron-right-sm' %}
+              </button>
+            {%- endif -%}
+          </mw-review-slider>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      <div class="mw-reviews__empty">
+        <span class="mw-reviews__empty-icon">
+          {% render 'mw-icon', name: 'message' %}
+        </span>
+        <div class="mw-reviews__empty-copy">
+          <p class="mw-reviews__empty-title">{{ section.settings.empty_title | escape }}</p>
+          <p class="mw-reviews__empty-text">{{ section.settings.empty_text | escape }}</p>
+        </div>
+        {{ write_button }}
+      </div>
+    {%- endif -%}
+
+    {%- if app_blocks.size == 0 and section.settings.write_link == blank -%}
+      {%- form 'contact', class: 'mw-reviews__form-el' -%}
+        <div
+          class="mw-reviews__form"
+          id="MwReviewForm-{{ section.id }}"
+          {% unless form.posted_successfully? or form.errors %}
+            hidden
+          {% endunless %}
+        >
+          <input type="hidden" name="contact[subject]" value="Product review: {{ product.title | escape }}">
+          <input type="hidden" name="contact[product]" value="{{ product.title | escape }} ({{ request.origin }}{{ product.url }})">
+
+          <div class="mw-reviews__form-header">
+            <p class="mw-reviews__empty-title">{{ section.settings.form_title | escape }}</p>
+            <p class="mw-reviews__empty-text">{{ section.settings.form_text | escape }}</p>
+          </div>
+
+          {%- if form.posted_successfully? -%}
+            <p class="mw-reviews__form-message" role="status">{{ section.settings.success_text | escape }}</p>
+          {%- elsif form.errors -%}
+            <div class="mw-reviews__form-message mw-reviews__form-message--error" role="alert">
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          <div class="mw-reviews__fields">
+            <fieldset class="mw-reviews__field">
+              <legend class="mw-reviews__label">{{ section.settings.rating_label | escape }}</legend>
+              <div class="mw-reviews__rating-input">
+                {%- for i in (1..5) reversed -%}
+                  <input
+                    type="radio"
+                    class="visually-hidden"
+                    id="MwRating-{{ section.id }}-{{ i }}"
+                    name="contact[rating]"
+                    value="{{ i }} / 5"
+                    required
+                  >
+                  <label for="MwRating-{{ section.id }}-{{ i }}" title="{{ i }} / 5">
+                    <span class="mw-star"></span>
+                    <span class="visually-hidden">{{ i }} / 5</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+
+            <div class="mw-reviews__field">
+              <label class="mw-reviews__label" for="MwReviewName-{{ section.id }}">{{ section.settings.name_label | escape }}</label>
+              <input
+                id="MwReviewName-{{ section.id }}"
+                class="mw-reviews__input"
+                type="text"
+                name="contact[name]"
+                autocomplete="name"
+                placeholder="{{ section.settings.name_placeholder | escape }}"
+                required
+              >
+            </div>
+
+            <div class="mw-reviews__field">
+              <label class="mw-reviews__label" for="MwReviewEmail-{{ section.id }}">{{ section.settings.email_label | escape }}</label>
+              <input
+                id="MwReviewEmail-{{ section.id }}"
+                class="mw-reviews__input"
+                type="email"
+                name="contact[email]"
+                autocomplete="email"
+                placeholder="{{ section.settings.email_placeholder | escape }}"
+                required
+              >
+            </div>
+
+            <div class="mw-reviews__field">
+              <label class="mw-reviews__label" for="MwReviewBody-{{ section.id }}">{{ section.settings.review_label | escape }}</label>
+              <textarea
+                id="MwReviewBody-{{ section.id }}"
+                class="mw-reviews__input mw-reviews__textarea"
+                name="contact[body]"
+                placeholder="{{ section.settings.review_placeholder | escape }}"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="mw-btn mw-reviews__submit">{{ section.settings.submit_label | escape }}</button>
+        </div>
+      {%- endform -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood reviews",
+  "tag": "div",
+  "class": "mw-reviews-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows reviews from the product metafield custom.reviews (list of Review metaobjects: author, rating, body, avatar), or from a reviews app. Add the app block to this section to use the app instead."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Rating & Reviews",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "empty_title",
+      "default": "No reviews found - be the first to review",
+      "label": "Empty state title"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "default": "Share your experience so others can learn more about this product.",
+      "label": "Empty state text"
+    },
+    {
+      "type": "text",
+      "id": "write_label",
+      "default": "Write a review",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "write_link",
+      "label": "Button link",
+      "info": "Leave empty to open the review form below. Submissions are emailed to your store contact address."
+    },
+    {
+      "type": "header",
+      "content": "Review form"
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "default": "Write a review",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "form_text",
+      "default": "Share your experience so others can learn more about this product.",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "rating_label",
+      "default": "Overall Rating",
+      "label": "Rating label"
+    },
+    {
+      "type": "text",
+      "id": "name_label",
+      "default": "Name",
+      "label": "Name label"
+    },
+    {
+      "type": "text",
+      "id": "name_placeholder",
+      "default": "Enter your name",
+      "label": "Name placeholder"
+    },
+    {
+      "type": "text",
+      "id": "email_label",
+      "default": "Email",
+      "label": "Email label"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "default": "Enter your email",
+      "label": "Email placeholder"
+    },
+    {
+      "type": "text",
+      "id": "review_label",
+      "default": "Review",
+      "label": "Review label"
+    },
+    {
+      "type": "text",
+      "id": "review_placeholder",
+      "default": "Tell us about your experience...",
+      "label": "Review placeholder"
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "default": "Submit Review",
+      "label": "Submit button label"
+    },
+    {
+      "type": "text",
+      "id": "success_text",
+      "default": "Thank you! Your review has been sent.",
+      "label": "Success message"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background",
+      "info": "Leave empty to use the theme color."
+    },
+    {
+      "type": "range",
+      "id": "space_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space above"
+    },
+    {
+      "type": "range",
+      "id": "space_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space below"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ]
+}
+{% endschema %}

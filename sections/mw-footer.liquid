@@ -1,0 +1,278 @@
+{{ 'mw-footer.css' | asset_url | stylesheet_tag }}
+
+<footer class="mw mw-footer" style="{% render 'mw-section-style', section: section %}">
+  <div class="mw-footer__wordmark">
+    <a href="{{ routes.root_url }}" class="mw-footer__wordmark-link">
+      {%- if section.settings.wordmark != blank -%}
+        {{
+          section.settings.wordmark
+          | image_url: width: 3600
+          | image_tag:
+            class: 'mw-footer__wordmark-img',
+            alt: shop.name,
+            loading: 'lazy',
+            widths: '400, 800, 1200, 1800, 2400, 3600',
+            sizes: '96vw'
+        }}
+      {%- else -%}
+        <img
+          src="{{ 'mw-wordmark.svg' | asset_url }}"
+          alt="{{ shop.name | escape }}"
+          class="mw-footer__wordmark-img"
+          width="769"
+          height="77"
+          loading="lazy"
+        >
+      {%- endif -%}
+    </a>
+  </div>
+
+  <div class="mw-footer__grid">
+    <div class="mw-footer__newsletter">
+      <div class="mw-footer__newsletter-group">
+        {%- if section.settings.newsletter_heading != blank -%}
+          <h2 class="mw-footer__newsletter-heading">{{ section.settings.newsletter_heading | escape }}</h2>
+        {%- endif -%}
+        {%- form 'customer', id: 'MwFooterNewsletter', class: 'mw-footer__form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="mw-footer__input-row">
+            <label class="visually-hidden" for="MwFooterEmail">{{ 'newsletter.label' | t }}</label>
+            <input
+              id="MwFooterEmail"
+              class="mw-footer__input"
+              type="email"
+              name="contact[email]"
+              value="{{ form.email }}"
+              autocomplete="email"
+              autocorrect="off"
+              autocapitalize="off"
+              placeholder="{{ section.settings.newsletter_placeholder | escape }}"
+              required
+            >
+            <button type="submit" class="mw-footer__submit" aria-label="{{ 'newsletter.button_label' | t }}">
+              {% render 'mw-icon', name: 'arrow-right-sm' %}
+            </button>
+          </div>
+          {%- if form.errors -%}
+            <p class="mw-footer__form-message" role="alert">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+          {%- elsif form.posted_successfully? -%}
+            <p class="mw-footer__form-message" role="status">{{ 'newsletter.success' | t }}</p>
+          {%- endif -%}
+        {%- endform -%}
+        {%- if section.settings.newsletter_text != blank -%}
+          <p class="mw-footer__newsletter-text">{{ section.settings.newsletter_text | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="mw-footer__social">
+        <a
+          href="{{ settings.social_instagram_link | default: '#' }}"
+          {% if settings.social_instagram_link != blank %}
+            target="_blank" rel="noopener"
+          {% endif %}
+          aria-label="Instagram"
+        >
+          {% render 'mw-icon', name: 'instagram' %}
+        </a>
+        <a
+          href="{{ settings.social_facebook_link | default: '#' }}"
+          {% if settings.social_facebook_link != blank %}
+            target="_blank" rel="noopener"
+          {% endif %}
+          aria-label="Facebook"
+        >
+          {% render 'mw-icon', name: 'facebook' %}
+        </a>
+      </div>
+    </div>
+
+    <div class="mw-footer__links">
+      {%- for block in section.blocks -%}
+        <div class="mw-footer__column mw-footer__column--{{ block.type }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.heading != blank -%}
+            <h2 class="mw-footer__heading">{{ block.settings.heading | escape }}</h2>
+          {%- endif -%}
+          {%- case block.type -%}
+            {%- when 'menu' -%}
+              {%- if block.settings.menu.links.size > 0 -%}
+                <ul class="mw-footer__list">
+                  {%- for link in block.settings.menu.links -%}
+                    <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            {%- when 'social' -%}
+              <div class="mw-footer__follow">
+                {%- if block.settings.text != blank -%}
+                  <p class="mw-footer__social-text">{{ block.settings.text | escape }}</p>
+                {%- endif -%}
+                <ul class="mw-footer__list">
+                  {%- for i in (1..3) -%}
+                    {%- liquid
+                      assign label_key = 'label_' | append: i
+                      assign url_key = 'url_' | append: i
+                      assign label = block.settings[label_key]
+                      assign url = block.settings[url_key]
+                    -%}
+                    {%- if label != blank -%}
+                      <li>
+                        <a
+                          href="{{ url | default: '#' }}"
+                          class="mw-footer__social-link"
+                          {% if url != blank %}
+                            target="_blank" rel="noopener"
+                          {% endif %}
+                        >
+                          {{- label | escape -}}
+                        </a>
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class="mw-footer__bottom">
+    {%- assign current_year = 'now' | date: '%Y' -%}
+    <p class="mw-footer__copyright">
+      {{- section.settings.copyright | replace: '[year]', current_year | escape -}}
+    </p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Meldwood footer",
+  "class": "mw-footer-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "wordmark",
+      "label": "Wordmark",
+      "info": "Leave empty to use the Meldwood wordmark."
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "default": "Newsletter",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_placeholder",
+      "default": "monemail@mail.com",
+      "label": "Email placeholder"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_text",
+      "default": "Sign up to get our latest tutorials and to learn about our upcoming products. Plus some specials from time to time.",
+      "label": "Text"
+    },
+    {
+      "type": "paragraph",
+      "content": "Social icons use the Instagram and Facebook links from Theme settings > Social media."
+    },
+    {
+      "type": "header",
+      "content": "Bottom bar"
+    },
+    {
+      "type": "text",
+      "id": "copyright",
+      "default": "2026 MELDWOOD. ALL RIGHTS RESERVED.",
+      "label": "Copyright text"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background",
+      "info": "Leave empty to use the theme color."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "QUICK LINKS",
+          "label": "Heading"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "default": "footer",
+          "label": "Menu"
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Follow us",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Follow Us",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "default": "Get inspiration, discover new pieces, and see what we're making on social.",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "label_1",
+          "default": "Instagram",
+          "label": "Link 1 label"
+        },
+        {
+          "type": "url",
+          "id": "url_1",
+          "label": "Link 1"
+        },
+        {
+          "type": "text",
+          "id": "label_2",
+          "default": "Facebook",
+          "label": "Link 2 label"
+        },
+        {
+          "type": "url",
+          "id": "url_2",
+          "label": "Link 2"
+        },
+        {
+          "type": "text",
+          "id": "label_3",
+          "default": "YouTube",
+          "label": "Link 3 label"
+        },
+        {
+          "type": "url",
+          "id": "url_3",
+          "label": "Link 3"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

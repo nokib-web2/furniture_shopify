@@ -1,0 +1,350 @@
+{{ 'mw-hero.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mw-landing.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign slides = section.blocks | where: 'type', 'slide'
+  assign chips = section.blocks | where: 'type', 'chip'
+  assign heading_mobile = section.settings.heading_mobile | default: section.settings.heading
+-%}
+
+<section class="mw mw-section mw-hero" id="MwHero-{{ section.id }}" style="{% render 'mw-section-style', section: section %}">
+  {%- comment -%} Figma "Subtract" shape: rounded image with a notch for the carousel card. {%- endcomment -%}
+  <svg class="mw-hero__defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <clipPath id="MwHeroClip-{{ section.id }}" clipPathUnits="objectBoundingBox">
+      <path
+        transform="scale(0.000944287 0.000958773)"
+        d="M32 0H1027A32 32 0 0 1 1059 32V1011A32 32 0 0 1 1027 1043H32A32 32 0 0 1 0 1011V789A18 18 0 0 1 18 771H154A30 30 0 0 0 184 741V503A30 30 0 0 0 154 473H18A18 18 0 0 1 0 455V32A32 32 0 0 1 32 0Z"
+      />
+    </clipPath>
+  </svg>
+
+  <div class="mw-hero__stage">
+    <div class="mw-hero__title-group">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="mw-hero__title mw-display">
+          <span class="mw-hero__title-desktop">{{ section.settings.heading }}</span>
+          <span class="mw-hero__title-mobile">{{ heading_mobile }}</span>
+        </h1>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="mw-hero__subtitle">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="mw-hero__media">
+      <div
+        class="mw-hero__image{% if section.settings.image_mobile != blank %} mw-hero__image--has-mobile{% endif %}"
+        style="clip-path: url(#MwHeroClip-{{ section.id }});">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 2200
+            | image_tag:
+              class: 'mw-hero__img mw-hero__img--desktop',
+              widths: '750, 1100, 1500, 1800, 2200',
+              sizes: '(min-width: 1200px) 56vw, (min-width: 750px) 46vw, 100vw',
+              fetchpriority: 'high',
+              loading: 'eager'
+          }}
+          {%- if section.settings.image_mobile != blank -%}
+            {{
+              section.settings.image_mobile
+              | image_url: width: 1200
+              | image_tag:
+                class: 'mw-hero__img mw-hero__img--mobile',
+                widths: '400, 600, 800, 1200',
+                sizes: '(min-width: 750px) 46vw, 100vw',
+                loading: 'eager'
+            }}
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.tag_1 != blank -%}
+        <span class="mw-tag mw-hero__tag mw-hero__tag--1">{{ section.settings.tag_1 | escape }}</span>
+      {%- endif -%}
+      {%- if section.settings.tag_2 != blank -%}
+        <span class="mw-tag mw-hero__tag mw-hero__tag--2">{{ section.settings.tag_2 | escape }}</span>
+      {%- endif -%}
+
+      {%- if chips.size > 0 -%}
+        <div class="mw-hero__chips">
+          {%- for block in chips -%}
+            {%- assign chip_col = forloop.index0 | modulo: 2 -%}
+            {%- if chip_col == 0 -%}
+              <ul class="mw-hero__chip-row">
+            {%- endif -%}
+            <li class="mw-hero__chip" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</li>
+            {%- if chip_col == 1 or forloop.last -%}
+              </ul>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="mw-hero__desc">
+      <span class="mw-line" aria-hidden="true"></span>
+      {%- if section.settings.text != blank -%}
+        <p class="mw-hero__text">{{ section.settings.text | escape }}</p>
+      {%- endif -%}
+      <div class="mw-hero__buttons">
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="mw-btn mw-hero__btn">
+            {{- section.settings.button_label | escape -}}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.link_label != blank -%}
+          <a href="{{ section.settings.link_url | default: '#' }}" class="mw-link mw-hero__link">
+            <span>{{ section.settings.link_label | escape }}</span>
+            {% render 'mw-icon', name: 'arrow-up', class: 'mw-hero__link-icon mw-hero__link-icon--desktop mw-rot-90' %}
+            {% render 'mw-icon', name: 'arrow-right', class: 'mw-hero__link-icon mw-hero__link-icon--mobile' %}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if slides.size > 0 -%}
+      <mw-carousel class="mw-hero__carousel">
+        <div class="mw-hero__track" data-mw-track>
+          {%- for block in slides -%}
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}" class="mw-hero__slide" {{ block.shopify_attributes }}>
+            {%- else -%}
+              <span class="mw-hero__slide" {{ block.shopify_attributes }}>
+            {%- endif -%}
+            {%- if block.settings.image != blank -%}
+              {{
+                block.settings.image
+                | image_url: width: 600
+                | image_tag:
+                  class: 'mw-hero__slide-img',
+                  widths: '200, 300, 400, 500, 600',
+                  sizes: '(min-width: 1200px) 13vw, 160px',
+                  loading: 'lazy',
+                  alt: block.settings.image.alt
+              }}
+            {%- endif -%}
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- else -%}
+              </span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <button
+          type="button"
+          class="mw-hero__arrow mw-hero__arrow--prev"
+          data-mw-prev
+          aria-label="{{ 'general.slider.previous_slide' | t }}"
+        >
+          {% render 'mw-icon', name: 'chevron', class: 'mw-rot--90' %}
+        </button>
+        <button
+          type="button"
+          class="mw-hero__arrow mw-hero__arrow--next"
+          data-mw-next
+          aria-label="{{ 'general.slider.next_slide' | t }}"
+        >
+          {% render 'mw-icon', name: 'chevron', class: 'mw-rot-90' %}
+        </button>
+      </mw-carousel>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood hero",
+  "tag": "div",
+  "class": "mw-hero-section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Well-made <strong>furniture</strong> for <strong>modern living</strong>",
+      "label": "Heading",
+      "info": "Use bold for the heavy words."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading_mobile",
+      "default": "Well-made <strong>furniture</strong> for modern living",
+      "label": "Heading on tablet and mobile",
+      "info": "Leave empty to use the heading above."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "default": "Chairs . Tables. Everyday living.",
+      "label": "Subheading"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Tablet and mobile image",
+      "info": "Optional. Uses the image above when empty."
+    },
+    {
+      "type": "text",
+      "id": "tag_1",
+      "default": "TIMELESS CHARACTER",
+      "label": "Image label 1"
+    },
+    {
+      "type": "text",
+      "id": "tag_2",
+      "default": "MODERN FORM",
+      "label": "Image label 2"
+    },
+    {
+      "type": "header",
+      "content": "Description"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "default": "Designed with simplicity in mind, our furniture brings together thoughtful details, natural materials, and effortless assembly for everyday living.",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Browse Products",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "default": "Our Pricing",
+      "label": "Link label"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background",
+      "info": "Leave empty to use the theme color."
+    },
+    {
+      "type": "range",
+      "id": "space_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space above"
+    },
+    {
+      "type": "range",
+      "id": "space_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space below"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Carousel image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "chip",
+      "name": "Image chip (desktop)",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "SIMPLE BY DESIGN",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meldwood hero",
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        },
+        {
+          "type": "chip",
+          "settings": {
+            "text": "SIMPLE BY DESIGN"
+          }
+        },
+        {
+          "type": "chip",
+          "settings": {
+            "text": "DESIGNED TO LAST"
+          }
+        },
+        {
+          "type": "chip",
+          "settings": {
+            "text": "NATURAL MATERIALS"
+          }
+        },
+        {
+          "type": "chip",
+          "settings": {
+            "text": "EFFORTLESS ASSEMBLY"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

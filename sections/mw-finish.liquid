@@ -1,0 +1,281 @@
+{{ 'mw-finish.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign stats = section.blocks | where: 'type', 'stat'
+  assign swatches = section.blocks | where: 'type', 'swatch'
+-%}
+
+<section class="mw mw-section mw-finish" style="{% render 'mw-section-style', section: section %}">
+  <div class="mw-finish__card">
+    <div class="mw-finish__content">
+      <div class="mw-finish__header">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="mw-finish__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="mw-finish__heading">{{ section.settings.heading | escape | newline_to_br }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <p class="mw-finish__text">{{ section.settings.text | escape | newline_to_br }}</p>
+        {%- endif -%}
+      </div>
+
+      <span class="mw-line mw-finish__line" aria-hidden="true"></span>
+
+      <div class="mw-finish__meta">
+        {%- if stats.size > 0 -%}
+          <ul class="mw-finish__stats">
+            {%- for block in stats -%}
+              <li class="mw-finish__stat" {{ block.shopify_attributes }}>
+                <span class="mw-finish__stat-icon">
+                  {% render 'mw-icon', name: block.settings.icon %}
+                </span>
+                <span class="mw-finish__stat-text">
+                  <span class="mw-finish__stat-value">{{ block.settings.value | escape }}</span>
+                  <span class="mw-finish__stat-label">{{ block.settings.label | escape }}</span>
+                </span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        <span class="mw-line mw-finish__line mw-finish__line--meta" aria-hidden="true"></span>
+
+        {%- if swatches.size > 0 -%}
+          <div class="mw-finish__swatches-wrap">
+            {%- if section.settings.swatches_title != blank -%}
+              <p class="mw-finish__eyebrow">{{ section.settings.swatches_title | escape }}</p>
+            {%- endif -%}
+            <ul class="mw-finish__swatches">
+              {%- for block in swatches -%}
+                <li class="mw-finish__swatch" {{ block.shopify_attributes }}>
+                  <span class="mw-finish__swatch-color" style="--swatch: {{ block.settings.color }};"></span>
+                  <span class="mw-finish__swatch-label">{{ block.settings.label | escape }}</span>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="mw-btn mw-finish__btn">
+          {{- section.settings.button_label | escape -}}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="mw-finish__media">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 1800
+          | image_tag:
+            class: 'mw-finish__img',
+            loading: 'lazy',
+            widths: '400, 700, 1000, 1400, 1800',
+            sizes: '(min-width: 1200px) 44vw, (min-width: 750px) 41vw, 100vw'
+        }}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood finishes",
+  "tag": "div",
+  "class": "mw-finish-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "default": "Finish Your Way",
+      "label": "Eyebrow"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "default": "Make It Yours.\nBeautifully Finished.",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "default": "Premium Baltic birch. Expertly tested finishes.\nChoose what fits your style.",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "swatches_title",
+      "default": "Popular Finish Looks",
+      "label": "Swatches title"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Explore Finishes",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background",
+      "info": "Leave empty to use the theme color."
+    },
+    {
+      "type": "range",
+      "id": "space_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space above"
+    },
+    {
+      "type": "range",
+      "id": "space_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space below"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "shield",
+          "options": [
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "check-circle",
+              "label": "Check"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "default": "27",
+          "label": "Value"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "default": "Tested Products",
+          "label": "Label"
+        }
+      ]
+    },
+    {
+      "type": "swatch",
+      "name": "Finish swatch",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "color",
+          "id": "color",
+          "default": "#EAD6C0",
+          "label": "Color"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "default": "Raw Birch",
+          "label": "Label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meldwood finishes",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "icon": "shield",
+            "value": "27",
+            "label": "Tested Products"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "icon": "leaf",
+            "value": "6",
+            "label": "Finish Categories"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "icon": "check-circle",
+            "value": "100%",
+            "label": "Tested on Birch"
+          }
+        },
+        {
+          "type": "swatch",
+          "settings": {
+            "color": "#EAD6C0",
+            "label": "Raw Birch"
+          }
+        },
+        {
+          "type": "swatch",
+          "settings": {
+            "color": "#513A2E",
+            "label": "Walnut"
+          }
+        },
+        {
+          "type": "swatch",
+          "settings": {
+            "color": "#1C1C1C",
+            "label": "Black"
+          }
+        },
+        {
+          "type": "swatch",
+          "settings": {
+            "color": "#D7B58F",
+            "label": "Natural"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

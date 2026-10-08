@@ -1,0 +1,98 @@
+{% comment %}
+  Meldwood shop product card (image plate, title, rating, price, Add to Cart / Buy Now).
+  Ratings come from the standard reviews metafields (reviews.rating / reviews.rating_count,
+  written by Shopify-compatible review apps) or from the custom.reviews metaobject list.
+
+  Accepts:
+  - product: {Object} Product Liquid object
+  - size: {String} 'md' (shop grid) or 'lg' (recommendations, related products)
+  - sizes: {String} Image sizes attribute
+
+  Usage:
+  {% render 'mw-shop-card', product: product, size: 'md', sizes: '(min-width: 1200px) 22vw, 100vw' %}
+{% endcomment %}
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign rating_value = 0
+  assign rating_count = 0
+
+  if product.metafields.reviews.rating_count.value > 0
+    assign rating_value = product.metafields.reviews.rating.value.rating | times: 1.0
+    assign rating_count = product.metafields.reviews.rating_count.value
+  elsif product.metafields.custom.reviews.value.size > 0
+    assign rating_total = 0
+    for review in product.metafields.custom.reviews.value
+      assign rating_total = rating_total | plus: review.rating.value
+    endfor
+    assign rating_count = product.metafields.custom.reviews.value.size
+    assign rating_value = rating_total | times: 1.0 | divided_by: rating_count
+  endif
+
+  if rating_count >= 1000
+    assign count_label = rating_count | times: 1.0 | divided_by: 1000 | round: 1 | append: 'k'
+  else
+    assign count_label = rating_count
+  endif
+-%}
+<div class="mw-shop-card mw-shop-card--{{ size | default: 'md' }}">
+  <a href="{{ product.url }}" class="mw-shop-card__plate">
+    {%- if product.featured_media -%}
+      {{
+        product.featured_media
+        | image_url: width: 1200
+        | image_tag:
+          class: 'mw-shop-card__img',
+          loading: 'lazy',
+          widths: '300, 450, 600, 800, 1000, 1200',
+          sizes: sizes,
+          alt: product.featured_media.alt
+      }}
+    {%- endif -%}
+    {%- if product.type != blank and settings.mw_card_show_type -%}
+      <span class="mw-shop-card__tag">{{ product.type | escape }}</span>
+    {%- endif -%}
+  </a>
+
+  <div class="mw-shop-card__info">
+    <a href="{{ product.url }}" class="mw-shop-card__title">{{ product.title | escape }}</a>
+    {%- if settings.mw_card_show_rating -%}
+      {%- if rating_count > 0 -%}
+        <p class="mw-shop-card__rating">
+          <span class="mw-star mw-shop-card__star" aria-hidden="true"></span>
+          <span class="mw-shop-card__rating-value">{{ rating_value | round: 1 | times: 1.0 }}</span>
+          <span class="mw-shop-card__rating-count">({{ count_label }} {{ settings.mw_card_reviews_label | escape }})</span>
+        </p>
+      {%- else -%}
+        <p class="mw-shop-card__rating mw-shop-card__rating--empty">
+          <span class="mw-star mw-shop-card__star" aria-hidden="true"></span>
+          <span class="mw-shop-card__rating-value">0.0</span>
+          <span class="mw-shop-card__rating-count">{{ settings.mw_card_no_reviews_label | escape }}</span>
+        </p>
+      {%- endif -%}
+    {%- endif -%}
+    <p class="mw-shop-card__price">
+      {{- variant.price | default: product.price | money_with_currency -}}
+    </p>
+  </div>
+
+  {%- if settings.mw_card_show_buttons -%}
+  {%- form 'product', product, class: 'mw-shop-card__actions', data-mw-add: '' -%}
+    <input type="hidden" name="id" value="{{ variant.id }}">
+    {%- if product.available -%}
+      <button type="submit" class="mw-shop-card__btn mw-shop-card__btn--outline">
+        {{- settings.mw_card_add_label | escape -}}
+      </button>
+      <button type="submit" name="return_to" value="/checkout" class="mw-shop-card__btn mw-shop-card__btn--dark">
+        {{- settings.mw_card_buy_label | escape -}}
+      </button>
+    {%- else -%}
+      <button type="button" class="mw-shop-card__btn mw-shop-card__btn--outline" disabled>
+        {{- 'products.product.sold_out' | t -}}
+      </button>
+      <a href="{{ product.url }}" class="mw-shop-card__btn mw-shop-card__btn--dark">
+        {{- settings.mw_card_view_label | escape -}}
+      </a>
+    {%- endif -%}
+  {%- endform -%}
+  {%- endif -%}
+</div>

@@ -1,0 +1,467 @@
+{{ 'mw-shop-card.css' | asset_url | stylesheet_tag }}
+{{ 'mw-collection.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mw-landing.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'mw-product.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign categories = section.blocks | where: 'type', 'category'
+  assign filters = section.blocks | where: 'type', 'filter'
+  assign hero_image = section.settings.hero_image | default: collection.image
+  assign recommendations = section.settings.recommendations_collection
+-%}
+
+<section class="mw mw-section mw-collection" style="{% render 'mw-section-style', section: section %}">
+  <div class="mw-collection__hero">
+    {%- if hero_image != blank -%}
+      {{
+        hero_image
+        | image_url: width: 3000
+        | image_tag:
+          class: 'mw-collection__hero-img',
+          widths: '750, 1100, 1500, 2000, 2500, 3000',
+          sizes: '100vw',
+          fetchpriority: 'high',
+          loading: 'eager'
+      }}
+    {%- endif -%}
+    <h1 class="mw-collection__wordmark">
+      {%- if section.settings.wordmark != blank -%}
+        {{
+          section.settings.wordmark
+          | image_url: width: 1800
+          | image_tag: class: 'mw-collection__wordmark-img', alt: collection.title, widths: '600, 900, 1200, 1800', sizes: '44vw'
+        }}
+      {%- elsif section.settings.use_shop_wordmark -%}
+        <img
+          src="{{ 'mw-shop-wordmark.svg' | asset_url }}"
+          alt="{{ collection.title | escape }}"
+          class="mw-collection__wordmark-img"
+          width="840"
+          height="174"
+        >
+      {%- else -%}
+        <span class="mw-collection__wordmark-text">{{ collection.title | escape }}</span>
+      {%- endif -%}
+    </h1>
+  </div>
+
+  <div class="mw-collection__panel">
+    <div class="mw-collection__layout">
+      <aside class="mw-collection__sidebar" aria-label="{{ section.settings.categories_heading | escape }}">
+        <div class="mw-collection__categories">
+          {%- if section.settings.categories_heading != blank -%}
+            <h2 class="mw-collection__categories-title">{{ section.settings.categories_heading | escape }}</h2>
+          {%- endif -%}
+          <ul class="mw-collection__category-list">
+            {%- for block in categories -%}
+              {%- liquid
+                assign cat = block.settings.collection
+                assign is_active = false
+                if cat != blank and cat.handle == collection.handle
+                  assign is_active = true
+                endif
+                assign label = block.settings.label | default: cat.title
+              -%}
+              <li {{ block.shopify_attributes }}>
+                {%- if block.settings.badge == 'coming_soon' or cat == blank -%}
+                  <span class="mw-collection__category">
+                {%- else -%}
+                  <a
+                    href="{{ cat.url }}"
+                    class="mw-collection__category{% if is_active %} is-active{% endif %}"
+                    {% if is_active %}
+                      aria-current="page"
+                    {% endif %}
+                  >
+                {%- endif -%}
+                <span class="mw-collection__category-label">
+                  {%- if block.settings.icon != 'none' -%}
+                    <span class="mw-collection__category-icon mw-collection__category-icon--{{ block.settings.icon }}">
+                      {% render 'mw-icon', name: block.settings.icon %}
+                    </span>
+                  {%- endif -%}
+                  <span>{{ label | escape }}</span>
+                </span>
+                {%- case block.settings.badge -%}
+                  {%- when 'count' -%}
+                    <span class="mw-collection__badge mw-collection__badge--count">{{ cat.products_count }}</span>
+                  {%- when 'coming_soon' -%}
+                    <span class="mw-collection__badge">{{ block.settings.badge_text | escape }}</span>
+                {%- endcase -%}
+                {%- if is_active -%}
+                  {% render 'mw-icon', name: 'caret-solid', class: 'mw-collection__caret' %}
+                {%- endif -%}
+                {%- if block.settings.badge == 'coming_soon' or cat == blank -%}
+                  </span>
+                {%- else -%}
+                  </a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+
+        {%- if filters.size > 0 -%}
+          <ul class="mw-collection__filters">
+            {%- for block in filters -%}
+              <li {{ block.shopify_attributes }}>
+                <a href="{{ block.settings.link | default: '#' }}" class="mw-collection__filter">
+                  <span class="mw-collection__category-label">
+                    {% render 'mw-icon', name: 'tag', class: 'mw-collection__filter-icon' %}
+                    <span>{{ block.settings.label | escape }}</span>
+                  </span>
+                  {% render 'mw-icon', name: 'caret-solid', class: 'mw-collection__caret' %}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </aside>
+
+      <div class="mw-collection__main">
+        <div class="mw-collection__toolbar">
+          <h2 class="mw-collection__title">{{ section.settings.heading | default: collection.title | escape }}</h2>
+          <div class="mw-collection__search">
+            <form action="{{ routes.search_url }}" method="get" role="search" class="mw-collection__search-form">
+              {% render 'mw-icon', name: 'search', class: 'mw-collection__search-icon' %}
+              <label class="visually-hidden" for="MwCollectionSearch-{{ section.id }}">{{ 'general.search.search' | t }}</label>
+              <input
+                id="MwCollectionSearch-{{ section.id }}"
+                class="mw-collection__search-input"
+                type="search"
+                name="q"
+                placeholder="{{ 'general.search.search' | t }}"
+              >
+              <input type="hidden" name="type" value="product">
+              <input type="hidden" name="options[prefix]" value="last">
+            </form>
+            {%- if section.settings.shop_all_label != blank -%}
+              <a href="{{ section.settings.shop_all_link | default: routes.all_products_collection_url }}" class="mw-collection__shop-all">
+                {{- section.settings.shop_all_label | escape -}}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- paginate collection.products by section.settings.products_per_page -%}
+          {%- if collection.products.size > 0 -%}
+            <ul class="mw-collection__grid">
+              {%- for product in collection.products -%}
+                <li>
+                  {% render 'mw-shop-card',
+                    product: product,
+                    size: 'md',
+                    sizes: '(min-width: 1200px) 23vw, (min-width: 750px) 45vw, 100vw'
+                  %}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- else -%}
+            <p class="mw-collection__empty">{{ 'sections.collection_template.empty' | t }}</p>
+          {%- endif -%}
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="mw-pagination" aria-label="{{ 'general.pagination.label' | t }}">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" class="mw-pagination__step">
+                  {% render 'mw-icon', name: 'arrow-up', class: 'mw-rot--90' %}
+                  <span>{{ section.settings.previous_label | escape }}</span>
+                </a>
+              {%- else -%}
+                <span class="mw-pagination__step is-disabled">
+                  {% render 'mw-icon', name: 'arrow-up', class: 'mw-rot--90' %}
+                  <span>{{ section.settings.previous_label | escape }}</span>
+                </span>
+              {%- endif -%}
+
+              <ul class="mw-pagination__pages">
+                {%- for part in paginate.parts -%}
+                  <li>
+                    {%- if part.is_link -%}
+                      <a href="{{ part.url }}" class="mw-pagination__page">{{ part.title }}</a>
+                    {%- elsif part.title == paginate.current_page -%}
+                      <span class="mw-pagination__page is-current" aria-current="page">{{ part.title }}</span>
+                    {%- else -%}
+                      <span class="mw-pagination__page mw-pagination__page--gap">...</span>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" class="mw-pagination__step">
+                  <span>{{ section.settings.next_label | escape }}</span>
+                  {% render 'mw-icon', name: 'arrow-up', class: 'mw-rot-90' %}
+                </a>
+              {%- else -%}
+                <span class="mw-pagination__step is-disabled">
+                  <span>{{ section.settings.next_label | escape }}</span>
+                  {% render 'mw-icon', name: 'arrow-up', class: 'mw-rot-90' %}
+                </span>
+              {%- endif -%}
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+
+    {%- if recommendations != blank and recommendations.products.size > 0 -%}
+      <mw-carousel class="mw-collection__recs">
+        <div class="mw-collection__recs-header">
+          <h2 class="mw-collection__title">{{ section.settings.recommendations_heading | escape }}</h2>
+          <div class="mw-collection__recs-controls">
+            <button type="button" class="mw-collection__recs-arrow" data-mw-prev aria-label="{{ 'general.slider.previous_slide' | t }}">
+              {% render 'mw-icon', name: 'arrow-left-muted' %}
+            </button>
+            <button type="button" class="mw-collection__recs-arrow" data-mw-next aria-label="{{ 'general.slider.next_slide' | t }}">
+              {% render 'mw-icon', name: 'arrow-right-muted' %}
+            </button>
+          </div>
+        </div>
+        <ul class="mw-collection__recs-track" data-mw-track>
+          {%- for product in recommendations.products limit: section.settings.recommendations_limit -%}
+            <li class="mw-collection__recs-item">
+              {% render 'mw-shop-card',
+                product: product,
+                size: 'lg',
+                sizes: '(min-width: 1200px) 29vw, (min-width: 750px) 45vw, 85vw'
+              %}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </mw-carousel>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood shop",
+  "class": "mw-collection-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image",
+      "info": "Uses the collection image when empty."
+    },
+    {
+      "type": "checkbox",
+      "id": "use_shop_wordmark",
+      "default": true,
+      "label": "Show SHOP wordmark",
+      "info": "Turn off to show the collection title instead."
+    },
+    {
+      "type": "image_picker",
+      "id": "wordmark",
+      "label": "Custom wordmark image"
+    },
+    {
+      "type": "header",
+      "content": "Sidebar"
+    },
+    {
+      "type": "text",
+      "id": "categories_heading",
+      "default": "Categories",
+      "label": "Categories heading"
+    },
+    {
+      "type": "header",
+      "content": "Products"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "All You Need",
+      "label": "Heading",
+      "info": "Uses the collection title when empty."
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "default": 6,
+      "label": "Products per page"
+    },
+    {
+      "type": "text",
+      "id": "shop_all_label",
+      "default": "Shop All",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "shop_all_link",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "previous_label",
+      "default": "Previous",
+      "label": "Pagination previous label"
+    },
+    {
+      "type": "text",
+      "id": "next_label",
+      "default": "Next",
+      "label": "Pagination next label"
+    },
+    {
+      "type": "header",
+      "content": "Recommendations"
+    },
+    {
+      "type": "text",
+      "id": "recommendations_heading",
+      "default": "Explore our recommendations",
+      "label": "Heading"
+    },
+    {
+      "type": "collection",
+      "id": "recommendations_collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "recommendations_limit",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "default": 6,
+      "label": "Products"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background",
+      "info": "Leave empty to use the theme color."
+    },
+    {
+      "type": "range",
+      "id": "space_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space above"
+    },
+    {
+      "type": "range",
+      "id": "space_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space below"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "info": "Uses the collection title when empty."
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "grid",
+          "options": [
+            {
+              "value": "grid",
+              "label": "Grid"
+            },
+            {
+              "value": "sleeper-chair",
+              "label": "Chair"
+            },
+            {
+              "value": "rocking-chair",
+              "label": "Rocking chair"
+            },
+            {
+              "value": "lamp",
+              "label": "Lamp"
+            },
+            {
+              "value": "tag",
+              "label": "Tag"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "badge",
+          "label": "Badge",
+          "default": "none",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "count",
+              "label": "Product count"
+            },
+            {
+              "value": "coming_soon",
+              "label": "Coming soon (not clickable)"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "default": "Coming soon",
+          "label": "Coming soon text"
+        }
+      ]
+    },
+    {
+      "type": "filter",
+      "name": "Quick filter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "default": "New Arrival",
+          "label": "Label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

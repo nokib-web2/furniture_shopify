@@ -1,0 +1,96 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "mw_hero": {
+      "type": "mw-hero",
+      "blocks": {
+        "slide_1": { "type": "slide", "settings": {} },
+        "slide_2": { "type": "slide", "settings": {} },
+        "slide_3": { "type": "slide", "settings": {} },
+        "slide_4": { "type": "slide", "settings": {} },
+        "slide_5": { "type": "slide", "settings": {} },
+        "chip_1": { "type": "chip", "settings": { "text": "SIMPLE BY DESIGN" } },
+        "chip_2": { "type": "chip", "settings": { "text": "DESIGNED TO LAST" } },
+        "chip_3": { "type": "chip", "settings": { "text": "NATURAL MATERIALS" } },
+        "chip_4": { "type": "chip", "settings": { "text": "EFFORTLESS ASSEMBLY" } }
+      },
+      "block_order": ["slide_1", "slide_2", "slide_3", "slide_4", "slide_5", "chip_1", "chip_2", "chip_3", "chip_4"],
+      "settings": {
+        "heading": "Well-made <strong>furniture</strong> for <strong>modern living</strong>",
+        "heading_mobile": "Well-made <strong>furniture</strong> for modern living",
+        "subheading": "Chairs . Tables. Everyday living.",
+        "tag_1": "TIMELESS CHARACTER",
+        "tag_2": "MODERN FORM",
+        "text": "Designed with simplicity in mind, our furniture brings together thoughtful details, natural materials, and effortless assembly for everyday living.",
+        "button_label": "Browse Products",
+        "button_link": "shopify://collections/all",
+        "link_label": "Our Pricing",
+        "link_url": ""
+      }
+    },
+    "mw_featured": {
+      "type": "mw-featured-collection",
+      "blocks": {
+        "tab_1": { "type": "tab", "settings": { "label": "Shop All", "collection": "all" } },
+        "tab_2": { "type": "tab", "settings": { "label": "Most Loved", "collection": "" } },
+        "tab_3": { "type": "tab", "settings": { "label": "Favorite Finishes", "collection": "" } },
+        "tab_4": { "type": "tab", "settings": { "label": "Tutorials", "collection": "" } }
+      },
+      "block_order": ["tab_1", "tab_2", "tab_3", "tab_4"],
+      "settings": {
+        "heading": "Featured Collection",
+        "products_to_show": 3,
+        "mobile_link_label": "Shop All",
+        "mobile_link_url": ""
+      }
+    },
+    "mw_best_sellers": {
+      "type": "mw-best-sellers",
+      "settings": {
+        "heading": "Best Sellers",
+        "collection": "all",
+        "products_to_show": 4,
+        "link_label": "View All",
+        "link_url": ""
+      }
+    },
+    "mw_brand_values": {
+      "type": "mw-brand-values",
+      "blocks": {
+        "chip_1": { "type": "chip", "settings": { "text": "Timeless Design", "style": "tan" } },
+        "chip_2": { "type": "chip", "settings": { "text": "Natural Oak & Linen", "style": "dark" } },
+        "chip_3": { "type": "chip", "settings": { "text": "Tool-Free Assembly", "style": "dark" } },
+        "chip_4": { "type": "chip", "settings": { "text": "Built to Last", "style": "tan" } }
+      },
+      "block_order": ["chip_1", "chip_2", "chip_3", "chip_4"],
+      "settings": {}
+    },
+    "mw_finish": {
+      "type": "mw-finish",
+      "blocks": {
+        "stat_1": { "type": "stat", "settings": { "icon": "shield", "value": "27", "label": "Tested Products" } },
+        "stat_2": { "type": "stat", "settings": { "icon": "leaf", "value": "6", "label": "Finish Categories" } },
+        "stat_3": { "type": "stat", "settings": { "icon": "check-circle", "value": "100%", "label": "Tested on Birch" } },
+        "swatch_1": { "type": "swatch", "settings": { "color": "#EAD6C0", "label": "Raw Birch" } },
+        "swatch_2": { "type": "swatch", "settings": { "color": "#513A2E", "label": "Walnut" } },
+        "swatch_3": { "type": "swatch", "settings": { "color": "#1C1C1C", "label": "Black" } },
+        "swatch_4": { "type": "swatch", "settings": { "color": "#D7B58F", "label": "Natural" } }
+      },
+      "block_order": ["stat_1", "stat_2", "stat_3", "swatch_1", "swatch_2", "swatch_3", "swatch_4"],
+      "settings": {}
+    },
+    "mw_testimonial": {
+      "type": "mw-testimonial",
+      "settings": {}
+    }
+  },
+  "order": ["mw_hero", "mw_featured", "mw_best_sellers", "mw_brand_values", "mw_finish", "mw_testimonial"]
+}

@@ -1,0 +1,106 @@
+{{ 'mw-shop-card.css' | asset_url | stylesheet_tag }}
+{{ 'mw-product.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mw-product.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign limit = section.settings.products_to_show
+  assign manual = section.settings.collection
+-%}
+
+{%- capture related_cards -%}
+  {%- if manual != blank -%}
+    {%- for item in manual.products limit: limit -%}
+      {%- unless item.id == product.id -%}
+        <li>
+          {% render 'mw-shop-card', product: item, size: 'lg', sizes: '(min-width: 1200px) 29vw, (min-width: 750px) 45vw, 86vw' %}
+        </li>
+      {%- endunless -%}
+    {%- endfor -%}
+  {%- elsif recommendations.performed and recommendations.products_count > 0 -%}
+    {%- for item in recommendations.products -%}
+      <li>
+        {% render 'mw-shop-card', product: item, size: 'lg', sizes: '(min-width: 1200px) 29vw, (min-width: 750px) 45vw, 86vw' %}
+      </li>
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+<product-recommendations
+  class="mw mw-section mw-related"
+  style="{% render 'mw-section-style', section: section %}"
+  data-url="{{ routes.product_recommendations_url }}?limit={{ limit }}"
+  data-section-id="{{ section.id }}"
+  data-product-id="{{ product.id }}"
+>
+  {%- if related_cards != blank -%}
+    <div class="mw-related__inner">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="mw-related__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      <ul class="mw-related__grid">
+        {{- related_cards -}}
+      </ul>
+    </div>
+  {%- endif -%}
+</product-recommendations>
+
+{% schema %}
+{
+  "name": "Meldwood related",
+  "tag": "div",
+  "class": "mw-related-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Related Products",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 3,
+      "max": 9,
+      "step": 3,
+      "default": 3,
+      "label": "Products"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Optional. Leave empty to use Shopify's automatic product recommendations."
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background",
+      "info": "Leave empty to use the theme color."
+    },
+    {
+      "type": "range",
+      "id": "space_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space above"
+    },
+    {
+      "type": "range",
+      "id": "space_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space below"
+    }
+  ]
+}
+{% endschema %}

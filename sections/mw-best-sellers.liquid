@@ -1,0 +1,113 @@
+{{ 'mw-products.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign collection = section.settings.collection
+  assign link = section.settings.link_url
+  if link == blank and collection != blank
+    assign link = collection.url
+  endif
+-%}
+
+<section class="mw mw-section mw-products mw-products--best" style="{% render 'mw-section-style', section: section %}">
+  <div class="mw-container mw-products__inner">
+    <div class="mw-products__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="mw-products__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.link_label != blank -%}
+        <a href="{{ link | default: routes.all_products_collection_url }}" class="mw-products__view-all">
+          <span>{{ section.settings.link_label | escape }}</span>
+          {% render 'mw-icon', name: 'arrow-up', class: 'mw-products__view-all-icon mw-rot-90' %}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="mw-products__grid">
+      {%- for product in collection.products limit: section.settings.products_to_show -%}
+        {% render 'mw-product-card',
+          product: product,
+          style: 'compact',
+          sizes: '(min-width: 1200px) 22vw, (min-width: 750px) 30vw, 100vw'
+        %}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood best sellers",
+  "tag": "div",
+  "class": "mw-best-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Best Sellers",
+      "label": "Heading"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4,
+      "label": "Products",
+      "info": "Desktop shows 4 per row, tablet 3, mobile 2."
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "default": "View All",
+      "label": "Link label"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link",
+      "info": "Defaults to the selected collection."
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background",
+      "info": "Leave empty to use the theme color."
+    },
+    {
+      "type": "range",
+      "id": "space_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space above"
+    },
+    {
+      "type": "range",
+      "id": "space_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space below"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meldwood best sellers"
+    }
+  ]
+}
+{% endschema %}

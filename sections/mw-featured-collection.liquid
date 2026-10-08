@@ -1,0 +1,190 @@
+{{ 'mw-products.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mw-landing.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign tabs = section.blocks | where: 'type', 'tab'
+  assign first_tab = tabs | first
+  assign mobile_link = section.settings.mobile_link_url
+  if mobile_link == blank and first_tab.settings.collection != blank
+    assign mobile_link = first_tab.settings.collection.url
+  endif
+-%}
+
+<section class="mw mw-section mw-products mw-products--featured" style="{% render 'mw-section-style', section: section %}">
+  <mw-tabs class="mw-container mw-products__inner">
+    <div class="mw-products__header">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="mw-products__heading">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+
+      {%- if tabs.size > 0 -%}
+        <div class="mw-products__tabs" role="tablist">
+          {%- for block in tabs -%}
+            <button
+              type="button"
+              role="tab"
+              class="mw-products__tab"
+              id="MwTab-{{ block.id }}"
+              aria-controls="MwPanel-{{ block.id }}"
+              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+              {% unless forloop.first %}
+                tabindex="-1"
+              {% endunless %}
+              data-mw-tab
+              {{ block.shopify_attributes }}
+            >
+              {{- block.settings.label | escape -}}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.mobile_link_label != blank -%}
+        <a href="{{ mobile_link | default: routes.all_products_collection_url }}" class="mw-products__view-all">
+          {{- section.settings.mobile_link_label | escape -}}
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- for block in tabs -%}
+      <div
+        class="mw-products__grid"
+        role="tabpanel"
+        id="MwPanel-{{ block.id }}"
+        aria-labelledby="MwTab-{{ block.id }}"
+        data-mw-panel
+        {% unless forloop.first %}
+          hidden
+        {% endunless %}
+      >
+        {%- for product in block.settings.collection.products limit: section.settings.products_to_show -%}
+          {% render 'mw-product-card',
+            product: product,
+            style: 'featured',
+            sizes: '(min-width: 1200px) 30vw, (min-width: 750px) 46vw, 100vw'
+          %}
+        {%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </mw-tabs>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood featured tabs",
+  "tag": "div",
+  "class": "mw-featured-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Featured Collection",
+      "label": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "Products per tab",
+      "info": "Desktop shows 3 per row, tablet 2."
+    },
+    {
+      "type": "text",
+      "id": "mobile_link_label",
+      "default": "Shop All",
+      "label": "Mobile link label",
+      "info": "Replaces the tabs on mobile."
+    },
+    {
+      "type": "url",
+      "id": "mobile_link_url",
+      "label": "Mobile link",
+      "info": "Defaults to the first tab's collection."
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background",
+      "info": "Leave empty to use the theme color."
+    },
+    {
+      "type": "range",
+      "id": "space_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space above"
+    },
+    {
+      "type": "range",
+      "id": "space_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space below"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "default": "Shop All",
+          "label": "Label"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meldwood featured tabs",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Shop All"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Most Loved"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Favorite Finishes"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Tutorials"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
