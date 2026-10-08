@@ -64,19 +64,52 @@
     },
     "mw_reviews": {
       "type": "mw-product-reviews",
-      "settings": {}
+      "settings": {
+        "heading": "Rating & Reviews",
+        "empty_title": "No reviews found - be the first to review",
+        "empty_text": "Share your experience so others can learn more about this product.",
+        "write_label": "Write a review",
+        "write_link": "",
+        "form_title": "Write a review",
+        "form_text": "Share your experience so others can learn more about this product.",
+        "rating_label": "Overall Rating",
+        "name_label": "Name",
+        "name_placeholder": "Enter your name",
+        "email_label": "Email",
+        "email_placeholder": "Enter your email",
+        "review_label": "Review",
+        "review_placeholder": "Tell us about your experience...",
+        "submit_label": "Submit Review",
+        "success_text": "Thank you! Your review has been sent.",
+        "section_bg": "",
+        "space_top": 0,
+        "space_bottom": 0
+      }
     },
     "mw_related": {
       "type": "mw-related-products",
       "settings": {
-        "products_to_show": 3
+        "heading": "Related Products",
+        "products_to_show": 3,
+        "collection": "parametric",
+        "section_bg": "",
+        "space_top": 0,
+        "space_bottom": 0
       }
     },
     "mw_testimonial": {
       "type": "mw-testimonial",
       "settings": {
         "style": "sentence",
-        "bottom_spacing": 92
+        "bottom_spacing": 92,
+        "image": "shopify://shop_images/b5e7eb822c856ce787ea1289fa8a202aafa64963.png",
+        "label": "What people said",
+        "quote": "We design our furniture with a focus on simplicity, thoughtful craftsmanship, and timeless form.",
+        "text": "Every curve, connection, and material is considered to create pieces that feel natural in your space. Using honest materials and functional proportions, we create furniture that is made to be lived with, assembled with ease, and enjoyed for years.",
+        "signature": "From thoughtful design to everyday living\nMade with intention.",
+        "section_bg": "",
+        "space_top": 0,
+        "space_bottom": 0
       }
     },
     "dawn_main": {
@@ -136,6 +169,7 @@
         "description",
         "share"
       ],
+      "disabled": true,
       "settings": {
         "enable_sticky_info": true,
         "color_scheme": "scheme-1",
@@ -150,19 +184,23 @@
         "enable_video_looping": false,
         "padding_top": 36,
         "padding_bottom": 12
-      },
-      "disabled": true
+      }
     },
     "disclosures": {
       "type": "disclosures",
+      "disabled": true,
       "settings": {
+        "heading": "Disclosures",
+        "heading_size": "h2",
+        "open_by_default": false,
+        "color_scheme": "",
         "padding_top": 36,
         "padding_bottom": 0
-      },
-      "disabled": true
+      }
     },
     "related-products": {
       "type": "related-products",
+      "disabled": true,
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
@@ -177,8 +215,7 @@
         "show_rating": false,
         "padding_top": 36,
         "padding_bottom": 28
-      },
-      "disabled": true
+      }
     }
   },
   "order": [

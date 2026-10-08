@@ -11,18 +11,20 @@
   "sections": {
     "banner": {
       "type": "main-collection-banner",
+      "disabled": true,
       "settings": {
         "show_collection_description": true,
         "show_collection_image": false,
         "color_scheme": "scheme-1"
-      },
-      "disabled": true
+      }
     },
     "product-grid": {
       "type": "main-collection-product-grid",
+      "disabled": true,
       "settings": {
         "products_per_page": 16,
         "columns_desktop": 4,
+        "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "image_ratio": "adapt",
         "image_shape": "default",
@@ -33,11 +35,9 @@
         "enable_filtering": true,
         "filter_type": "horizontal",
         "enable_sorting": true,
-        "columns_mobile": "2",
         "padding_top": 36,
         "padding_bottom": 36
-      },
-      "disabled": true
+      }
     },
     "mw_shop": {
       "type": "mw-main-collection",
@@ -48,49 +48,59 @@
             "collection": "all",
             "label": "All Product",
             "icon": "grid",
-            "badge": "count"
+            "badge": "count",
+            "badge_text": "Coming soon"
           }
         },
         "cat_2": {
           "type": "category",
           "settings": {
+            "collection": "",
             "label": "Minimalist",
             "icon": "sleeper-chair",
-            "badge": "none"
+            "badge": "none",
+            "badge_text": "Coming soon"
           }
         },
         "cat_3": {
           "type": "category",
           "settings": {
+            "collection": "",
             "label": "Parametric",
             "icon": "rocking-chair",
-            "badge": "coming_soon"
+            "badge": "coming_soon",
+            "badge_text": "Coming soon"
           }
         },
         "cat_4": {
           "type": "category",
           "settings": {
+            "collection": "",
             "label": "Home decor",
             "icon": "lamp",
-            "badge": "coming_soon"
+            "badge": "coming_soon",
+            "badge_text": "Coming soon"
           }
         },
         "filter_1": {
           "type": "filter",
           "settings": {
-            "label": "New Arrival"
+            "label": "New Arrival",
+            "link": ""
           }
         },
         "filter_2": {
           "type": "filter",
           "settings": {
-            "label": "Best Seller"
+            "label": "Best Seller",
+            "link": ""
           }
         },
         "filter_3": {
           "type": "filter",
           "settings": {
-            "label": "On Discount"
+            "label": "On Discount",
+            "link": ""
           }
         }
       },
@@ -104,18 +114,36 @@
         "filter_3"
       ],
       "settings": {
+        "hero_image": "shopify://shop_images/c5f23b6aa57f605dfba5243fd78e63aae2423384_1.png",
         "use_shop_wordmark": true,
+        "categories_heading": "Categories",
         "heading": "All You Need",
         "products_per_page": 6,
+        "shop_all_label": "Shop All",
+        "shop_all_link": "",
+        "previous_label": "Previous",
+        "next_label": "Next",
         "recommendations_heading": "Explore our recommendations",
-        "recommendations_collection": "all"
+        "recommendations_collection": "all",
+        "recommendations_limit": 6,
+        "section_bg": "",
+        "space_top": 0,
+        "space_bottom": 0
       }
     },
     "mw_testimonial": {
       "type": "mw-testimonial",
       "settings": {
         "style": "sentence",
-        "bottom_spacing": 0
+        "bottom_spacing": 0,
+        "image": "shopify://shop_images/b5e7eb822c856ce787ea1289fa8a202aafa64963.png",
+        "label": "What people said",
+        "quote": "We design our furniture with a focus on simplicity, thoughtful craftsmanship, and timeless form.",
+        "text": "Every curve, connection, and material is considered to create pieces that feel natural in your space. Using honest materials and functional proportions, we create furniture that is made to be lived with, assembled with ease, and enjoyed for years.",
+        "signature": "From thoughtful design to everyday living\nMade with intention.",
+        "section_bg": "",
+        "space_top": 0,
+        "space_bottom": 0
       }
     }
   },

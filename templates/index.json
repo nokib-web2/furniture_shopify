@@ -12,44 +12,140 @@
     "mw_hero": {
       "type": "mw-hero",
       "blocks": {
-        "slide_1": { "type": "slide", "settings": {} },
-        "slide_2": { "type": "slide", "settings": {} },
-        "slide_3": { "type": "slide", "settings": {} },
-        "slide_4": { "type": "slide", "settings": {} },
-        "slide_5": { "type": "slide", "settings": {} },
-        "chip_1": { "type": "chip", "settings": { "text": "SIMPLE BY DESIGN" } },
-        "chip_2": { "type": "chip", "settings": { "text": "DESIGNED TO LAST" } },
-        "chip_3": { "type": "chip", "settings": { "text": "NATURAL MATERIALS" } },
-        "chip_4": { "type": "chip", "settings": { "text": "EFFORTLESS ASSEMBLY" } }
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Lounge_Chair-Walnut.jpg",
+            "link": ""
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Lounge_Rocking_Chair-Beige.jfif.jpg",
+            "link": ""
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Round_Coffe_Table-_Raw.jpg",
+            "link": ""
+          }
+        },
+        "slide_4": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/oval-console-table.webp",
+            "link": ""
+          }
+        },
+        "slide_5": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/KidsTableandChair-Beige.jpg",
+            "link": ""
+          }
+        },
+        "chip_1": {
+          "type": "chip",
+          "settings": {
+            "text": "SIMPLE BY DESIGN"
+          }
+        },
+        "chip_2": {
+          "type": "chip",
+          "settings": {
+            "text": "DESIGNED TO LAST"
+          }
+        },
+        "chip_3": {
+          "type": "chip",
+          "settings": {
+            "text": "NATURAL MATERIALS"
+          }
+        },
+        "chip_4": {
+          "type": "chip",
+          "settings": {
+            "text": "EFFORTLESS ASSEMBLY"
+          }
+        }
       },
-      "block_order": ["slide_1", "slide_2", "slide_3", "slide_4", "slide_5", "chip_1", "chip_2", "chip_3", "chip_4"],
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3",
+        "slide_4",
+        "slide_5",
+        "chip_1",
+        "chip_2",
+        "chip_3",
+        "chip_4"
+      ],
       "settings": {
         "heading": "Well-made <strong>furniture</strong> for <strong>modern living</strong>",
         "heading_mobile": "Well-made <strong>furniture</strong> for modern living",
         "subheading": "Chairs . Tables. Everyday living.",
+        "image": "shopify://shop_images/560c084fdb83c8c14a9f072cb73c04245b8fb586.png",
         "tag_1": "TIMELESS CHARACTER",
         "tag_2": "MODERN FORM",
         "text": "Designed with simplicity in mind, our furniture brings together thoughtful details, natural materials, and effortless assembly for everyday living.",
         "button_label": "Browse Products",
         "button_link": "shopify://collections/all",
         "link_label": "Our Pricing",
-        "link_url": ""
+        "link_url": "",
+        "section_bg": "",
+        "space_top": 0,
+        "space_bottom": 0
       }
     },
     "mw_featured": {
       "type": "mw-featured-collection",
       "blocks": {
-        "tab_1": { "type": "tab", "settings": { "label": "Shop All", "collection": "all" } },
-        "tab_2": { "type": "tab", "settings": { "label": "Most Loved", "collection": "" } },
-        "tab_3": { "type": "tab", "settings": { "label": "Favorite Finishes", "collection": "" } },
-        "tab_4": { "type": "tab", "settings": { "label": "Tutorials", "collection": "" } }
+        "tab_1": {
+          "type": "tab",
+          "settings": {
+            "label": "Shop All",
+            "collection": "all"
+          }
+        },
+        "tab_2": {
+          "type": "tab",
+          "settings": {
+            "label": "Most Loved",
+            "collection": "most-loved"
+          }
+        },
+        "tab_3": {
+          "type": "tab",
+          "settings": {
+            "label": "Favorite Finishes",
+            "collection": "tool-free-modern-furniture"
+          }
+        },
+        "tab_4": {
+          "type": "tab",
+          "settings": {
+            "label": "Tutorials",
+            "collection": "home-decor"
+          }
+        }
       },
-      "block_order": ["tab_1", "tab_2", "tab_3", "tab_4"],
+      "block_order": [
+        "tab_1",
+        "tab_2",
+        "tab_3",
+        "tab_4"
+      ],
       "settings": {
         "heading": "Featured Collection",
         "products_to_show": 3,
         "mobile_link_label": "Shop All",
-        "mobile_link_url": ""
+        "mobile_link_url": "",
+        "section_bg": "",
+        "space_top": 0,
+        "space_bottom": 0
       }
     },
     "mw_best_sellers": {
@@ -59,38 +155,178 @@
         "collection": "all",
         "products_to_show": 4,
         "link_label": "View All",
-        "link_url": ""
+        "link_url": "",
+        "section_bg": "",
+        "space_top": 0,
+        "space_bottom": 0
       }
     },
     "mw_brand_values": {
       "type": "mw-brand-values",
       "blocks": {
-        "chip_1": { "type": "chip", "settings": { "text": "Timeless Design", "style": "tan" } },
-        "chip_2": { "type": "chip", "settings": { "text": "Natural Oak & Linen", "style": "dark" } },
-        "chip_3": { "type": "chip", "settings": { "text": "Tool-Free Assembly", "style": "dark" } },
-        "chip_4": { "type": "chip", "settings": { "text": "Built to Last", "style": "tan" } }
+        "chip_1": {
+          "type": "chip",
+          "settings": {
+            "text": "Timeless Design",
+            "style": "tan"
+          }
+        },
+        "chip_2": {
+          "type": "chip",
+          "settings": {
+            "text": "Natural Oak & Linen",
+            "style": "dark"
+          }
+        },
+        "chip_3": {
+          "type": "chip",
+          "settings": {
+            "text": "Tool-Free Assembly",
+            "style": "dark"
+          }
+        },
+        "chip_4": {
+          "type": "chip",
+          "settings": {
+            "text": "Built to Last",
+            "style": "tan"
+          }
+        }
       },
-      "block_order": ["chip_1", "chip_2", "chip_3", "chip_4"],
-      "settings": {}
+      "block_order": [
+        "chip_1",
+        "chip_2",
+        "chip_3",
+        "chip_4"
+      ],
+      "settings": {
+        "heading": "Furniture Made for Living\nDesigned to Last",
+        "subheading": "Thoughtfully crafted pieces made with honest materials, timeless forms, and everyday living in mind.",
+        "story_eyebrow": "Designed With Intention",
+        "story_title": "Made for Everyday Living",
+        "story_text": "Simple forms, honest premium materials, and thoughtful details come together to create structural masterpieces meant to survive generations.",
+        "show_line_art": true,
+        "story_link_label": "Our Complete Story",
+        "story_link": "",
+        "stat_value": "12K+",
+        "stat_label": "Vetted Customer Spaces Furnished",
+        "avatar_1": "shopify://shop_images/f9821bc4dab4a2865bdd290eca4192c94bde67fb.png",
+        "avatar_2": "shopify://shop_images/8ca39b7245ad39b4d4b35a4685a9e677c13f2c4f.png",
+        "identity_text_mobile": "Meldwood",
+        "identity_tagline": "F U R N I T U R E",
+        "quote": "\"Thoughtfully designed furniture, crafted intentionally with honest organic materials and timeless geometric form.\"",
+        "brand_button_label": "Explore Collection",
+        "brand_button_link": "",
+        "lifestyle_image": "shopify://shop_images/8530331606caab36b744d67f2a0853a2d3c4ce6b.png",
+        "lifestyle_title": "Crafted with genuine care.\nBuilt to be lived in.",
+        "lifestyle_label": "OAK INTEGRITY GUARANTEE",
+        "lifestyle_button_label": "Learn More",
+        "lifestyle_button_link": "",
+        "section_bg": "",
+        "space_top": 0,
+        "space_bottom": 0
+      }
     },
     "mw_finish": {
       "type": "mw-finish",
       "blocks": {
-        "stat_1": { "type": "stat", "settings": { "icon": "shield", "value": "27", "label": "Tested Products" } },
-        "stat_2": { "type": "stat", "settings": { "icon": "leaf", "value": "6", "label": "Finish Categories" } },
-        "stat_3": { "type": "stat", "settings": { "icon": "check-circle", "value": "100%", "label": "Tested on Birch" } },
-        "swatch_1": { "type": "swatch", "settings": { "color": "#EAD6C0", "label": "Raw Birch" } },
-        "swatch_2": { "type": "swatch", "settings": { "color": "#513A2E", "label": "Walnut" } },
-        "swatch_3": { "type": "swatch", "settings": { "color": "#1C1C1C", "label": "Black" } },
-        "swatch_4": { "type": "swatch", "settings": { "color": "#D7B58F", "label": "Natural" } }
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "icon": "shield",
+            "value": "27",
+            "label": "Tested Products"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "icon": "leaf",
+            "value": "6",
+            "label": "Finish Categories"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "icon": "check-circle",
+            "value": "100%",
+            "label": "Tested on Birch"
+          }
+        },
+        "swatch_1": {
+          "type": "swatch",
+          "settings": {
+            "color": "#ead6c0",
+            "label": "Raw Birch"
+          }
+        },
+        "swatch_2": {
+          "type": "swatch",
+          "settings": {
+            "color": "#513a2e",
+            "label": "Walnut"
+          }
+        },
+        "swatch_3": {
+          "type": "swatch",
+          "settings": {
+            "color": "#1c1c1c",
+            "label": "Black"
+          }
+        },
+        "swatch_4": {
+          "type": "swatch",
+          "settings": {
+            "color": "#d7b58f",
+            "label": "Natural"
+          }
+        }
       },
-      "block_order": ["stat_1", "stat_2", "stat_3", "swatch_1", "swatch_2", "swatch_3", "swatch_4"],
-      "settings": {}
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "swatch_1",
+        "swatch_2",
+        "swatch_3",
+        "swatch_4"
+      ],
+      "settings": {
+        "eyebrow": "Finish Your Way",
+        "heading": "Make It Yours.\nBeautifully Finished.",
+        "text": "Premium Baltic birch. Expertly tested finishes.\nChoose what fits your style.",
+        "swatches_title": "Popular Finish Looks",
+        "button_label": "Explore Finishes",
+        "button_link": "",
+        "image": "shopify://shop_images/0d308b48b9b8272d2247bd2886084538a3f7a3f3.png",
+        "section_bg": "",
+        "space_top": 0,
+        "space_bottom": 0
+      }
     },
     "mw_testimonial": {
       "type": "mw-testimonial",
-      "settings": {}
+      "settings": {
+        "style": "uppercase",
+        "bottom_spacing": 132,
+        "image": "shopify://shop_images/b5e7eb822c856ce787ea1289fa8a202aafa64963.png",
+        "label": "What people said",
+        "quote": "We design our furniture with a focus on simplicity, thoughtful craftsmanship, and timeless form.",
+        "text": "Every curve, connection, and material is considered to create pieces that feel natural in your space. Using honest materials and functional proportions, we create furniture that is made to be lived with, assembled with ease, and enjoyed for years.",
+        "signature": "From thoughtful design to everyday living\nMade with intention.",
+        "section_bg": "",
+        "space_top": 0,
+        "space_bottom": 0
+      }
     }
   },
-  "order": ["mw_hero", "mw_featured", "mw_best_sellers", "mw_brand_values", "mw_finish", "mw_testimonial"]
+  "order": [
+    "mw_hero",
+    "mw_featured",
+    "mw_best_sellers",
+    "mw_brand_values",
+    "mw_finish",
+    "mw_testimonial"
+  ]
 }
