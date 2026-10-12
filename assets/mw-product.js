@@ -65,6 +65,8 @@ if (!customElements.get('mw-product')) {
             button.disabled = true;
             button.textContent = button.dataset.labelUnavailable;
           }
+          const checkout = this.querySelector('[data-mw-checkout]');
+          if (checkout) checkout.hidden = true;
           return;
         }
 
@@ -73,6 +75,9 @@ if (!customElements.get('mw-product')) {
           button.disabled = !variant.available;
           button.textContent = variant.available ? button.dataset.labelAdd : button.dataset.labelSoldOut;
         }
+        // Shopify's "Buy it now" can't check out a sold-out variant, so hide it instead of letting it fail.
+        const checkout = this.querySelector('[data-mw-checkout]');
+        if (checkout) checkout.hidden = !variant.available;
 
         const price = this.querySelector('[data-mw-price]');
         const compare = this.querySelector('[data-mw-compare]');

@@ -16,35 +16,35 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/Lounge_Chair-Walnut.jpg",
-            "link": ""
+            "link": "shopify://products/lounge-chair"
           }
         },
         "slide_2": {
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/Lounge_Rocking_Chair-Beige.jfif.jpg",
-            "link": ""
+            "link": "shopify://products/lounge-chair"
           }
         },
         "slide_3": {
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/Round_Coffe_Table-_Raw.jpg",
-            "link": ""
+            "link": "shopify://products/round-coffee-table"
           }
         },
         "slide_4": {
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/oval-console-table.webp",
-            "link": ""
+            "link": "shopify://products/modern-console-table"
           }
         },
         "slide_5": {
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/KidsTableandChair-Beige.jpg",
-            "link": ""
+            "link": "shopify://collections/all"
           }
         },
         "chip_1": {
@@ -90,11 +90,12 @@
         "image": "shopify://shop_images/560c084fdb83c8c14a9f072cb73c04245b8fb586.png",
         "tag_1": "TIMELESS CHARACTER",
         "tag_2": "MODERN FORM",
+        "label_animation": "load",
         "text": "Designed with simplicity in mind, our furniture brings together thoughtful details, natural materials, and effortless assembly for everyday living.",
         "button_label": "Browse Products",
         "button_link": "shopify://collections/all",
         "link_label": "Our Pricing",
-        "link_url": "",
+        "link_url": "shopify://collections/all",
         "section_bg": "",
         "space_top": 0,
         "space_bottom": 0
@@ -207,21 +208,24 @@
         "story_text": "Simple forms, honest premium materials, and thoughtful details come together to create structural masterpieces meant to survive generations.",
         "show_line_art": true,
         "story_link_label": "Our Complete Story",
-        "story_link": "",
+        "story_link": "shopify://pages/our-story",
         "stat_value": "12K+",
         "stat_label": "Vetted Customer Spaces Furnished",
         "avatar_1": "shopify://shop_images/f9821bc4dab4a2865bdd290eca4192c94bde67fb.png",
         "avatar_2": "shopify://shop_images/8ca39b7245ad39b4d4b35a4685a9e677c13f2c4f.png",
+        "identity_logo_height": 80,
+        "identity_icon_position": "left",
+        "identity_icon_size": 68,
         "identity_text_mobile": "Meldwood",
-        "identity_tagline": "F U R N I T U R E",
+        "identity_tagline": "",
         "quote": "\"Thoughtfully designed furniture, crafted intentionally with honest organic materials and timeless geometric form.\"",
         "brand_button_label": "Explore Collection",
-        "brand_button_link": "",
-        "lifestyle_image": "shopify://shop_images/8530331606caab36b744d67f2a0853a2d3c4ce6b.png",
+        "brand_button_link": "shopify://collections/all",
+        "lifestyle_image": "shopify://shop_images/413041ba9a29fa1486302c223dba56dd969b0a6f.png",
         "lifestyle_title": "Crafted with genuine care.\nBuilt to be lived in.",
         "lifestyle_label": "OAK INTEGRITY GUARANTEE",
         "lifestyle_button_label": "Learn More",
-        "lifestyle_button_link": "",
+        "lifestyle_button_link": "shopify://pages/our-story",
         "section_bg": "",
         "space_top": 0,
         "space_bottom": 0
@@ -258,28 +262,32 @@
           "type": "swatch",
           "settings": {
             "color": "#ead6c0",
-            "label": "Raw Birch"
+            "label": "Raw Birch",
+            "image": "shopify://shop_images/560c084fdb83c8c14a9f072cb73c04245b8fb586.png"
           }
         },
         "swatch_2": {
           "type": "swatch",
           "settings": {
             "color": "#513a2e",
-            "label": "Walnut"
+            "label": "Walnut",
+            "image": "shopify://shop_images/0d308b48b9b8272d2247bd2886084538a3f7a3f3.png"
           }
         },
         "swatch_3": {
           "type": "swatch",
           "settings": {
             "color": "#1c1c1c",
-            "label": "Black"
+            "label": "Black",
+            "image": "shopify://shop_images/Lounge_Chair-Black.jpg"
           }
         },
         "swatch_4": {
           "type": "swatch",
           "settings": {
             "color": "#d7b58f",
-            "label": "Natural"
+            "label": "Natural",
+            "image": "shopify://shop_images/c5f23b6aa57f605dfba5243fd78e63aae2423384_1.png"
           }
         }
       },
@@ -298,7 +306,7 @@
         "text": "Premium Baltic birch. Expertly tested finishes.\nChoose what fits your style.",
         "swatches_title": "Popular Finish Looks",
         "button_label": "Explore Finishes",
-        "button_link": "",
+        "button_link": "shopify://pages/favorite-finishes",
         "image": "shopify://shop_images/0d308b48b9b8272d2247bd2886084538a3f7a3f3.png",
         "section_bg": "",
         "space_top": 0,

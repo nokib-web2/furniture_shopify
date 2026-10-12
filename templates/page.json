@@ -10,14 +10,30 @@
 {
   "sections": {
     "main": {
-      "type": "main-page",
+      "type": "mw-main-page",
       "settings": {
-        "padding_top": 28,
-        "padding_bottom": 28
+        "show_title": true,
+        "alignment": "left",
+        "max_width": 880
+      }
+    },
+    "featured_blog_iDTNXR": {
+      "type": "mw-featured-blog",
+      "settings": {
+        "blog": "how-to-assemble",
+        "heading": "How to Assemble Unfnshed Furniture",
+        "heading_size": "medium",
+        "post_limit": 3,
+        "columns": 3,
+        "show_date": false,
+        "show_excerpt": true,
+        "read_more_label": "Read more",
+        "view_all_label": "View all"
       }
     }
   },
   "order": [
-    "main"
+    "main",
+    "featured_blog_iDTNXR"
   ]
 }

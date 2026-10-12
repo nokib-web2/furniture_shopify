@@ -531,3 +531,98 @@
     display: none;
   }
 }
+
+/* ---------- Image labels and chips animation ----------
+   Load: labels pop in (overshoot) when the hero enters the viewport, then float.
+   Hover: labels pop in while the image is hovered.
+   Both: labels follow the cursor with depth (parallax) and lift on hover.
+   Hidden states only apply once the inline script adds .mw-hero--ready. */
+@keyframes mw-hero-label-in {
+  0% {
+    opacity: 0;
+    transform: translateY(46px) scale(0.6) rotate(-4deg);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.08) rotate(1deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mw-hero-label-float {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+.mw-hero__tag,
+.mw-hero__chip {
+  translate: calc(var(--mw-mx, 0) * var(--mw-depth, 1) * 22px) calc(var(--mw-my, 0) * var(--mw-depth, 1) * 22px);
+  transition: translate 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), scale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease, background-color 0.3s ease;
+  will-change: transform, translate;
+}
+
+.mw-hero__tag:hover,
+.mw-hero__chip:hover {
+  scale: 1.1;
+  z-index: 4;
+}
+
+.mw-hero__chip:hover {
+  background: color-mix(in srgb, var(--mw-tan) 85%, transparent);
+}
+
+/* Load mode */
+.mw-hero--labels-load.mw-hero--ready .mw-hero__tag,
+.mw-hero--labels-load.mw-hero--ready .mw-hero__chip {
+  opacity: 0;
+}
+
+.mw-hero--labels-load.is-in-view .mw-hero__tag,
+.mw-hero--labels-load.is-in-view .mw-hero__chip {
+  animation:
+    mw-hero-label-in 0.95s cubic-bezier(0.22, 1, 0.36, 1) var(--mw-delay, 0.6s) both,
+    mw-hero-label-float var(--mw-float, 4.5s) ease-in-out calc(var(--mw-delay, 0.6s) + 0.95s) infinite alternate;
+}
+
+/* Hover mode (mouse devices only; touch screens keep labels visible) */
+@media (hover: hover) {
+  .mw-hero--labels-hover.mw-hero--ready .mw-hero__tag,
+  .mw-hero--labels-hover.mw-hero--ready .mw-hero__chip {
+    opacity: 0;
+    transform: translateY(46px) scale(0.6);
+    transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+      translate 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), scale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: calc((var(--mw-delay, 0.6s) - 0.6s) * 0.6), calc((var(--mw-delay, 0.6s) - 0.6s) * 0.6), 0s, 0s;
+  }
+
+  .mw-hero--labels-hover.mw-hero--ready .mw-hero__media:hover .mw-hero__tag,
+  .mw-hero--labels-hover.mw-hero--ready .mw-hero__media:hover .mw-hero__chip,
+  .mw-hero--labels-hover.mw-hero--ready .mw-hero__media:focus-within .mw-hero__tag,
+  .mw-hero--labels-hover.mw-hero--ready .mw-hero__media:focus-within .mw-hero__chip {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw-hero .mw-hero__tag,
+  .mw-hero .mw-hero__chip {
+    opacity: 1 !important;
+    transform: none !important;
+    translate: none !important;
+    scale: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -76,27 +76,48 @@
           </div>
         </div>
 
-        <div class="mw-values__card mw-values__identity">
-          {%- if section.settings.identity_logo != blank -%}
+        <div
+          class="mw-values__card mw-values__identity{% if section.settings.identity_icon != blank %} mw-values__identity--icon-{{ section.settings.identity_icon_position }}{% endif %} mw-values__identity--image"
+          style="--mw-identity-icon: {{ section.settings.identity_icon_size | default: 40 }}; --mw-identity-logo-h: {{ section.settings.identity_logo_height | default: 50 }};"
+        >
+          {%- if section.settings.identity_icon != blank -%}
+            <span class="mw-values__identity-brand">
             {{
-              section.settings.identity_logo
+              section.settings.identity_icon
+              | image_url: width: 240
+              | image_tag: class: 'mw-values__identity-icon', alt: '', loading: 'lazy', widths: '80, 120, 160, 240', sizes: '80px'
+            }}
+          {%- endif -%}
+          {%- liquid
+            assign identity_logo = section.settings.identity_logo
+            assign identity_class = 'mw-values__identity-logo mw-values__identity-logo--img'
+            if section.settings.identity_logo != blank
+              assign identity_class = 'mw-values__identity-logo mw-values__identity-logo--img mw-values__identity-logo--custom'
+            endif
+          -%}
+          {%- if identity_logo != blank -%}
+            {{
+              identity_logo
               | image_url: width: 600
               | image_tag:
-                class: 'mw-values__identity-logo mw-values__identity-logo--custom',
+                class: identity_class,
                 alt: shop.name,
                 loading: 'lazy',
-                widths: '300, 600',
+                widths: '150, 300, 600',
                 sizes: '248px'
             }}
           {%- else -%}
             <img
-              src="{{ 'mw-logo.svg' | asset_url }}"
+              src="{{ 'mw-logo-mark.png' | asset_url }}"
               alt="{{ shop.name | escape }}"
-              class="mw-values__identity-logo"
-              width="155"
-              height="14"
+              class="mw-values__identity-logo mw-values__identity-logo--img mw-values__identity-logo--custom"
+              width="1200"
+              height="427"
               loading="lazy"
             >
+          {%- endif -%}
+          {%- if section.settings.identity_icon != blank -%}
+            </span>
           {%- endif -%}
           {%- if section.settings.identity_text_mobile != blank -%}
             <p class="mw-values__identity-text">{{ section.settings.identity_text_mobile | escape }}</p>
@@ -257,7 +278,50 @@
       "type": "image_picker",
       "id": "identity_logo",
       "label": "Logo",
-      "info": "Leave empty to use the Meldwood wordmark."
+      "info": "Leave empty to use the Meldwood logo mark. Upload a tightly cropped logo (no empty space around it) for the best size."
+    },
+    {
+      "type": "range",
+      "id": "identity_logo_height",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 58,
+      "label": "Logo height",
+      "info": "For uploaded logos. The card keeps its design height."
+    },
+    {
+      "type": "image_picker",
+      "id": "identity_icon",
+      "label": "Logo icon",
+      "info": "Optional Meldwood logo mark shown with the wordmark."
+    },
+    {
+      "type": "select",
+      "id": "identity_icon_position",
+      "label": "Logo icon position",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left of the wordmark"
+        },
+        {
+          "value": "top",
+          "label": "Above the wordmark"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "identity_icon_size",
+      "min": 20,
+      "max": 96,
+      "step": 2,
+      "unit": "px",
+      "default": 40,
+      "label": "Logo icon size"
     },
     {
       "type": "text",

@@ -11,7 +11,8 @@
   endif
 -%}
 
-<header class="mw mw-header{% if overlay %} mw-header--overlay{% endif %}{% unless template.name == 'index' %} mw-header--page{% endunless %}">
+{%- assign logo_image = section.settings.logo | default: settings.logo -%}
+<header style="--mw-logo-w: {{ section.settings.logo_width | default: 248 }};" class="mw mw-header{% if overlay %} mw-header--overlay{% endif %}{% unless template.name == 'index' %} mw-header--page{% endunless %}">
   <div class="mw-header__inner">
     <details class="mw-header__drawer" data-mw-dismissable>
       <summary class="mw-header__menu-btn" aria-label="{{ 'sections.header.menu' | t }}">
@@ -42,9 +43,9 @@
     </details>
 
     <a href="{{ routes.root_url }}" class="mw-header__logo">
-      {%- if section.settings.logo != blank -%}
+      {%- if logo_image != blank -%}
         {{
-          section.settings.logo
+          logo_image
           | image_url: width: 600
           | image_tag: class: 'mw-header__logo-img', alt: shop.name, widths: '200, 300, 400, 600', sizes: '248px'
         }}
@@ -129,7 +130,17 @@
       "type": "image_picker",
       "id": "logo",
       "label": "Logo",
-      "info": "Leave empty to use the Meldwood wordmark."
+      "info": "Leave empty to use Theme settings → Logo, then the Meldwood wordmark."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 80,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "default": 248,
+      "label": "Logo width (desktop)"
     },
     {
       "type": "link_list",

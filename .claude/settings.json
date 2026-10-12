@@ -24,7 +24,8 @@
       "Bash(cp config/settings_schema.json \"/c/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/settings_schema.json.bak\")",
       "Bash(grep -ohE \"var\\\\\\(--mw-[a-z0-9-]+\" assets/mw-*.css sections/mw-*.liquid snippets/mw-*.liquid | sort -u | sed 's/var\\(//' > /tmp/used.txt; grep -ohE \"^\\\\s*--mw-[a-z0-9-]+:\" snippets/mw-fonts.liquid assets/mw-*.css | sed 's/[ :]//g' | sort -u > /tmp/def.txt; echo \"used but not defined globally:\"; comm -23 /tmp/used.txt /tmp/def.txt; echo \"--- base :root:\"; sed -n '1,35p' assets/mw-base.css)",
       "Read(//tmp/**)",
-      "Bash(python -I \"C:/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/patch_reviews.py\" sections/mw-product-reviews.liquid)"
+      "Bash(python -I \"C:/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/patch_reviews.py\" sections/mw-product-reviews.liquid)",
+      "Bash(node \"C:/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/migrate-pages.js\" \"oldTheme/theme_export__meldwood-com-sense__12OCT2026-0235pm/templates\" \"templates\")"
     ],
     "additionalDirectories": [
       "C:\\Users\\Nokib\\AppData\\Local\\Temp\\claude\\c--pixelora-meldWood\\5e6f4bb4-b93c-4631-9236-62bdff747f2c\\scratchpad"

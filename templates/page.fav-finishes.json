@@ -1,0 +1,693 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "mw-main-page",
+      "settings": {
+        "show_title": true,
+        "alignment": "left",
+        "max_width": 880
+      },
+      "disabled": true
+    },
+    "rich_text_z8qjGd": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "heading_gbrR4b": {
+          "type": "heading",
+          "settings": {
+            "heading": "The wood finishes we actually use.",
+            "size": "display",
+            "tag": "h1"
+          }
+        },
+        "text_yFcBz3": {
+          "type": "text",
+          "settings": {
+            "text": "<p>very stain, paint, sealer, and oil on this page lives on our shop bench. We’ve tested all of them on the plywood we build with — these are the ones we keep buying. Honest picks, not sponsorships.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_gbrR4b",
+        "text_yFcBz3"
+      ],
+      "settings": {
+        "alignment": "center",
+        "max_width": 1110,
+        "card": false
+      }
+    },
+    "multicolumn_Lckz8i": {
+      "type": "mw-columns",
+      "blocks": {
+        "column_kgeHLg": {
+          "type": "column",
+          "settings": {
+            "title": "Tested on",
+            "text": "<p>Baltic birch</p>",
+            "new_tab": false
+          }
+        },
+        "column_MYzWDU": {
+          "type": "column",
+          "settings": {
+            "title": "Picks",
+            "text": "<p>27 products</p>",
+            "new_tab": false
+          }
+        },
+        "column_pLhLGD": {
+          "type": "column",
+          "settings": {
+            "title": "Categories",
+            "text": "<p>Six</p>",
+            "new_tab": false
+          }
+        },
+        "column_bdfJVP": {
+          "type": "column",
+          "settings": {
+            "title": "Updated",
+            "text": "<p>April 2026</p>",
+            "new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "column_kgeHLg",
+        "column_MYzWDU",
+        "column_pLhLGD",
+        "column_bdfJVP"
+      ],
+      "settings": {
+        "heading_size": "large",
+        "heading_alignment": "center",
+        "columns": 4,
+        "style": "cards",
+        "image_style": "photo"
+      }
+    },
+    "rich_text_A9XHx7": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "heading_8NHfWK": {
+          "type": "heading",
+          "settings": {
+            "heading": "Spray paints for furniture",
+            "size": "display",
+            "tag": "h2"
+          }
+        },
+        "text_9reJBc": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The fastest way to add color or a glossy finish to plywood furniture. We mostly reach for these on smaller pieces and accents.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_8NHfWK",
+        "text_9reJBc"
+      ],
+      "settings": {
+        "alignment": "left",
+        "max_width": 1110,
+        "card": false
+      }
+    },
+    "multicolumn_DtwVEM": {
+      "type": "mw-columns",
+      "blocks": {
+        "column_ith3bt": {
+          "type": "column",
+          "settings": {
+            "title": "Glossy Spray Paints",
+            "text": "<p>Bold color with reflective sheen<br/>Bold color with a reflective sheen.<br/>Spray in a well-ventilated area.</p>",
+            "link": "https://www.amazon.com/dp/B002BWOS6W?tag=unfnshed00-20&th=1",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_gn76NK": {
+          "type": "column",
+          "settings": {
+            "title": "Matte Spray Paints",
+            "text": "<p>Soft, editorial color without sheen<br/>Beautiful colors without the sheen.<br/>spray in a well-ventilated area.</p>",
+            "link": "https://www.amazon.com/dp/B0787D8PYT?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_UzqNCF": {
+          "type": "column",
+          "settings": {
+            "title": "Low VOC",
+            "text": "<p>PaintsBrush or roller - best for multiplepieces</p><p>Requires brush or roller. </p><p>Great forminimizing paint fumes.<br/><br/></p>",
+            "link": "https://www.amazon.com/dp/B0FMS7N99P?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "column_ith3bt",
+        "column_gn76NK",
+        "column_UzqNCF"
+      ],
+      "settings": {
+        "heading_size": "large",
+        "heading_alignment": "center",
+        "columns": 3,
+        "style": "cards",
+        "image_style": "photo"
+      }
+    },
+    "rich_text_B3fRYp": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "heading_Dn3rmA": {
+          "type": "heading",
+          "settings": {
+            "heading": "Wood <em>stains</em>",
+            "size": "display",
+            "tag": "h2"
+          }
+        },
+        "text_WPVAmE": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Stain lets the grain show through. Easier to apply than paint and a great fit for Baltic birch plywood — these are the colors we keep coming back to.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_Dn3rmA",
+        "text_WPVAmE"
+      ],
+      "settings": {
+        "alignment": "left",
+        "max_width": 1110,
+        "card": false
+      }
+    },
+    "multicolumn_Dj3ENi": {
+      "type": "mw-columns",
+      "blocks": {
+        "column_g6yCTm": {
+          "type": "column",
+          "settings": {
+            "title": "Walnut Stain",
+            "text": "<p>Rich, warm wood tone<br/>Rich warm brown for a timeless,<br/>sophisticated look.</p>",
+            "link": "https://www.amazon.com/dp/B00SJH2WWK?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_VxPbjL": {
+          "type": "column",
+          "settings": {
+            "title": "Black Stain",
+            "text": "<p>Deep, modern finish<br/>Dark, minimalist look that still feels<br/>refined.</p>",
+            "link": "https://www.amazon.com/dp/B00SJH2LGW?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_LHKUj6": {
+          "type": "column",
+          "settings": {
+            "title": "Colored Stains",
+            "text": "<p>Variety pack - green, blue, orange,<br/>yellow<br/>Easier than paint. Lets the wood grain<br/>show through.</p>",
+            "link": "https://www.amazon.com/dp/B01HF1BOU6?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "column_g6yCTm",
+        "column_VxPbjL",
+        "column_LHKUj6"
+      ],
+      "settings": {
+        "heading_size": "large",
+        "heading_alignment": "center",
+        "columns": 3,
+        "style": "cards",
+        "image_style": "photo"
+      }
+    },
+    "rich_text_b4hP4b": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "heading_GfqBth": {
+          "type": "heading",
+          "settings": {
+            "heading": "Clear coats & <em>wood sealers</em>",
+            "size": "display",
+            "tag": "h2"
+          }
+        },
+        "text_7LexRz": {
+          "type": "text",
+          "settings": {
+            "text": "<p>A clear coat for wood seals and protects without changing the color much. These are the clear wood sealers we trust on our pieces — from a quick matte spray to one-coat oils like Osmo Polyx.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_GfqBth",
+        "text_7LexRz"
+      ],
+      "settings": {
+        "alignment": "left",
+        "max_width": 1110,
+        "card": false
+      }
+    },
+    "multicolumn_hz7ErM": {
+      "type": "mw-columns",
+      "blocks": {
+        "column_WinpNW": {
+          "type": "column",
+          "settings": {
+            "title": "Clear Matte Spray",
+            "text": "<p>Protective, low-sheen - best for single items</p><p>Quick protection that preserves natural wood color. Won't yellow.<br/><br/></p>",
+            "link": "https://www.amazon.com/dp/B002BWORZE?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_DyiW6Q": {
+          "type": "column",
+          "settings": {
+            "title": "Flat Out Flat",
+            "text": "<p>General Finishes - best for multiple items</p><p>Brush, roller, or spray gun. Great formultiple pieces. Won't yellow.<br/><br/></p>",
+            "link": "https://www.amazon.com/dp/B013F9N9IM?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_RXHqBm": {
+          "type": "column",
+          "disabled": true,
+          "settings": {
+            "title": "Osmo Polyx",
+            "text": "<p>Oil-wax finish - low VOC, popular in Europe </p><p>Adds a warm amber tone. Easy to apply, low VOC. A European favorite.<br/><br/></p>",
+            "link": "https://www.amazon.com/dp/B01HF1BOU6?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_EhHgMX": {
+          "type": "column",
+          "settings": {
+            "title": "Natura Single-coat protection - multiple colors",
+            "text": "<p>One coat protection. Multiple colors available.<br/><br/></p>",
+            "link": "https://www.amazon.com/dp/B0BZ4KF697?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "column_WinpNW",
+        "column_DyiW6Q",
+        "column_RXHqBm",
+        "column_EhHgMX"
+      ],
+      "settings": {
+        "heading_size": "large",
+        "heading_alignment": "center",
+        "columns": 3,
+        "style": "cards",
+        "image_style": "photo"
+      }
+    },
+    "rich_text_kYQGh7": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "heading_Lrj4UL": {
+          "type": "heading",
+          "settings": {
+            "heading": "Outdoor wood sealers & <em>marine finishes</em>",
+            "size": "display",
+            "tag": "h2"
+          }
+        },
+        "text_p3XNAf": {
+          "type": "text",
+          "settings": {
+            "text": "<p>If you’re using a piece outside or somewhere wet, you need an outdoor wood sealer or marine-grade finish. These are our four picks for the best outdoor wood finish for furniture, decks, and exterior projects.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_Lrj4UL",
+        "text_p3XNAf"
+      ],
+      "settings": {
+        "alignment": "left",
+        "max_width": 1110,
+        "card": false
+      }
+    },
+    "multicolumn_e7dUYw": {
+      "type": "mw-columns",
+      "blocks": {
+        "column_YEEUGa": {
+          "type": "column",
+          "settings": {
+            "title": "TotalBoat Gleam",
+            "text": "<p>Marine Spar Varnish - gloss, UV- resistant<br/>Marine-grade varnish built for boats.<br/>UV-resistant and stays glossy through<br/>sun and salt.</p>",
+            "link": "https://amazon.com/dp/B00J33B0C2?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_ztn77c": {
+          "type": "column",
+          "settings": {
+            "title": "SEAL-ONCE Marine",
+            "text": "<p>Penetrating waterproof sealer Soaks in instead of sitting on top.<br/>Waterproof, breathable, low VOC.</p>",
+            "link": "https://www.amazon.com/dp/B00EQ89RYW?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_P7QHAY": {
+          "type": "column",
+          "settings": {
+            "title": "Rubio Monocoat Hybrid",
+            "text": "<p>Rubio Monocoat Hybrid Wood Protector - single-coat exterior One coat and you're done. Plant- based, zero VOC. The European go-to for outdoor furniture.</p>",
+            "link": "https://www.amazon.com/dp/B07ZFYVVFN?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_TMD88z": {
+          "type": "column",
+          "settings": {
+            "title": "Watco Exterior",
+            "text": "<p>Watco Exterior Wood Finish - penetrating oil Classic wipe-on oil from Rust-Oleum. Brings out the grain, protects against<br/>weather.</p>",
+            "link": "https://www.amazon.com/dp/B000FPDMKA?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "column_YEEUGa",
+        "column_ztn77c",
+        "column_P7QHAY",
+        "column_TMD88z"
+      ],
+      "settings": {
+        "heading_size": "large",
+        "heading_alignment": "center",
+        "columns": 4,
+        "style": "cards",
+        "image_style": "photo"
+      }
+    },
+    "rich_text_zxgnQJ": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "heading_tNWpTE": {
+          "type": "heading",
+          "settings": {
+            "heading": "Food-safe & <em>non-toxic</em> wood finishes",
+            "size": "display",
+            "tag": "h2"
+          }
+        },
+        "text_4qMTCq": {
+          "type": "text",
+          "settings": {
+            "text": "<p>For cribs, kids’ tables, kitchen pieces, and anything that gets touched daily. The best food-safe wood finish uses real plant oils — beeswax, linseed, tung — with no solvents, no driers, no heavy metals. These five are our top non-toxic picks.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_tNWpTE",
+        "text_4qMTCq"
+      ],
+      "settings": {
+        "alignment": "left",
+        "max_width": 1110,
+        "card": false
+      }
+    },
+    "multicolumn_TkTewL": {
+      "type": "mw-columns",
+      "blocks": {
+        "column_Uri4hz": {
+          "type": "column",
+          "settings": {
+            "title": "Baby Safe Crib Finish",
+            "text": "<p>Beeswax + linseed oil<br/>Made specifically for cribs. Just beeswax and linseed oil - nothing else. Our top pick for nursery furniture.</p>",
+            "link": "https://www.amazon.com/dp/B06ZZ485Z7?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_hc9MAj": {
+          "type": "column",
+          "settings": {
+            "title": "Tried & True Original",
+            "text": "<p>Linseed oil + beeswax<br/>Warm honey tone that deepens over time. No solvents, no driers, no heavy metals.</p>",
+            "link": "https://www.amazon.com/dp/B09X22RC6N?tag=unfnshed00-20&th=1",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_kdYVba": {
+          "type": "column",
+          "settings": {
+            "title": "HOPE'S Pure Tung Oil",
+            "text": "<p>100% tung oil Penetrates deep into the grain. Waterproof and food-safe once cured. Beautiful natural amber.</p>",
+            "link": "https://www.amazon.com/dp/B000I1QA6E?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_KBT7kR": {
+          "type": "column",
+          "settings": {
+            "title": "Odie's Oil",
+            "text": "<p>Universal finish - premium Premium all-in-one finish. A little goes a long way. The woodworker favorite.</p>",
+            "link": "https://www.amazon.com/dp/B000FPDMKA?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_VRfAhA": {
+          "type": "column",
+          "settings": {
+            "title": "BioShield Counter Finish",
+            "text": "<p>Linseed + tung oil + beeswax blend<br/>All -natural plant-oil blend. Designed<br/>for kitchen counters and food prep<br/>surfaces.</p>",
+            "link": "https://www.amazon.com/dp/B004K9NSWY?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "column_Uri4hz",
+        "column_hc9MAj",
+        "column_kdYVba",
+        "column_KBT7kR",
+        "column_VRfAhA"
+      ],
+      "settings": {
+        "heading_size": "large",
+        "heading_alignment": "center",
+        "columns": 4,
+        "style": "cards",
+        "image_style": "photo"
+      }
+    },
+    "rich_text_3hFfHX": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "heading_nxd9Kn": {
+          "type": "heading",
+          "settings": {
+            "heading": "Other <em>essentials</em>",
+            "size": "display",
+            "tag": "h2"
+          }
+        },
+        "text_EyrYtW": {
+          "type": "text",
+          "settings": {
+            "text": "<p>A few extras that make finishing easier — the brushes, rollers, and tools we always have on the bench.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_nxd9Kn",
+        "text_EyrYtW"
+      ],
+      "settings": {
+        "alignment": "left",
+        "max_width": 1110,
+        "card": false
+      }
+    },
+    "multicolumn_Kz7L8G": {
+      "type": "mw-columns",
+      "blocks": {
+        "column_LamBcz": {
+          "type": "column",
+          "settings": {
+            "title": "Rubber Mallet",
+            "text": "<p>Assemble & disassemble faster</p>",
+            "link": "https://www.amazon.com/dp/B0C5DXWQHL?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_rq7nnC": {
+          "type": "column",
+          "settings": {
+            "title": "Wall Anchors",
+            "text": "<p>For mounting wall shelves</p>",
+            "link": "https://www.amazon.com/dp/B0845YKDHV?tag=unfnshed00-20",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_qYLyBm": {
+          "type": "column",
+          "settings": {
+            "title": "Foam Roller",
+            "text": "<p>Great for rolling paints</p>",
+            "link": "https://www.amazon.com/dp/B096S4GXPZ?tag=unfnshed00-20&th=1",
+            "link_label": "View",
+            "new_tab": true
+          }
+        },
+        "column_kAVT4G": {
+          "type": "column",
+          "settings": {
+            "title": "Foam Brush",
+            "text": "<p>Great for brushing paint and stains</p>",
+            "link": "https://www.amazon.com/dp/B086JDDS32?tag=unfnshed00-20&th=1",
+            "link_label": "View",
+            "new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "column_LamBcz",
+        "column_rq7nnC",
+        "column_qYLyBm",
+        "column_kAVT4G"
+      ],
+      "settings": {
+        "heading_size": "large",
+        "heading_alignment": "center",
+        "columns": 4,
+        "style": "cards",
+        "image_style": "photo"
+      }
+    },
+    "collapsible_content_RAcaH8": {
+      "type": "mw-faq",
+      "blocks": {
+        "collapsible_row_J7LqRb": {
+          "type": "question",
+          "settings": {
+            "question": "What is the best food-safe wood finish?",
+            "answer": "<p>For anything that touches food or skin daily — cutting boards, kids’ tables, kitchen pieces — we reach for a real plant-oil finish likeTried & True Original(linseed + beeswax) orHOPE’S Pure Tung Oil. Both are 100% non-toxic once cured, with no solvents, no driers, and no heavy metals.Odie’s Oilis our pick when you want one finish that does everything.</p>"
+          }
+        },
+        "collapsible_row_zeE7EL": {
+          "type": "question",
+          "settings": {
+            "question": "What’s the best outdoor wood sealer for furniture?",
+            "answer": "<p>It depends on the look you want. For a glossy boat-grade finish,TotalBoat Gleam Marine Spar Varnishis the gold standard — UV-resistant and built to flex with the wood. For a natural penetrating look that shows the grain,Rubio Monocoat Hybrid Wood Protectoris a single-coat plant-based option.SEAL-ONCE Marineworks as a clear waterproof base layer, andWatco Exterioris a classic wipe-on oil from Rust-Oleum.<br/><br/></p>"
+          }
+        },
+        "collapsible_row_PLrtYg": {
+          "type": "question",
+          "disabled": true,
+          "settings": {
+            "question": "What’s the best outdoor wood sealer for furniture?",
+            "answer": "<p>It depends on the look you want. For a glossy boat-grade finish,TotalBoat Gleam Marine Spar Varnishis the gold standard — UV-resistant and built to flex with the wood. For a natural penetrating look that shows the grain,Rubio Monocoat Hybrid Wood Protectoris a single-coat plant-based option.SEAL-ONCE Marineworks as a clear waterproof base layer, andWatco Exterioris a classic wipe-on oil from Rust-Oleum.<br/><br/></p>"
+          }
+        },
+        "collapsible_row_JzReTk": {
+          "type": "question",
+          "settings": {
+            "question": "What finish should I use on Baltic birch plywood?",
+            "answer": "<p>Baltic birch takes finishes beautifully. For a natural look, a single coat ofOsmo Polyxoil-wax or a clear matte spray protects without yellowing. For color, a water-based wood stain pulls evenly across the grain. For furniture that gets daily use, a clear coat or non-toxic oil likeOdie’s Oilseals it permanently. We test every product on our page on Baltic birch before recommending it.</p>"
+          }
+        },
+        "collapsible_row_78GiYG": {
+          "type": "question",
+          "settings": {
+            "question": "Can you use spray paint on plywood?",
+            "answer": "<p>Yes — and it’s one of the fastest ways to finish a plywood piece. Sand lightly first, wipe down the dust, then apply two or three light coats. Glossy spray gives a reflective sheen that reads modern; matte spray reads soft and editorial. Always spray in a well-ventilated area and let each coat fully dry before recoating.</p>"
+          }
+        },
+        "collapsible_row_8MjHJ7": {
+          "type": "question",
+          "settings": {
+            "question": "How do you finish plywood edges?",
+            "answer": "<p>Plywood edges show the layered plies, which can be a feature or something to hide. To highlight: sand smooth, then apply the same stain or oil as the rest of the piece — the layers will read as fine stripes. To hide: apply iron-on edge banding before finishing, or fill the edge with wood filler, sand flush, and paint over it. The flat plywood layers on Baltic birch are often clean enough to leave exposed.</p>"
+          }
+        },
+        "collapsible_row_zkpy47": {
+          "type": "question",
+          "settings": {
+            "question": "Is Rubio Monocoat food safe?",
+            "answer": "<p>Yes — Rubio Monocoat Oil Plus 2C and Pure are both certified food-safe and toy-safe once fully cured (about 5 days). They’re plant-based, zero VOC, and applied in a single coat. The Hybrid Wood Protector linked on this page is the exterior version, designed for outdoor furniture and decks rather than indoor food-contact surfaces.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_J7LqRb",
+        "collapsible_row_zeE7EL",
+        "collapsible_row_PLrtYg",
+        "collapsible_row_JzReTk",
+        "collapsible_row_78GiYG",
+        "collapsible_row_8MjHJ7",
+        "collapsible_row_zkpy47"
+      ],
+      "settings": {
+        "heading": "Wood finish <em>FAQ</em>",
+        "layout": "split",
+        "open_first": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_z8qjGd",
+    "multicolumn_Lckz8i",
+    "rich_text_A9XHx7",
+    "multicolumn_DtwVEM",
+    "rich_text_B3fRYp",
+    "multicolumn_Dj3ENi",
+    "rich_text_b4hP4b",
+    "multicolumn_hz7ErM",
+    "rich_text_kYQGh7",
+    "multicolumn_e7dUYw",
+    "rich_text_zxgnQJ",
+    "multicolumn_TkTewL",
+    "rich_text_3hFfHX",
+    "multicolumn_Kz7L8G",
+    "collapsible_content_RAcaH8"
+  ]
+}

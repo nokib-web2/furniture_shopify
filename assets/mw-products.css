@@ -243,3 +243,17 @@
     display: none;
   }
 }
+
+.mw-products__heading-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.mw-products__subheading {
+  color: var(--mw-muted);
+  font-family: var(--mw-font-body);
+  font-size: calc(max(14px, calc(18 * var(--mw-u))) * var(--mw-ts, 1));
+  line-height: 1.5;
+}

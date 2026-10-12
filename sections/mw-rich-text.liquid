@@ -1,0 +1,249 @@
+{{ 'mw-content.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="mw mw-section mw-content mw-rich-text"
+  style="{% render 'mw-section-style', section: section %} --mw-text-width: {{ section.settings.max_width }};"
+>
+  <div class="mw-container">
+    <div class="mw-text mw-text--{{ section.settings.alignment }}{% if section.settings.card %} mw-card-surface{% endif %}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'eyebrow' -%}
+            {%- if block.settings.text != blank -%}
+              <p class="mw-eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+          {%- when 'heading' -%}
+            {%- if block.settings.heading != blank -%}
+              {%- if block.settings.tag == 'h1' -%}
+                <h1 class="mw-heading mw-heading--{{ block.settings.size }}" {{ block.shopify_attributes }}>{{ block.settings.heading }}</h1>
+              {%- else -%}
+                <h2 class="mw-heading mw-heading--{{ block.settings.size }}" {{ block.shopify_attributes }}>{{ block.settings.heading }}</h2>
+              {%- endif -%}
+            {%- endif -%}
+          {%- when 'text' -%}
+            {%- if block.settings.text != blank -%}
+              <div class="mw-body" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {%- endif -%}
+          {%- when 'buttons' -%}
+            <div class="mw-buttons" {{ block.shopify_attributes }}>
+              {%- if block.settings.button_label != blank -%}
+                <a href="{{ block.settings.button_link | default: '#' }}" class="mw-button{% if block.settings.button_style == 'secondary' %} mw-button--secondary{% endif %}">
+                  {{- block.settings.button_label | escape -}}
+                </a>
+              {%- endif -%}
+              {%- if block.settings.button_label_2 != blank -%}
+                <a href="{{ block.settings.button_link_2 | default: '#' }}" class="mw-arrow-link">
+                  <span>{{ block.settings.button_label_2 | escape }}</span>
+                  {% render 'mw-icon', name: 'arrow-right' %}
+                </a>
+              {%- endif -%}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood text",
+  "tag": "div",
+  "class": "mw-rich-text-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "default": "center",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 550,
+      "max": 1750,
+      "step": 20,
+      "unit": "px",
+      "default": 1110,
+      "label": "Text width (desktop)"
+    },
+    {
+      "type": "checkbox",
+      "id": "card",
+      "default": false,
+      "label": "Show on a card"
+    },
+    {
+      "type": "header",
+      "content": "Section style"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background",
+      "info": "Leave empty to use the theme color."
+    },
+    {
+      "type": "range",
+      "id": "space_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space above"
+    },
+    {
+      "type": "range",
+      "id": "space_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "label": "Extra space below"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "eyebrow",
+      "name": "Eyebrow",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Our story",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Talk about your brand",
+          "label": "Heading"
+        },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "Size",
+          "default": "display",
+          "options": [
+            {
+              "value": "display",
+              "label": "Display"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "tag",
+          "label": "SEO tag",
+          "default": "h2",
+          "info": "Use H1 only for the main heading of a page.",
+          "options": [
+            {
+              "value": "h1",
+              "label": "H1"
+            },
+            {
+              "value": "h2",
+              "label": "H2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Share information about your brand with your customers.</p>",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "Buttons",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Shop now",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "default": "primary",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Dark"
+            },
+            {
+              "value": "secondary",
+              "label": "White"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "button_label_2",
+          "label": "Text link label"
+        },
+        {
+          "type": "url",
+          "id": "button_link_2",
+          "label": "Text link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meldwood text",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,68 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "mw-main-page",
+      "settings": {
+        "show_title": true,
+        "alignment": "left",
+        "max_width": 880
+      },
+      "disabled": true
+    },
+    "rich_text_Pgr4dy": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "heading_6mDEGm": {
+          "type": "heading",
+          "settings": {
+            "heading": "Tutorials",
+            "size": "display",
+            "tag": "h1"
+          }
+        },
+        "text_wkCfxr": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Get inspired and transform your unfnshed furniture into pieces that are unique to you.</p><h2>Get the look</h2><p>Tutorials and How-to's<br/><br/></p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_6mDEGm",
+        "text_wkCfxr"
+      ],
+      "settings": {
+        "alignment": "left",
+        "max_width": 1110,
+        "card": false
+      }
+    },
+    "featured_blog_iDTNXR": {
+      "type": "mw-featured-blog",
+      "settings": {
+        "blog": "tutorials",
+        "heading_size": "medium",
+        "post_limit": 3,
+        "columns": 3,
+        "show_date": false,
+        "show_excerpt": true,
+        "read_more_label": "Read more",
+        "view_all_label": "View all"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_Pgr4dy",
+    "featured_blog_iDTNXR"
+  ]
+}

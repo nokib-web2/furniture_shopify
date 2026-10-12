@@ -8,6 +8,260 @@
     "theme_support_url": "https://support.shopify.com/"
   },
   {
+    "name": "Meldwood colors",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Colors used by all Meldwood sections. Sections can also override their own background."
+      },
+      {
+        "type": "header",
+        "content": "Backgrounds"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_bg",
+        "label": "Page background",
+        "default": "#F5F3ED"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_panel",
+        "label": "Panels and cards",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_surface",
+        "label": "Soft cards",
+        "default": "#FCFAF6"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_surface_alt",
+        "label": "Story card",
+        "default": "#EFECE4"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_soft",
+        "label": "Grey fills",
+        "default": "#F5F5F7",
+        "info": "Gallery, review cards, quantity picker, image plates."
+      },
+      {
+        "type": "color",
+        "id": "mw_color_placeholder",
+        "label": "Image placeholder",
+        "default": "#E9E5DC"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_footer",
+        "label": "Footer background",
+        "default": "#FAFAFA"
+      },
+      {
+        "type": "header",
+        "content": "Text"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_ink",
+        "label": "Headings and strong text",
+        "default": "#121212"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_ink_soft",
+        "label": "Navigation and labels",
+        "default": "#3A3B3C"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_muted",
+        "label": "Body text",
+        "default": "#5C5A56"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_secondary",
+        "label": "Secondary text",
+        "default": "#666666",
+        "info": "Shop and product pages."
+      },
+      {
+        "type": "color",
+        "id": "mw_color_subtle",
+        "label": "Hints and placeholders",
+        "default": "#999999"
+      },
+      {
+        "type": "header",
+        "content": "Accents"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_dark",
+        "label": "Buttons and active states",
+        "default": "#171818"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_on_dark",
+        "label": "Text on buttons",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_accent",
+        "label": "Accent (eyebrows, links)",
+        "default": "#B08A5E"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_line",
+        "label": "Divider line",
+        "default": "#B09778"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_border",
+        "label": "Borders",
+        "default": "#E5E5EA"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_active",
+        "label": "Active category background",
+        "default": "#DADADA"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_badge",
+        "label": "Count badge",
+        "default": "#FF3B30"
+      },
+      {
+        "type": "color",
+        "id": "mw_color_star",
+        "label": "Rating stars",
+        "default": "#FF9500"
+      }
+    ]
+  },
+  {
+    "name": "Meldwood fonts",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Brand typefaces from the Meldwood design system. Type any Google Fonts family name exactly as it appears on fonts.google.com."
+      },
+      {
+        "type": "text",
+        "id": "mw_font_heading",
+        "label": "Heading font",
+        "default": "Bricolage Grotesque",
+        "info": "Hero title and large section headings."
+      },
+      {
+        "type": "text",
+        "id": "mw_font_body",
+        "label": "Body font",
+        "default": "Outfit",
+        "info": "Navigation, buttons, body text, prices, labels."
+      },
+      {
+        "type": "range",
+        "id": "mw_text_scale",
+        "label": "Text size",
+        "min": 80,
+        "max": 130,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      },
+      {
+        "type": "header",
+        "content": "Advanced"
+      },
+      {
+        "type": "text",
+        "id": "mw_fonts_url",
+        "label": "Custom font stylesheet URL",
+        "info": "Optional. Leave empty to load the two fonts above from Google Fonts automatically."
+      }
+    ]
+  },
+  {
+    "name": "Meldwood buttons & cards",
+    "settings": [
+      {
+        "type": "range",
+        "id": "mw_button_radius",
+        "label": "Button corner radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 32
+      },
+      {
+        "type": "header",
+        "content": "Product cards"
+      },
+      {
+        "type": "checkbox",
+        "id": "mw_card_show_type",
+        "label": "Show product type tag",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "mw_card_show_rating",
+        "label": "Show rating",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "mw_card_show_buttons",
+        "label": "Show Add to Cart / Buy Now",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "mw_card_add_label",
+        "label": "Add to cart label",
+        "default": "Add to Cart"
+      },
+      {
+        "type": "text",
+        "id": "mw_card_buy_label",
+        "label": "Buy now label",
+        "default": "Buy Now"
+      },
+      {
+        "type": "text",
+        "id": "mw_card_reviews_label",
+        "label": "Reviews label",
+        "default": "Reviews",
+        "info": "Shown as (1.2k Reviews)."
+      },
+      {
+        "type": "text",
+        "id": "mw_card_no_reviews_label",
+        "label": "No reviews label",
+        "default": "No reviews yet"
+      },
+      {
+        "type": "text",
+        "id": "mw_card_view_label",
+        "label": "Sold out button label",
+        "default": "View"
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.logo.name",
     "settings": [
       {
@@ -1464,272 +1718,6 @@
         "id": "customer_account_menu",
         "default": "customer-account-main-menu",
         "label": "t:settings_schema.customer_accounts.settings.customer_account_menu.label"
-      }
-    ]
-  },
-  {
-    "name": "Meldwood colors",
-    "settings": [
-      {
-        "type": "paragraph",
-        "content": "Colors used by all Meldwood sections. Sections can also override their own background."
-      },
-      {
-        "type": "header",
-        "content": "Backgrounds"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_bg",
-        "label": "Page background",
-        "default": "#F5F3ED"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_panel",
-        "label": "Panels and cards",
-        "default": "#FFFFFF"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_surface",
-        "label": "Soft cards",
-        "default": "#FCFAF6"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_surface_alt",
-        "label": "Story card",
-        "default": "#EFECE4"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_soft",
-        "label": "Grey fills",
-        "default": "#F5F5F7",
-        "info": "Gallery, review cards, quantity picker, image plates."
-      },
-      {
-        "type": "color",
-        "id": "mw_color_placeholder",
-        "label": "Image placeholder",
-        "default": "#E9E5DC"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_footer",
-        "label": "Footer background",
-        "default": "#FAFAFA"
-      },
-      {
-        "type": "header",
-        "content": "Text"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_ink",
-        "label": "Headings and strong text",
-        "default": "#121212"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_ink_soft",
-        "label": "Navigation and labels",
-        "default": "#3A3B3C"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_muted",
-        "label": "Body text",
-        "default": "#5C5A56"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_secondary",
-        "label": "Secondary text",
-        "default": "#666666",
-        "info": "Shop and product pages."
-      },
-      {
-        "type": "color",
-        "id": "mw_color_subtle",
-        "label": "Hints and placeholders",
-        "default": "#999999"
-      },
-      {
-        "type": "header",
-        "content": "Accents"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_dark",
-        "label": "Buttons and active states",
-        "default": "#171818"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_on_dark",
-        "label": "Text on buttons",
-        "default": "#FFFFFF"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_accent",
-        "label": "Accent (eyebrows, links)",
-        "default": "#B08A5E"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_line",
-        "label": "Divider line",
-        "default": "#B09778"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_border",
-        "label": "Borders",
-        "default": "#E5E5EA"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_active",
-        "label": "Active category background",
-        "default": "#DADADA"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_badge",
-        "label": "Count badge",
-        "default": "#FF3B30"
-      },
-      {
-        "type": "color",
-        "id": "mw_color_star",
-        "label": "Rating stars",
-        "default": "#FF9500"
-      }
-    ]
-  },
-  {
-    "name": "Meldwood typography",
-    "settings": [
-      {
-        "type": "paragraph",
-        "content": "Font names must match Google Fonts. When you change a font, also update the embed URL (Google Fonts → Get embed code → the href of the link tag)."
-      },
-      {
-        "type": "text",
-        "id": "mw_font_display",
-        "label": "Display font (hero, large headings)",
-        "default": "Bricolage Grotesque"
-      },
-      {
-        "type": "text",
-        "id": "mw_font_body",
-        "label": "Body and UI font",
-        "default": "Outfit"
-      },
-      {
-        "type": "text",
-        "id": "mw_font_ui",
-        "label": "Interface font (navigation, labels, prices)",
-        "default": "Inter"
-      },
-      {
-        "type": "text",
-        "id": "mw_font_card",
-        "label": "Product title font (best sellers)",
-        "default": "Plus Jakarta Sans"
-      },
-      {
-        "type": "text",
-        "id": "mw_font_serif",
-        "label": "Number font (customer stat)",
-        "default": "Cormorant Garamond"
-      },
-      {
-        "type": "textarea",
-        "id": "mw_fonts_url",
-        "label": "Google Fonts embed URL",
-        "default": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700&family=Cormorant+Garamond:wght@500&family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500&display=swap"
-      },
-      {
-        "type": "range",
-        "id": "mw_text_scale",
-        "label": "Text size",
-        "min": 80,
-        "max": 130,
-        "step": 5,
-        "unit": "%",
-        "default": 100
-      }
-    ]
-  },
-  {
-    "name": "Meldwood buttons & cards",
-    "settings": [
-      {
-        "type": "range",
-        "id": "mw_button_radius",
-        "label": "Button corner radius",
-        "min": 0,
-        "max": 40,
-        "step": 2,
-        "unit": "px",
-        "default": 32
-      },
-      {
-        "type": "header",
-        "content": "Product cards"
-      },
-      {
-        "type": "checkbox",
-        "id": "mw_card_show_type",
-        "label": "Show product type tag",
-        "default": true
-      },
-      {
-        "type": "checkbox",
-        "id": "mw_card_show_rating",
-        "label": "Show rating",
-        "default": true
-      },
-      {
-        "type": "checkbox",
-        "id": "mw_card_show_buttons",
-        "label": "Show Add to Cart / Buy Now",
-        "default": true
-      },
-      {
-        "type": "text",
-        "id": "mw_card_add_label",
-        "label": "Add to cart label",
-        "default": "Add to Cart"
-      },
-      {
-        "type": "text",
-        "id": "mw_card_buy_label",
-        "label": "Buy now label",
-        "default": "Buy Now"
-      },
-      {
-        "type": "text",
-        "id": "mw_card_reviews_label",
-        "label": "Reviews label",
-        "default": "Reviews",
-        "info": "Shown as (1.2k Reviews)."
-      },
-      {
-        "type": "text",
-        "id": "mw_card_no_reviews_label",
-        "label": "No reviews label",
-        "default": "No reviews yet"
-      },
-      {
-        "type": "text",
-        "id": "mw_card_view_label",
-        "label": "Sold out button label",
-        "default": "View"
       }
     ]
   }

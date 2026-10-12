@@ -11,7 +11,7 @@
 -%}
 
 <section class="mw mw-section mw-collection" style="{% render 'mw-section-style', section: section %}">
-  <div class="mw-collection__hero">
+  <div class="mw-collection__hero" data-mw-collection-hero>
     {%- if hero_image != blank -%}
       {{
         hero_image
@@ -46,7 +46,13 @@
   </div>
 
   <div class="mw-collection__panel">
-    <div class="mw-collection__layout">
+    <mw-collection-browser
+      class="mw-collection__layout"
+      data-section-id="{{ section.id }}"
+      data-mode="{{ section.settings.pagination_style | default: 'infinite' }}"
+      data-auto-batches="{{ section.settings.auto_batches | default: 3 }}"
+      data-title="{{ page_title | escape }}"
+    >
       <aside class="mw-collection__sidebar" aria-label="{{ section.settings.categories_heading | escape }}">
         <div class="mw-collection__categories">
           {%- if section.settings.categories_heading != blank -%}
@@ -145,7 +151,7 @@
 
         {%- paginate collection.products by section.settings.products_per_page -%}
           {%- if collection.products.size > 0 -%}
-            <ul class="mw-collection__grid">
+            <ul class="mw-collection__grid" data-mw-grid>
               {%- for product in collection.products -%}
                 <li>
                   {% render 'mw-shop-card',
@@ -160,8 +166,30 @@
             <p class="mw-collection__empty">{{ 'sections.collection_template.empty' | t }}</p>
           {%- endif -%}
 
+          {%- if paginate.pages > 1 and section.settings.pagination_style != 'pages' -%}
+            {%- liquid
+              assign shown = paginate.current_offset | plus: collection.products.size
+              assign status = section.settings.status_text | replace: '[shown]', shown | replace: '[total]', paginate.items
+            -%}
+            <div
+              class="mw-collection__loader"
+              data-mw-loader
+              data-next-url="{{ paginate.next.url }}"
+              data-total="{{ paginate.items }}"
+              data-status-template="{{ section.settings.status_text | escape }}"
+            >
+              {%- if section.settings.status_text != blank -%}
+                <p class="mw-collection__status" data-mw-status aria-live="polite">{{ status | escape }}</p>
+              {%- endif -%}
+              <span class="mw-collection__spinner" role="status" aria-label="{{ section.settings.loading_label | escape }}"></span>
+              <button type="button" class="mw-btn mw-collection__load-more" data-mw-load-more hidden>
+                {{- section.settings.load_more_label | escape -}}
+              </button>
+            </div>
+          {%- endif -%}
+
           {%- if paginate.pages > 1 -%}
-            <nav class="mw-pagination" aria-label="{{ 'general.pagination.label' | t }}">
+            <nav class="mw-pagination" data-mw-pagination aria-label="{{ 'general.pagination.label' | t }}">
               {%- if paginate.previous -%}
                 <a href="{{ paginate.previous.url }}" class="mw-pagination__step">
                   {% render 'mw-icon', name: 'arrow-up', class: 'mw-rot--90' %}
@@ -203,7 +231,7 @@
           {%- endif -%}
         {%- endpaginate -%}
       </div>
-    </div>
+    </mw-collection-browser>
 
     {%- if recommendations != blank and recommendations.products.size > 0 -%}
       <mw-carousel class="mw-collection__recs">
@@ -292,6 +320,55 @@
       "label": "Products per page"
     },
     {
+      "type": "select",
+      "id": "pagination_style",
+      "label": "Pagination style",
+      "default": "infinite",
+      "options": [
+        {
+          "value": "infinite",
+          "label": "Infinite scroll"
+        },
+        {
+          "value": "load_more",
+          "label": "Load more button"
+        },
+        {
+          "value": "pages",
+          "label": "Page numbers"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "auto_batches",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 3,
+      "label": "Automatic loads before showing the button",
+      "info": "Infinite scroll only. After this many automatic loads a Load more button appears, so shoppers can reach the content below. 0 = never stop."
+    },
+    {
+      "type": "text",
+      "id": "load_more_label",
+      "default": "Load more",
+      "label": "Load more label"
+    },
+    {
+      "type": "text",
+      "id": "loading_label",
+      "default": "Loading more products",
+      "label": "Loading label (screen readers)"
+    },
+    {
+      "type": "text",
+      "id": "status_text",
+      "default": "Showing [shown] of [total] products",
+      "label": "Progress text",
+      "info": "Use [shown] and [total]. Leave empty to hide."
+    },
+    {
       "type": "text",
       "id": "shop_all_label",
       "default": "Shop All",
@@ -306,13 +383,15 @@
       "type": "text",
       "id": "previous_label",
       "default": "Previous",
-      "label": "Pagination previous label"
+      "label": "Pagination previous label",
+      "info": "Used by the Page numbers style, and as a fallback when JavaScript is off."
     },
     {
       "type": "text",
       "id": "next_label",
       "default": "Next",
-      "label": "Pagination next label"
+      "label": "Pagination next label",
+      "info": "Used by the Page numbers style, and as a fallback when JavaScript is off."
     },
     {
       "type": "header",

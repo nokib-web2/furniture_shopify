@@ -799,10 +799,82 @@
 
 .mw-product__checkout {
   flex: 1 1 100%;
+  /* Branded express buttons (Shop Pay, PayPal…) keep their brand colors; match their shape. */
+  --shopify-accelerated-checkout-button-border-radius: var(--mw-btn-radius);
+  --shopify-accelerated-checkout-button-block-size: 52px;
 }
 
 .mw-product__actions {
   flex-wrap: wrap;
+}
+
+.mw-product__checkout[hidden] {
+  display: none;
+}
+
+/* Unbranded "Buy it now": Figma "Secondary" button (white pill, no border). Dawn's base.css
+   adds a square frame through :before/:after and focus shadows, so those are switched off here. */
+.mw .mw-product__checkout .shopify-payment-button__button--unbranded {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 24px;
+  border: 0;
+  border-radius: var(--mw-btn-radius);
+  background: var(--mw-panel);
+  box-shadow: none;
+  color: var(--mw-dark);
+  font-family: var(--mw-font-body);
+  font-weight: 600;
+  font-size: calc(16.09px * var(--mw-ts, 1));
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.mw .mw-product__checkout .shopify-payment-button__button--unbranded::before,
+.mw .mw-product__checkout .shopify-payment-button__button--unbranded::after {
+  content: none;
+  display: none;
+}
+
+.mw .mw-product__checkout .shopify-payment-button__button--unbranded:hover:not([disabled]) {
+  background: color-mix(in srgb, var(--mw-dark) 6%, var(--mw-panel));
+  text-decoration: none;
+}
+
+.mw .mw-product__checkout .shopify-payment-button__button--unbranded:active:not([disabled]) {
+  transform: scale(0.99);
+}
+
+.mw .mw-product__checkout .shopify-payment-button__button--unbranded:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.mw .mw-product__checkout .shopify-payment-button__button--unbranded:focus-visible {
+  outline: 2px solid var(--mw-dark);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.mw .mw-product__checkout .shopify-payment-button,
+.mw .mw-product__checkout shopify-buy-it-now-button,
+.mw .mw-product__checkout shopify-accelerated-checkout {
+  border: 0;
+  box-shadow: none;
+}
+
+.mw .mw-product__checkout .shopify-payment-button__more-options {
+  margin-top: 12px;
+  color: var(--mw-secondary);
+  font-family: var(--mw-font-body);
+  font-size: calc(14px * var(--mw-ts, 1));
+  text-decoration: underline;
 }
 
 /* ---------- Related ---------- */
@@ -1104,4 +1176,53 @@ product-recommendations.mw-related {
   .mw-related__grid .mw-shop-card--lg {
     --cs: 1;
   }
+}
+
+/* Rating block */
+.mw-product__rating {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 10px;
+  color: var(--mw-secondary);
+  font-family: var(--mw-font-body);
+  font-size: calc(14px * var(--mw-ts, 1));
+}
+
+.mw-product__rating:hover .mw-product__rating-text {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.mw-product__rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+/* Feature icons block */
+.mw-product__features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mw-product__feature {
+  display: flex;
+  flex: 1 1 140px;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--mw-soft);
+  color: var(--mw-ink);
+  font-family: var(--mw-font-body);
+  font-size: calc(13px * var(--mw-ts, 1));
+  line-height: 1.3;
+}
+
+.mw-product__feature-icon {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }

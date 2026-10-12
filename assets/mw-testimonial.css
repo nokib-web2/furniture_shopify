@@ -44,7 +44,7 @@
   border: 0;
   color: var(--mw-on-dark);
   font-style: normal;
-  font-family: var(--mw-font-ui);
+  font-family: var(--mw-font-display);
   font-weight: 400;
   text-transform: uppercase;
 }

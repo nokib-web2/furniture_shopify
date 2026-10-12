@@ -1,0 +1,43 @@
+{% comment %}
+  Meldwood blog post card.
+
+  Accepts:
+  - article: {Object} Article Liquid object
+  - show_date: {Boolean}
+  - show_excerpt: {Boolean}
+  - read_more: {String} Link label (optional)
+
+  Usage:
+  {% render 'mw-post-card', article: article, show_date: true, show_excerpt: true, read_more: 'Read more' %}
+{% endcomment %}
+<article class="mw-post-card">
+  <a href="{{ article.url }}" class="mw-media mw-post-card__media" tabindex="-1" aria-hidden="true">
+    {%- if article.image -%}
+      {{
+        article.image
+        | image_url: width: 1200
+        | image_tag:
+          loading: 'lazy',
+          widths: '400, 600, 800, 1200',
+          sizes: '(min-width: 1200px) 30vw, (min-width: 750px) 45vw, 100vw',
+          alt: article.image.alt
+      }}
+    {%- endif -%}
+  </a>
+  {%- if show_date -%}
+    <p class="mw-post-card__meta">{{ article.published_at | time_tag: format: 'date' }}</p>
+  {%- endif -%}
+  <h3 class="mw-post-card__title"><a href="{{ article.url }}">{{ article.title | escape }}</a></h3>
+  {%- if show_excerpt -%}
+    {%- assign excerpt = article.excerpt | default: article.content | strip_html | truncatewords: 26 -%}
+    {%- if excerpt != blank -%}
+      <p class="mw-post-card__excerpt">{{ excerpt }}</p>
+    {%- endif -%}
+  {%- endif -%}
+  {%- if read_more != blank -%}
+    <a href="{{ article.url }}" class="mw-arrow-link">
+      <span>{{ read_more | escape }}</span>
+      {% render 'mw-icon', name: 'arrow-right' %}
+    </a>
+  {%- endif -%}
+</article>

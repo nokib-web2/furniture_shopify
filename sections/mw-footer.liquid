@@ -3,9 +3,10 @@
 <footer class="mw mw-footer" style="{% render 'mw-section-style', section: section %}">
   <div class="mw-footer__wordmark">
     <a href="{{ routes.root_url }}" class="mw-footer__wordmark-link">
-      {%- if section.settings.wordmark != blank -%}
+      {%- assign wordmark = section.settings.wordmark | default: settings.logo -%}
+      {%- if wordmark != blank -%}
         {{
-          section.settings.wordmark
+          wordmark
           | image_url: width: 3600
           | image_tag:
             class: 'mw-footer__wordmark-img',
@@ -153,7 +154,7 @@
       "type": "image_picker",
       "id": "wordmark",
       "label": "Wordmark",
-      "info": "Leave empty to use the Meldwood wordmark."
+      "info": "Leave empty to use Theme settings → Logo, then the Meldwood wordmark."
     },
     {
       "type": "header",

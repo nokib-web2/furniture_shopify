@@ -1,4 +1,5 @@
 {{ 'mw-finish.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mw-landing.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
   assign stats = section.blocks | where: 'type', 'stat'
@@ -6,7 +7,7 @@
 -%}
 
 <section class="mw mw-section mw-finish" style="{% render 'mw-section-style', section: section %}">
-  <div class="mw-finish__card">
+  <mw-finish-picker class="mw-finish__card">
     <div class="mw-finish__content">
       <div class="mw-finish__header">
         {%- if section.settings.eyebrow != blank -%}
@@ -48,9 +49,19 @@
             {%- endif -%}
             <ul class="mw-finish__swatches">
               {%- for block in swatches -%}
-                <li class="mw-finish__swatch" {{ block.shopify_attributes }}>
-                  <span class="mw-finish__swatch-color" style="--swatch: {{ block.settings.color }};"></span>
-                  <span class="mw-finish__swatch-label">{{ block.settings.label | escape }}</span>
+                <li {{ block.shopify_attributes }}>
+                  <button
+                    type="button"
+                    class="mw-finish__swatch"
+                    data-mw-finish-swatch="{{ block.id }}"
+                    aria-pressed="false"
+                    {% if block.settings.image == blank %}
+                      data-mw-no-image
+                    {% endif %}
+                  >
+                    <span class="mw-finish__swatch-color" style="--swatch: {{ block.settings.color }};"></span>
+                    <span class="mw-finish__swatch-label">{{ block.settings.label | escape }}</span>
+                  </button>
                 </li>
               {%- endfor -%}
             </ul>
@@ -65,20 +76,42 @@
       {%- endif -%}
     </div>
 
-    <div class="mw-finish__media">
+    <div class="mw-finish__media" aria-live="polite">
       {%- if section.settings.image != blank -%}
         {{
           section.settings.image
           | image_url: width: 1800
           | image_tag:
-            class: 'mw-finish__img',
+            class: 'mw-finish__img is-active',
             loading: 'lazy',
             widths: '400, 700, 1000, 1400, 1800',
-            sizes: '(min-width: 1200px) 44vw, (min-width: 750px) 41vw, 100vw'
+            sizes: '(min-width: 1200px) 44vw, (min-width: 750px) 41vw, 100vw',
+            data-mw-finish-image: 'default'
         }}
       {%- endif -%}
+      {%- for block in swatches -%}
+        {%- if block.settings.image != blank -%}
+          {%- liquid
+            assign image_class = 'mw-finish__img'
+            if section.settings.image == blank and forloop.first
+              assign image_class = 'mw-finish__img is-active'
+            endif
+          -%}
+          {{
+            block.settings.image
+            | image_url: width: 1800
+            | image_tag:
+              class: image_class,
+              loading: 'lazy',
+              widths: '400, 700, 1000, 1400, 1800',
+              sizes: '(min-width: 1200px) 44vw, (min-width: 750px) 41vw, 100vw',
+              alt: block.settings.label,
+              data-mw-finish-image: block.id
+          }}
+        {%- endif -%}
+      {%- endfor -%}
     </div>
-  </div>
+  </mw-finish-picker>
 </section>
 
 {% schema %}
@@ -125,7 +158,8 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Image"
+      "label": "Image",
+      "info": "Shown before a finish is selected."
     },
     {
       "type": "header",
@@ -214,6 +248,12 @@
           "id": "label",
           "default": "Raw Birch",
           "label": "Label"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Replaces the large image when this finish is clicked."
         }
       ]
     }

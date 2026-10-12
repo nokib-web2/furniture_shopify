@@ -1,0 +1,108 @@
+{{ 'mw-content.css' | asset_url | stylesheet_tag }}
+
+<section class="mw mw-section mw-content" style="{% render 'mw-section-style', section: section %}">
+  <div class="mw-container">
+    <div class="mw-contact">
+      <div class="mw-contact__intro">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="mw-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h1 class="mw-heading mw-heading--display">{{ section.settings.heading }}</h1>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="mw-body">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- assign details = section.blocks | where: 'type', 'detail' -%}
+        {%- if details.size > 0 -%}
+          <div class="mw-contact__details">
+            {%- for block in details -%}
+              <div class="mw-contact__detail" {{ block.shopify_attributes }}>
+                <span class="mw-contact__detail-label">{{ block.settings.label | escape }}</span>
+                {%- if block.settings.link != blank -%}
+                  <a href="{{ block.settings.link }}" class="mw-contact__detail-value">{{ block.settings.value | escape }}</a>
+                {%- else -%}
+                  <span class="mw-contact__detail-value">{{ block.settings.value | escape }}</span>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- form 'contact', id: 'MwContactForm', class: 'mw-form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="mw-form__message" role="status">{{ section.settings.success_text | escape }}</p>
+        {%- elsif form.errors -%}
+          <div class="mw-form__message mw-form__message--error" role="alert">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+
+        <div class="mw-form__row">
+          <div class="mw-form__field">
+            <label class="mw-form__label" for="MwContactName">{{ section.settings.name_label | escape }}</label>
+            <input class="mw-form__input" type="text" id="MwContactName" name="contact[name]" autocomplete="name" value="{{ form.name }}" placeholder="{{ section.settings.name_placeholder | escape }}">
+          </div>
+          <div class="mw-form__field">
+            <label class="mw-form__label" for="MwContactEmail">{{ section.settings.email_label | escape }} *</label>
+            <input class="mw-form__input" type="email" id="MwContactEmail" name="contact[email]" autocomplete="email" value="{{ form.email }}" placeholder="{{ section.settings.email_placeholder | escape }}" required>
+          </div>
+        </div>
+
+        {%- if section.settings.show_phone -%}
+          <div class="mw-form__field">
+            <label class="mw-form__label" for="MwContactPhone">{{ section.settings.phone_label | escape }}</label>
+            <input class="mw-form__input" type="tel" id="MwContactPhone" name="contact[phone]" autocomplete="tel" value="{{ form.phone }}" placeholder="{{ section.settings.phone_placeholder | escape }}">
+          </div>
+        {%- endif -%}
+
+        <div class="mw-form__field">
+          <label class="mw-form__label" for="MwContactBody">{{ section.settings.message_label | escape }}</label>
+          <textarea class="mw-form__input mw-form__textarea" id="MwContactBody" name="contact[body]" placeholder="{{ section.settings.message_placeholder | escape }}">{{ form.body }}</textarea>
+        </div>
+
+        <button type="submit" class="mw-button">{{ section.settings.submit_label | escape }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood contact",
+  "tag": "div",
+  "class": "mw-contact-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "default": "Contact", "label": "Eyebrow" },
+    { "type": "inline_richtext", "id": "heading", "default": "Reach out", "label": "Heading" },
+    { "type": "richtext", "id": "text", "default": "<p>Our team is always on hand to help.</p>", "label": "Text" },
+    { "type": "header", "content": "Form" },
+    { "type": "text", "id": "name_label", "default": "Name", "label": "Name label" },
+    { "type": "text", "id": "name_placeholder", "default": "Enter your name", "label": "Name placeholder" },
+    { "type": "text", "id": "email_label", "default": "Email", "label": "Email label" },
+    { "type": "text", "id": "email_placeholder", "default": "Enter your email", "label": "Email placeholder" },
+    { "type": "checkbox", "id": "show_phone", "default": true, "label": "Show phone field" },
+    { "type": "text", "id": "phone_label", "default": "Phone", "label": "Phone label" },
+    { "type": "text", "id": "phone_placeholder", "default": "+92", "label": "Phone placeholder" },
+    { "type": "text", "id": "message_label", "default": "Message", "label": "Message label" },
+    { "type": "text", "id": "message_placeholder", "default": "How can we help?", "label": "Message placeholder" },
+    { "type": "text", "id": "submit_label", "default": "Send message", "label": "Button label" },
+    { "type": "text", "id": "success_text", "default": "Thanks for reaching out! We'll get back to you within office hours.", "label": "Success message" },
+    { "type": "header", "content": "Section style" },
+    { "type": "color", "id": "section_bg", "label": "Background", "info": "Leave empty to use the theme color." },
+    { "type": "range", "id": "space_top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space above" },
+    { "type": "range", "id": "space_bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space below" }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Contact detail",
+      "settings": [
+        { "type": "text", "id": "label", "default": "Email", "label": "Label" },
+        { "type": "text", "id": "value", "default": "hello@example.com", "label": "Value" },
+        { "type": "url", "id": "link", "label": "Link", "info": "Optional, e.g. mailto:hello@example.com or a WhatsApp link." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Meldwood contact" }]
+}
+{% endschema %}

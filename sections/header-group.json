@@ -25,6 +25,7 @@
       "block_order": [
         "announcement-bar-0"
       ],
+      "disabled": true,
       "settings": {
         "auto_rotate": false,
         "change_slides_speed": 5,
@@ -33,11 +34,11 @@
         "show_social": false,
         "enable_country_selector": false,
         "enable_language_selector": false
-      },
-      "disabled": true
+      }
     },
     "header": {
       "type": "header",
+      "disabled": true,
       "settings": {
         "logo_position": "middle-left",
         "mobile_logo_position": "center",
@@ -52,17 +53,18 @@
         "margin_bottom": 0,
         "padding_top": 20,
         "padding_bottom": 20
-      },
-      "disabled": true
+      }
     },
     "mw-header": {
       "type": "mw-header",
       "settings": {
+        "logo_width": 248,
         "menu": "main-menu",
         "contact_label": "Contact us",
         "contact_label_tablet": "Contact",
-        "contact_link": "",
-        "overlay_home": true
+        "contact_link": "shopify://pages/contact",
+        "overlay_home": true,
+        "overlay_collection": true
       }
     }
   },

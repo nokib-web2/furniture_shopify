@@ -12,7 +12,12 @@
   <div class="mw-container mw-products__inner">
     <div class="mw-products__header">
       {%- if section.settings.heading != blank -%}
-        <h2 class="mw-products__heading">{{ section.settings.heading | escape }}</h2>
+        <div class="mw-products__heading-group">
+          <h2 class="mw-products__heading">{{ section.settings.heading | escape }}</h2>
+          {%- if section.settings.subheading != blank -%}
+            <p class="mw-products__subheading">{{ section.settings.subheading | escape }}</p>
+          {%- endif -%}
+        </div>
       {%- endif -%}
       {%- if section.settings.link_label != blank -%}
         <a href="{{ link | default: routes.all_products_collection_url }}" class="mw-products__view-all">
@@ -45,6 +50,12 @@
       "id": "heading",
       "default": "Best Sellers",
       "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "info": "Optional. Shown under the heading."
     },
     {
       "type": "collection",

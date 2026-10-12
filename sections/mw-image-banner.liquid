@@ -1,0 +1,77 @@
+{{ 'mw-content.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign has_text = false
+  if section.settings.heading != blank or section.settings.text != blank or section.settings.button_label != blank
+    assign has_text = true
+  endif
+-%}
+
+<section class="mw mw-section mw-content" style="{% render 'mw-section-style', section: section %}">
+  <div class="mw-container">
+    <div
+      class="mw-banner{% if has_text %} mw-banner--overlay{% endif %}"
+      style="--mw-banner-h: {{ section.settings.height }};"
+    >
+      <span class="mw-banner__media">
+        {%- if section.settings.image != blank -%}
+          {{
+            section.settings.image
+            | image_url: width: 3000
+            | image_tag: loading: 'lazy', widths: '750, 1100, 1500, 2000, 2500, 3000', sizes: '100vw'
+          }}
+        {%- endif -%}
+      </span>
+      {%- if has_text -%}
+        <div class="mw-banner__content">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="mw-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="mw-heading mw-heading--large">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <div class="mw-body">{{ section.settings.text }}</div>
+          {%- endif -%}
+          {%- if section.settings.button_label != blank -%}
+            <a href="{{ section.settings.button_link | default: '#' }}" class="mw-button mw-button--secondary">
+              {{- section.settings.button_label | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood image banner",
+  "tag": "div",
+  "class": "mw-image-banner-section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 320,
+      "max": 960,
+      "step": 20,
+      "unit": "px",
+      "default": 640,
+      "label": "Height (desktop)"
+    },
+    { "type": "header", "content": "Optional text on the image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading" },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Section style" },
+    { "type": "color", "id": "section_bg", "label": "Background", "info": "Leave empty to use the theme color." },
+    { "type": "range", "id": "space_top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space above" },
+    { "type": "range", "id": "space_bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space below" }
+  ],
+  "presets": [{ "name": "Meldwood image banner" }]
+}
+{% endschema %}

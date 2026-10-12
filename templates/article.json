@@ -10,42 +10,31 @@
 {
   "sections": {
     "main": {
-      "type": "main-article",
-      "blocks": {
-        "featured_image": {
-          "type": "featured_image",
-          "settings": {
-            "image_height": "adapt"
-          }
-        },
-        "title": {
-          "type": "title",
-          "settings": {
-            "blog_show_date": true,
-            "blog_show_author": false
-          }
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Share"
-          }
-        },
-        "content": {
-          "type": "content",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "featured_image",
-        "title",
-        "share",
-        "content"
-      ],
-      "settings": {}
+      "type": "mw-main-article",
+      "settings": {
+        "show_date": true,
+        "show_author": false,
+        "show_image": true,
+        "show_share": true
+      }
+    },
+    "more_articles": {
+      "type": "mw-featured-blog",
+      "settings": {
+        "blog": "how-to-assemble",
+        "heading": "More articles",
+        "heading_size": "medium",
+        "post_limit": 3,
+        "columns": 3,
+        "show_date": false,
+        "show_excerpt": true,
+        "read_more_label": "Read more",
+        "view_all_label": "View all"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "more_articles"
   ]
 }

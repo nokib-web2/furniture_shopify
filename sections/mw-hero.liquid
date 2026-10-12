@@ -7,7 +7,7 @@
   assign heading_mobile = section.settings.heading_mobile | default: section.settings.heading
 -%}
 
-<section class="mw mw-section mw-hero" id="MwHero-{{ section.id }}" style="{% render 'mw-section-style', section: section %}">
+<section class="mw mw-section mw-hero mw-hero--labels-{{ section.settings.label_animation | default: 'load' }}" id="MwHero-{{ section.id }}" style="{% render 'mw-section-style', section: section %}">
   {%- comment -%} Figma "Subtract" shape: rounded image with a notch for the carousel card. {%- endcomment -%}
   <svg class="mw-hero__defs" width="0" height="0" aria-hidden="true" focusable="false">
     <clipPath id="MwHeroClip-{{ section.id }}" clipPathUnits="objectBoundingBox">
@@ -61,10 +61,10 @@
       </div>
 
       {%- if section.settings.tag_1 != blank -%}
-        <span class="mw-tag mw-hero__tag mw-hero__tag--1">{{ section.settings.tag_1 | escape }}</span>
+        <span class="mw-tag mw-hero__tag mw-hero__tag--1" style="--mw-delay: 0.6s; --mw-depth: 1.4; --mw-float: 4s;">{{ section.settings.tag_1 | escape }}</span>
       {%- endif -%}
       {%- if section.settings.tag_2 != blank -%}
-        <span class="mw-tag mw-hero__tag mw-hero__tag--2">{{ section.settings.tag_2 | escape }}</span>
+        <span class="mw-tag mw-hero__tag mw-hero__tag--2" style="--mw-delay: 0.85s; --mw-depth: 0.9; --mw-float: 4.8s;">{{ section.settings.tag_2 | escape }}</span>
       {%- endif -%}
 
       {%- if chips.size > 0 -%}
@@ -74,7 +74,12 @@
             {%- if chip_col == 0 -%}
               <ul class="mw-hero__chip-row">
             {%- endif -%}
-            <li class="mw-hero__chip" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</li>
+            {%- liquid
+              assign chip_delay = forloop.index0 | times: 0.15 | plus: 1.1
+              assign chip_depth = forloop.index0 | modulo: 3 | times: 0.15 | plus: 0.35
+              assign chip_float = forloop.index0 | modulo: 3 | times: 0.7 | plus: 5
+            -%}
+            <li class="mw-hero__chip" style="--mw-delay: {{ chip_delay }}s; --mw-depth: {{ chip_depth }}; --mw-float: {{ chip_float }}s;" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</li>
             {%- if chip_col == 1 or forloop.last -%}
               </ul>
             {%- endif -%}
@@ -152,6 +157,11 @@
     {%- endif -%}
   </div>
 </section>
+{%- unless section.settings.label_animation == 'none' -%}
+  <script>
+    document.getElementById('MwHero-{{ section.id }}').classList.add('mw-hero--ready');
+  </script>
+{%- endunless -%}
 
 {% schema %}
 {
@@ -205,6 +215,27 @@
       "id": "tag_2",
       "default": "MODERN FORM",
       "label": "Image label 2"
+    },
+    {
+      "type": "select",
+      "id": "label_animation",
+      "label": "Image labels and chips animation",
+      "default": "load",
+      "options": [
+        {
+          "value": "load",
+          "label": "Pop in after page loads"
+        },
+        {
+          "value": "hover",
+          "label": "Appear on image hover"
+        },
+        {
+          "value": "none",
+          "label": "None (always visible)"
+        }
+      ],
+      "info": "Hover only applies on devices with a mouse. Touch screens always show the labels."
     },
     {
       "type": "header",

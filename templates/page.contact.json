@@ -10,20 +10,20 @@
 {
   "sections": {
     "main": {
-      "type": "main-page",
+      "type": "mw-main-page",
       "settings": {
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
+        "show_title": true,
+        "alignment": "left",
+        "max_width": 880
+      },
+      "disabled": true
     },
     "form": {
-      "type": "contact-form",
+      "type": "mw-contact-form",
       "settings": {
-        "heading": "",
-        "heading_size": "h1",
-        "color_scheme": "scheme-1",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "eyebrow": "Contact",
+        "heading": "Reach out",
+        "text": "<p>Our team is always on hand to help, we aim to get to you as soon as we can within office hours, Monday - Friday 9-5pm PKT .Have a question? Hit us up and we'll get back to you within 24 hours (or sooner).</p><h2>Drop us a line</h2>"
       }
     }
   },

@@ -1,0 +1,119 @@
+{{ 'mw-content.css' | asset_url | stylesheet_tag }}
+
+<section class="mw mw-section mw-content" style="{% render 'mw-section-style', section: section %}">
+  <div class="mw-container">
+    <div class="mw-faq mw-faq--{{ section.settings.layout }}">
+      {%- if section.settings.eyebrow != blank or section.settings.heading != blank or section.settings.text != blank -%}
+        <div class="mw-faq__intro">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="mw-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="mw-heading mw-heading--large">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <div class="mw-body">{{ section.settings.text }}</div>
+          {%- endif -%}
+          {%- if section.settings.button_label != blank -%}
+            <div class="mw-buttons">
+              <a href="{{ section.settings.button_link | default: '#' }}" class="mw-arrow-link">
+                <span>{{ section.settings.button_label | escape }}</span>
+                {% render 'mw-icon', name: 'arrow-right' %}
+              </a>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="mw-faq__list">
+        {%- for block in section.blocks -%}
+          <details
+            class="mw-faq__item"
+            {% if section.settings.open_first and forloop.first %}
+              open
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <summary class="mw-faq__question">
+              <span>{{ block.settings.question | escape }}</span>
+              <span class="mw-faq__toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="mw-faq__answer mw-rte">
+              {{ block.settings.answer }}
+              {{ block.settings.page.content }}
+            </div>
+          </details>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} FAQ rich results for search engines {%- endcomment -%}
+{%- if section.blocks.size > 0 -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for block in section.blocks -%}
+          {
+            "@type": "Question",
+            "name": {{ block.settings.question | strip_html | json }},
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": {{ block.settings.answer | append: block.settings.page.content | strip_html | strip | json }}
+            }
+          }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Meldwood FAQ",
+  "tag": "div",
+  "class": "mw-faq-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "default": "Frequently asked", "label": "Eyebrow" },
+    { "type": "inline_richtext", "id": "heading", "default": "Got questions? We got answers", "label": "Heading" },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "text", "id": "button_label", "label": "Link label" },
+    { "type": "url", "id": "button_link", "label": "Link" },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "default": "split",
+      "options": [
+        { "value": "split", "label": "Heading left, questions right" },
+        { "value": "stacked", "label": "Heading on top" }
+      ]
+    },
+    { "type": "checkbox", "id": "open_first", "default": false, "label": "Open the first question" },
+    { "type": "header", "content": "Section style" },
+    { "type": "color", "id": "section_bg", "label": "Background", "info": "Leave empty to use the theme color." },
+    { "type": "range", "id": "space_top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space above" },
+    { "type": "range", "id": "space_bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space below" }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "default": "Question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "default": "<p>Answer</p>", "label": "Answer" },
+        { "type": "page", "id": "page", "label": "Answer from page" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meldwood FAQ",
+      "blocks": [{ "type": "question" }, { "type": "question" }, { "type": "question" }]
+    }
+  ]
+}
+{% endschema %}

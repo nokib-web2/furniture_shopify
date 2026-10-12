@@ -1,12 +1,21 @@
 {% comment %}
   Meldwood design tokens. Every value comes from Theme settings → Meldwood colors /
-  Meldwood typography / Meldwood buttons & cards, so nothing below is hardcoded.
+  Meldwood fonts / Meldwood buttons & cards, so nothing below is hardcoded.
 {% endcomment %}
-{%- if settings.mw_fonts_url != blank -%}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="{{ settings.mw_fonts_url | strip | escape }}">
-{%- endif -%}
+{%- liquid
+  assign font_heading = settings.mw_font_heading | default: 'Bricolage Grotesque' | strip
+  assign font_body = settings.mw_font_body | default: 'Outfit' | strip
+  if settings.mw_fonts_url != blank
+    assign fonts_url = settings.mw_fonts_url | strip
+  else
+    assign heading_family = font_heading | replace: ' ', '+'
+    assign body_family = font_body | replace: ' ', '+'
+    assign fonts_url = 'https://fonts.googleapis.com/css2?family=' | append: heading_family | append: ':wght@400;500;600;700&family=' | append: body_family | append: ':wght@400;500;600;700&display=swap'
+  endif
+-%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="{{ fonts_url | escape }}">
 {{ 'mw-base.css' | asset_url | stylesheet_tag }}
 {%- liquid
   assign text_scale = settings.mw_text_scale | default: 100 | divided_by: 100.0
@@ -34,11 +43,11 @@
     --mw-badge: {{ settings.mw_color_badge | default: '#FF3B30' }};
     --mw-star: {{ settings.mw_color_star | default: '#FF9500' }};
 
-    --mw-font-display: '{{ settings.mw_font_display | default: 'Bricolage Grotesque' }}', sans-serif;
-    --mw-font-body: '{{ settings.mw_font_body | default: 'Outfit' }}', sans-serif;
-    --mw-font-ui: '{{ settings.mw_font_ui | default: 'Inter' }}', sans-serif;
-    --mw-font-card: '{{ settings.mw_font_card | default: 'Plus Jakarta Sans' }}', sans-serif;
-    --mw-font-serif: '{{ settings.mw_font_serif | default: 'Cormorant Garamond' }}', serif;
+    --mw-font-display: '{{ font_heading }}', sans-serif;
+    --mw-font-body: '{{ font_body }}', sans-serif;
+    --mw-font-ui: var(--mw-font-body);
+    --mw-font-card: var(--mw-font-body);
+    --mw-font-serif: var(--mw-font-display);
 
     --mw-ts: {{ text_scale }};
     --mw-btn-radius: {{ settings.mw_button_radius | default: 32 }}px;

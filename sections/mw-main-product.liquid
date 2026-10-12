@@ -80,6 +80,49 @@
               <h1 class="mw-product__title">{{ product.title | escape }}</h1>
             </div>
 
+          {%- when 'rating' -%}
+            {%- liquid
+              assign r_value = product.metafields.reviews.rating.value.rating | default: 0
+              assign r_count = product.metafields.reviews.rating_count.value | default: 0
+              assign r_round = r_value | round
+            -%}
+            {%- if r_count > 0 or block.settings.show_empty -%}
+              <a href="#MwReviews-anchor" class="mw-product__blk mw-product__rating" {{ block.shopify_attributes }}>
+                <span class="mw-product__rating-stars" role="img" aria-label="{{ r_value | round: 1 }} / 5">
+                  {%- for i in (1..5) -%}
+                    <span class="mw-star{% if i > r_round %} is-off{% endif %}"></span>
+                  {%- endfor -%}
+                </span>
+                <span class="mw-product__rating-text">
+                  {%- if r_count > 0 -%}
+                    {{ r_value | round: 1 }} ({{ r_count }} {{ block.settings.reviews_label | escape }})
+                  {%- else -%}
+                    {{ block.settings.empty_label | escape }}
+                  {%- endif -%}
+                </span>
+              </a>
+            {%- endif -%}
+
+          {%- when 'icon_text' -%}
+            <ul class="mw-product__blk mw-product__features" {{ block.shopify_attributes }}>
+              {%- for i in (1..3) -%}
+                {%- liquid
+                  assign img_key = 'image_' | append: i
+                  assign txt_key = 'text_' | append: i
+                  assign feature_image = block.settings[img_key]
+                  assign feature_text = block.settings[txt_key]
+                -%}
+                {%- if feature_text != blank or feature_image != blank -%}
+                  <li class="mw-product__feature">
+                    {%- if feature_image != blank -%}
+                      {{ feature_image | image_url: width: 120 | image_tag: class: 'mw-product__feature-icon', loading: 'lazy', alt: '' }}
+                    {%- endif -%}
+                    <span>{{ feature_text }}</span>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+
           {%- when 'price' -%}
             <div class="mw-product__blk mw-product__blk--price" {{ block.shopify_attributes }}>
               <p class="mw-product__price">
@@ -204,7 +247,9 @@
                   {%- endif -%}
                 </button>
                 {%- if block.settings.show_dynamic_checkout -%}
-                  <div class="mw-product__checkout">{{ form | payment_button }}</div>
+                  <div class="mw-product__checkout" data-mw-checkout{% unless variant.available %} hidden{% endunless %}>
+                    {{- form | payment_button -}}
+                  </div>
                 {%- endif -%}
               {%- endform -%}
             </div>
@@ -380,7 +425,9 @@
     }
   ],
   "blocks": [
-    { "type": "@app" },
+    {
+      "type": "@app"
+    },
     {
       "type": "title",
       "name": "Title",
@@ -392,6 +439,35 @@
       "name": "Price",
       "limit": 1,
       "settings": []
+    },
+    {
+      "type": "rating",
+      "name": "Rating",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows the star rating from your reviews app (Shopify's standard rating metafields)."
+        },
+        {
+          "type": "text",
+          "id": "reviews_label",
+          "default": "reviews",
+          "label": "Reviews label"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_empty",
+          "default": false,
+          "label": "Show when there are no reviews"
+        },
+        {
+          "type": "text",
+          "id": "empty_label",
+          "default": "No reviews yet",
+          "label": "No reviews label"
+        }
+      ]
     },
     {
       "type": "description",
@@ -526,8 +602,14 @@
           "label": "Style",
           "default": "body",
           "options": [
-            { "value": "body", "label": "Body" },
-            { "value": "label", "label": "Uppercase label" }
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "label",
+              "label": "Uppercase label"
+            }
           ]
         }
       ]
@@ -585,6 +667,45 @@
           "id": "custom_liquid",
           "label": "Custom Liquid",
           "info": "Add app snippets or other Liquid code."
+        }
+      ]
+    },
+    {
+      "type": "icon_text",
+      "name": "Feature icons",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Icon 1"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text_1",
+          "default": "<strong>2 Minute Assembly</strong>",
+          "label": "Text 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Icon 2"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text_2",
+          "default": "<strong>Fast Free Shipping</strong>",
+          "label": "Text 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Icon 3"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text_3",
+          "default": "<strong>No-Hassle Returns</strong>",
+          "label": "Text 3"
         }
       ]
     }

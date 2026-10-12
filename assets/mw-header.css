@@ -229,7 +229,7 @@
   }
 
   .mw-header__logo {
-    width: calc(248 * var(--mw-u));
+    width: calc(var(--mw-logo-w, 248) * var(--mw-u));
   }
 
   .mw-header__nav {

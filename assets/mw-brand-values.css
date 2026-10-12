@@ -40,7 +40,7 @@
 
 .mw-values__story-title {
   color: var(--mw-ink);
-  font-family: var(--mw-font-ui);
+  font-family: var(--mw-font-display);
   font-weight: 400;
 }
 
@@ -134,6 +134,11 @@
   justify-content: center;
   background: var(--mw-dark);
   text-align: center;
+}
+
+.mw-values__identity-logo--img {
+  max-width: 100%;
+  object-fit: contain;
 }
 
 .mw-values__identity-logo {
@@ -271,7 +276,7 @@
 
 .mw-values__lifestyle-title {
   color: var(--mw-on-dark);
-  font-family: var(--mw-font-ui);
+  font-family: var(--mw-font-display);
   font-weight: 500;
   line-height: 1.3;
 }
@@ -300,7 +305,7 @@
   }
 
   .mw-values__heading {
-    font-family: var(--mw-font-ui);
+    font-family: var(--mw-font-display);
     font-weight: 500;
     font-size: calc(calc(65 * var(--mw-u)) * var(--mw-ts, 1));
     line-height: calc(65 * var(--mw-u));
@@ -415,13 +420,20 @@
   }
 
   .mw-values__identity {
+    flex: none;
     gap: calc(8 * var(--mw-u));
-    padding: calc(40 * var(--mw-u)) calc(53.95 * var(--mw-u));
+    height: calc(130 * var(--mw-u));
+    padding: 0 calc(53.95 * var(--mw-u));
     filter: drop-shadow(0 13.487px 14.835px rgba(18, 19, 22, 0.07));
   }
 
   .mw-values__identity-logo {
     width: calc(248 * var(--mw-u));
+  }
+
+  .mw-values__identity-logo--img {
+    width: auto;
+    height: calc(var(--mw-identity-logo-h, 50) * var(--mw-u));
   }
 
   .mw-values__identity-tagline {
@@ -627,6 +639,11 @@
     max-width: 100%;
   }
 
+  .mw-values__identity-logo--img {
+    width: auto;
+    height: min(calc(var(--mw-identity-logo-h, 50) * 0.8px), 56px);
+  }
+
   .mw-values__identity-tagline {
     font-size: calc(16px * var(--mw-ts, 1));
   }
@@ -708,7 +725,7 @@
   }
 
   .mw-values__heading {
-    font-family: var(--mw-font-ui);
+    font-family: var(--mw-font-display);
     font-weight: 400;
     font-size: calc(32px * var(--mw-ts, 1));
     line-height: 38px;
@@ -826,6 +843,22 @@
     letter-spacing: 0.8px;
   }
 
+  .mw-values__identity--image {
+    min-height: 114px;
+    padding-block: 24px;
+  }
+
+  .mw-values__identity--image .mw-values__identity-logo--img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: calc(var(--mw-identity-logo-h, 50) * 0.8px);
+  }
+
+  .mw-values__identity--image .mw-values__identity-text {
+    display: none;
+  }
+
   .mw-values__identity-tagline {
     font-size: calc(11px * var(--mw-ts, 1));
     letter-spacing: 0.22px;
@@ -871,5 +904,52 @@
 
   .mw-values__lifestyle-btn {
     display: none;
+  }
+}
+
+/* Optional logo icon on the brand card */
+.mw-values__identity-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.mw-values__identity--icon-top .mw-values__identity-brand {
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mw-values__identity-icon {
+  display: block;
+  flex: none;
+  width: calc(var(--mw-identity-icon, 40) * 1px);
+  height: auto;
+}
+
+@media screen and (min-width: 1200px) {
+  .mw-values__identity-icon {
+    width: calc(var(--mw-identity-icon, 40) * var(--mw-u));
+  }
+
+  .mw-values__identity-brand {
+    gap: calc(16 * var(--mw-u));
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 1199px) {
+  .mw-values__identity--icon-top {
+    height: auto;
+    padding-block: 24px;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .mw-values__identity-brand {
+    display: contents;
+  }
+
+  .mw-values__identity-icon {
+    width: calc(var(--mw-identity-icon, 40) * 0.8px);
   }
 }

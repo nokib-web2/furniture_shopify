@@ -55,7 +55,7 @@
         "cat_2": {
           "type": "category",
           "settings": {
-            "collection": "",
+            "collection": "tool-free-modern-furniture",
             "label": "Minimalist",
             "icon": "sleeper-chair",
             "badge": "none",
@@ -65,7 +65,7 @@
         "cat_3": {
           "type": "category",
           "settings": {
-            "collection": "",
+            "collection": "parametric",
             "label": "Parametric",
             "icon": "rocking-chair",
             "badge": "coming_soon",
@@ -75,7 +75,7 @@
         "cat_4": {
           "type": "category",
           "settings": {
-            "collection": "",
+            "collection": "home-decor",
             "label": "Home decor",
             "icon": "lamp",
             "badge": "coming_soon",
@@ -86,14 +86,14 @@
           "type": "filter",
           "settings": {
             "label": "New Arrival",
-            "link": ""
+            "link": "/collections/all?sort_by=created-descending"
           }
         },
         "filter_2": {
           "type": "filter",
           "settings": {
             "label": "Best Seller",
-            "link": ""
+            "link": "/collections/all?sort_by=best-selling"
           }
         },
         "filter_3": {

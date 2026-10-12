@@ -13,6 +13,7 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-1",
         "newsletter_enable": true,
@@ -26,8 +27,7 @@
         "margin_top": 0,
         "padding_top": 36,
         "padding_bottom": 36
-      },
-      "disabled": true
+      }
     },
     "mw-footer": {
       "type": "mw-footer",
@@ -36,19 +36,28 @@
           "type": "menu",
           "settings": {
             "heading": "QUICK LINKS",
-            "menu": "footer"
+            "menu": "quick-link"
           }
         },
         "menu_2": {
           "type": "menu",
           "settings": {
             "heading": "Our Story",
-            "menu": ""
+            "menu": "our-story"
           }
         },
         "social_1": {
           "type": "social",
-          "settings": {}
+          "settings": {
+            "heading": "Follow Us",
+            "text": "Get inspiration, discover new pieces, and see what we're making on social.",
+            "label_1": "Instagram",
+            "url_1": "https://www.instagram.com/meldwood.studio",
+            "label_2": "Facebook",
+            "url_2": "https://www.facebook.com/share/1Ks46ZsqCx/?mibextid=wwXIfr",
+            "label_3": "TikTok",
+            "url_3": "https://www.tiktok.com/@meldwood.studio"
+          }
         }
       },
       "block_order": [
@@ -56,7 +65,13 @@
         "menu_2",
         "social_1"
       ],
-      "settings": {}
+      "settings": {
+        "newsletter_heading": "Newsletter",
+        "newsletter_placeholder": "monemail@mail.com",
+        "newsletter_text": "Sign up to get our latest tutorials and to learn about our upcoming products. Plus some specials from time to time.",
+        "copyright": "2026 MELDWOOD. ALL RIGHTS RESERVED.",
+        "section_bg": ""
+      }
     }
   },
   "order": [

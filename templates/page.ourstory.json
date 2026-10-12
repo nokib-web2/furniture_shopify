@@ -1,0 +1,507 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "mw-main-page",
+      "settings": {
+        "show_title": true,
+        "alignment": "left",
+        "max_width": 880
+      },
+      "disabled": true
+    },
+    "rich_text_gfmdfy": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "heading_RahQDc": {
+          "type": "heading",
+          "settings": {
+            "heading": "Furniture <em>left Raw </em>— on purpose.",
+            "size": "display",
+            "tag": "h1"
+          }
+        },
+        "text_iReqDd": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Real wood. Zero tools. Built by hand in Pakistan. Sold raw so your story shows.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_RahQDc",
+        "text_iReqDd"
+      ],
+      "settings": {
+        "alignment": "center",
+        "max_width": 1110,
+        "card": false
+      }
+    },
+    "image_banner_eWLCG9": {
+      "type": "mw-image-banner",
+      "settings": {
+        "image": "shopify://shop_images/Gemini_Generated_Image_2m2wub2m2wub2m2w.webp",
+        "height": 640
+      }
+    },
+    "rich_text_h9CUhL": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "text_Ckcjhc": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Meldwood started with a simple frustration: furniture shouldn't need 47 screws, an Allen wrench, and a lost Sunday afternoon to put together — and it definitely shouldn't fall apart the first time you move.</p><p>So we threw out the playbook. Every piece we make assembles in under two minutes with zero tools, uses real furniture-grade imported plywood instead of particleboard, and ships raw — so the final look is entirely yours. Furniture built on simplicity, strength, and timeless design, we still cut and pack every order ourselves from our small workshop in Pakistan.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_Ckcjhc"
+      ],
+      "settings": {
+        "alignment": "center",
+        "max_width": 1110,
+        "card": false
+      }
+    },
+    "multicolumn_gKHxAR": {
+      "type": "mw-columns",
+      "blocks": {
+        "column_kHcMhP": {
+          "type": "column",
+          "settings": {
+            "title": "Assembly ~2 minutes",
+            "text": "<p>Interlocking joints. No hardware, no instructions needed.</p>",
+            "new_tab": false
+          }
+        },
+        "column_cn33ER": {
+          "type": "column",
+          "settings": {
+            "title": "Furniture-grade Imported Plywood",
+            "text": "<p>Furniture-grade plywood. Cross-laminated for strength.</p>",
+            "new_tab": false
+          }
+        },
+        "column_eMahdf": {
+          "type": "column",
+          "settings": {
+            "title": "Finish Left raw",
+            "text": "<p>Stain, paint, or leave it. No factory coatings.</p>",
+            "new_tab": false
+          }
+        },
+        "column_tChRRJ": {
+          "type": "column",
+          "disabled": true,
+          "settings": {
+            "title": "Origin Rawalpindi",
+            "text": "<p>CNC-cut and hand-finished in one small workshop.</p>",
+            "new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "column_kHcMhP",
+        "column_cn33ER",
+        "column_eMahdf",
+        "column_tChRRJ"
+      ],
+      "settings": {
+        "heading_size": "large",
+        "heading_alignment": "center",
+        "columns": 3,
+        "style": "cards",
+        "image_style": "photo"
+      }
+    },
+    "image_with_text_pqK67e": {
+      "type": "mw-image-text",
+      "blocks": {
+        "heading_Q7j98A": {
+          "type": "heading",
+          "settings": {
+            "heading": "Real <em>plywood</em>, not particle board.",
+            "size": "large"
+          }
+        },
+        "text_fDVLCz": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We use furniture-grade imported plywood  — the same material that goes into speaker cabinets, skate ramps, and museum exhibits. Cross-laminated veneers at alternating 90-degree angles. It doesn't warp. It doesn't sag. It holds joints better than anything else on the market.</p><p>You can sand it, stain it, paint it, or leave it raw. However you finish it, the bones are solid.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_Q7j98A",
+        "text_fDVLCz"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/11_0e54cd02-0e5d-456b-b3cc-a3059868ee94.webp",
+        "image_position": "left",
+        "image_ratio": "1",
+        "card": false
+      }
+    },
+    "rich_text_VE7KfG": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "heading_3EbP9P": {
+          "type": "heading",
+          "settings": {
+            "heading": "\"Every one of us is born with a drive to create — to shape the world around us. We just make the canvas. <em>You make it yours.</em>\"",
+            "size": "display",
+            "tag": "h2"
+          }
+        },
+        "text_RpRPxe": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Syed Wasi Mehmood, Founder<br/><br/></p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_3EbP9P",
+        "text_RpRPxe"
+      ],
+      "settings": {
+        "alignment": "center",
+        "max_width": 1110,
+        "card": false
+      },
+      "disabled": true
+    },
+    "image_with_text_YpgAgj": {
+      "type": "mw-image-text",
+      "blocks": {
+        "heading_nwkRkk": {
+          "type": "heading",
+          "settings": {
+            "heading": "Two minutes. <em>Zero tools.</em> Every time.",
+            "size": "large"
+          }
+        },
+        "text_Kdtwbc": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Our interlocking joint system means no screws, no cam locks, no Allen wrenches. Slide the pieces together and you're done. A kid can do it — and they do.</p><p>This isn't just about convenience. Tool-free assembly means you can take it apart just as easily. Moving across the country? Flat-pack it, ship it, rebuild it in two minutes. Your furniture survives as many moves as you do.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_nwkRkk",
+        "text_Kdtwbc"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Lounge_Chair-_Green.jpg",
+        "image_position": "right",
+        "image_ratio": "1",
+        "card": false
+      }
+    },
+    "image_banner_pV3mmt": {
+      "type": "mw-image-banner",
+      "settings": {
+        "image": "shopify://shop_images/1_2bad113a-28ae-4661-8a0b-61340add0a94.webp",
+        "height": 640
+      }
+    },
+    "image_with_text_3tVxHQ": {
+      "type": "mw-image-text",
+      "blocks": {
+        "heading_RLPeN8": {
+          "type": "heading",
+          "settings": {
+            "heading": "Raw <em>on purpose.</em>",
+            "size": "large"
+          }
+        },
+        "text_UrYxEN": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We ship every piece raw. No factory paint. No mystery coatings. No off-gassing chemicals. Just clean wood, ready for whatever you dream up.</p><p>Stain it walnut for a mid-century look. Chalk-paint it for a farmhouse vibe. Let your kids color it with markers. Or leave it exactly as it is — the natural grain is beautiful on its own. Your space, your rules.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_RLPeN8",
+        "text_UrYxEN"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/5_940dc88a-3202-4075-b7e9-42534836c11e.webp",
+        "image_position": "left",
+        "image_ratio": "1",
+        "card": false
+      }
+    },
+    "featured_collection_b3cgBf": {
+      "type": "mw-best-sellers",
+      "settings": {
+        "heading": "This is what you've built.",
+        "subheading": "Same furniture, a thousand different stories. Proof that \"unfinished\" is only ever the beginning",
+        "collection": "most-loved",
+        "products_to_show": 4,
+        "link_label": "View All"
+      }
+    },
+    "multicolumn_xrFLta": {
+      "type": "mw-columns",
+      "blocks": {
+        "column_tprGtz": {
+          "type": "column",
+          "settings": {
+            "title": "No Tools Required",
+            "text": "<p>Our interlocking joint system means no hardware, no frustration, no stripped screws.</p>",
+            "new_tab": false
+          }
+        },
+        "column_AFiAYU": {
+          "type": "column",
+          "disabled": true,
+          "settings": {
+            "title": "17,000+ Homes Furnished",
+            "text": "<p>Real plywood in real homes. We earn trust one piece at a time.</p>",
+            "new_tab": false
+          }
+        },
+        "column_Q6kECc": {
+          "type": "column",
+          "settings": {
+            "title": "100% Made in Pakistan",
+            "text": "<p>We cut, sand, and pack every order ourselves. No overseas factories.</p>",
+            "new_tab": false
+          }
+        },
+        "column_r7xDzB": {
+          "type": "column",
+          "settings": {
+            "title": "7 Day Returns",
+            "text": "<p>Free shipping on orders over 25,000 PKR. Easy returns for same condition if it's not right.</p>",
+            "new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "column_tprGtz",
+        "column_AFiAYU",
+        "column_Q6kECc",
+        "column_r7xDzB"
+      ],
+      "settings": {
+        "heading": "What we <em>stand on.</em>",
+        "heading_size": "large",
+        "heading_alignment": "center",
+        "columns": 3,
+        "style": "cards",
+        "image_style": "photo"
+      }
+    },
+    "image_with_text_7bHfqH": {
+      "type": "mw-image-text",
+      "blocks": {
+        "heading_wnatbY": {
+          "type": "heading",
+          "settings": {
+            "heading": "Small <em>workshop.</em> No shortcuts.",
+            "size": "large"
+          }
+        },
+        "text_bHGgJq": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We're not a warehouse operation. Every piece of Meldwood furniture is cut on a CNC machine, hand-sanded, quality-checked, and packed by a small team right here in Pakistan.</p><p>That short supply chain means fewer emissions, less waste, and direct quality control. If a sheet of plywood doesn't meet our standards, it never becomes a product. Simple as that.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_wnatbY",
+        "text_bHGgJq"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/4_7c57513a-31e0-4905-b524-f115d9aa3da9.webp",
+        "image_position": "right",
+        "image_ratio": "1",
+        "card": false
+      }
+    },
+    "collapsible_content_VHYXqq": {
+      "type": "mw-faq",
+      "blocks": {
+        "collapsible_row_kYFhn9": {
+          "type": "question",
+          "settings": {
+            "question": "What is Meldwood  furniture?",
+            "answer": "<p>Meldwood is a Rawalpindi based furniture brand that makes tool-free, flat-pack pieces from real Baltic-birch plywood. Every piece ships raw and assembles in about two minutes using an interlocking joint system — no screws, no hardware, no instructions.</p>"
+          }
+        },
+        "collapsible_row_b7D69p": {
+          "type": "question",
+          "settings": {
+            "question": "Why is Meldwood furniture sold unfinished?",
+            "answer": "<p>Because the \"right\" finish is whatever fits your space. Shipping raw means no factory paint, no mystery coatings, and no off-gassing chemicals. You can stain it, paint it, or leave it completely natural. Same piece, a thousand different homes.</p>"
+          }
+        },
+        "collapsible_row_6ETUYc": {
+          "type": "question",
+          "settings": {
+            "question": "Does Meldwood furniture need tools to assemble?",
+            "answer": "<p>No. Every Meldwood piece uses an interlocking joint system that slides together in under two minutes. No screws, no Allen wrenches, no cam locks. Disassembly works the same way, so your furniture moves with you.</p>"
+          }
+        },
+        "collapsible_row_XGRCTb": {
+          "type": "question",
+          "settings": {
+            "question": "What is Meldwood furniture made of?",
+            "answer": "<p>Furniture-grade Baltic-birch plywood — the same cross-laminated material used in speaker cabinets and museum fixtures. Unlike particleboard or MDF, it won't swell, warp, or sag. The grain is visible throughout the edges, which is part of the look.</p>"
+          }
+        },
+        "collapsible_row_ECW4QA": {
+          "type": "question",
+          "disabled": true,
+          "settings": {
+            "question": "Is UNFNSHED furniture made in the Pakistan?",
+            "answer": "<p>Yes. Every piece is CNC-cut, hand-sanded, quality-checked, and packed in our small workshop in Rawalpindi. No overseas factories and no middlemen.</p>"
+          }
+        },
+        "collapsible_row_wpYKd8": {
+          "type": "question",
+          "settings": {
+            "question": "Who founded Meldwood?",
+            "answer": "<p>Meldwood was founded by Syed Wasi, who started the company to prove that well-made furniture doesn't need tools, particleboard, or a pre-picked color. The team is small and operates out of a single Rawalpindi.</p>"
+          }
+        },
+        "collapsible_row_BdFKiN": {
+          "type": "question",
+          "settings": {
+            "question": "Does Meldowod offer free shipping and returns?",
+            "answer": "<p>Free shipping on orders over 20,000 within the Pakistan, and a 14-day return window if a piece isn't right for your space. Because everything ships flat-pack, returns are painless.</p>"
+          }
+        },
+        "collapsible_row_XmR6ah": {
+          "type": "question",
+          "settings": {
+            "question": "Can I see how other customers have finished their Meldwood pieces?",
+            "answer": "<p>Yes — our custom er creations gallery has walnut stains, chalk paint, kid-drawn stools, and plenty of raw builds. Real homes, real finishes, no stylists.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_kYFhn9",
+        "collapsible_row_b7D69p",
+        "collapsible_row_6ETUYc",
+        "collapsible_row_XGRCTb",
+        "collapsible_row_ECW4QA",
+        "collapsible_row_wpYKd8",
+        "collapsible_row_BdFKiN",
+        "collapsible_row_XmR6ah"
+      ],
+      "settings": {
+        "eyebrow": "Frequently Asked",
+        "heading": "The <em>short version. </em>",
+        "layout": "split",
+        "open_first": false
+      }
+    },
+    "rich_text_zDJpPP": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "heading_eLdxbK": {
+          "type": "heading",
+          "settings": {
+            "heading": "Pick a piece. <em>Make it yours.</em>",
+            "size": "display",
+            "tag": "h2"
+          }
+        },
+        "text_LyRx7J": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Browse the full collection, explore finish ideas, or see what modern homes have already built.</p>"
+          }
+        },
+        "button_aaCYxD": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Most Loved",
+            "button_link": "shopify://collections/most-loved",
+            "button_style": "secondary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_eLdxbK",
+        "text_LyRx7J",
+        "button_aaCYxD"
+      ],
+      "settings": {
+        "alignment": "center",
+        "max_width": 1110,
+        "card": false
+      }
+    },
+    "rich_text_Czn4jJ": {
+      "type": "mw-rich-text",
+      "blocks": {
+        "heading_Ftzyz8": {
+          "type": "heading",
+          "settings": {
+            "heading": "Work with <em>us.</em>",
+            "size": "display",
+            "tag": "h2"
+          }
+        },
+        "text_t6gMqF": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Creator, stylist, retailer, or brand partner — we’re open to the right collaborations.</p>"
+          }
+        },
+        "button_twmGfT": {
+          "type": "buttons",
+          "settings": {
+            "button_label": "Get in Touch",
+            "button_link": "shopify://pages/contact",
+            "button_style": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_Ftzyz8",
+        "text_t6gMqF",
+        "button_twmGfT"
+      ],
+      "settings": {
+        "alignment": "center",
+        "max_width": 1110,
+        "card": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_gfmdfy",
+    "image_banner_eWLCG9",
+    "rich_text_h9CUhL",
+    "multicolumn_gKHxAR",
+    "image_with_text_pqK67e",
+    "rich_text_VE7KfG",
+    "image_with_text_YpgAgj",
+    "image_banner_pV3mmt",
+    "image_with_text_3tVxHQ",
+    "featured_collection_b3cgBf",
+    "multicolumn_xrFLta",
+    "image_with_text_7bHfqH",
+    "collapsible_content_VHYXqq",
+    "rich_text_zDJpPP",
+    "rich_text_Czn4jJ"
+  ]
+}

@@ -1,0 +1,85 @@
+{{ 'mw-content.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign current_article_id = article.id
+  assign blog = section.settings.blog
+-%}
+
+<section class="mw mw-section mw-content" style="{% render 'mw-section-style', section: section %}">
+  <div class="mw-container mw-content__inner">
+    {%- if section.settings.heading != blank or section.settings.text != blank or section.settings.view_all_label != blank -%}
+      <div class="mw-posts__header">
+        <div class="mw-posts__header-text">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="mw-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="mw-heading mw-heading--{{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <div class="mw-body">{{ section.settings.text }}</div>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.view_all_label != blank and blog != blank -%}
+          <a href="{{ blog.url }}" class="mw-arrow-link">
+            <span>{{ section.settings.view_all_label | escape }}</span>
+            {% render 'mw-icon', name: 'arrow-right' %}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if blog != blank and blog.articles.size > 0 -%}
+      <div class="mw-posts__grid" style="--mw-cols: {{ section.settings.columns }};">
+        {%- for article in blog.articles limit: section.settings.post_limit -%}
+          {%- unless article.id == current_article_id -%}
+            {% render 'mw-post-card',
+              article: article,
+              show_date: section.settings.show_date,
+              show_excerpt: section.settings.show_excerpt,
+              read_more: section.settings.read_more_label
+            %}
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+    {%- elsif request.design_mode -%}
+      <p class="mw-body">Choose a blog with published articles in the section settings.</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood blog posts",
+  "tag": "div",
+  "class": "mw-featured-blog-section",
+  "settings": [
+    { "type": "blog", "id": "blog", "label": "Blog" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "inline_richtext", "id": "heading", "default": "Latest articles", "label": "Heading" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "medium",
+      "options": [
+        { "value": "display", "label": "Display" },
+        { "value": "large", "label": "Large" },
+        { "value": "medium", "label": "Medium" }
+      ]
+    },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "range", "id": "post_limit", "min": 2, "max": 12, "step": 1, "default": 3, "label": "Number of posts" },
+    { "type": "range", "id": "columns", "min": 2, "max": 4, "step": 1, "default": 3, "label": "Columns on desktop" },
+    { "type": "checkbox", "id": "show_date", "default": true, "label": "Show date" },
+    { "type": "checkbox", "id": "show_excerpt", "default": true, "label": "Show excerpt" },
+    { "type": "text", "id": "read_more_label", "default": "Read more", "label": "Read more label" },
+    { "type": "text", "id": "view_all_label", "default": "View all", "label": "View all label" },
+    { "type": "header", "content": "Section style" },
+    { "type": "color", "id": "section_bg", "label": "Background", "info": "Leave empty to use the theme color." },
+    { "type": "range", "id": "space_top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space above" },
+    { "type": "range", "id": "space_bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space below" }
+  ],
+  "presets": [{ "name": "Meldwood blog posts" }]
+}
+{% endschema %}

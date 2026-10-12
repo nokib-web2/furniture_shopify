@@ -12,6 +12,10 @@
     "main": {
       "type": "mw-main-product",
       "blocks": {
+        "judge_me_reviews_preview_badge_tUjnXN": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
         "title": {
           "type": "title",
           "settings": {}
@@ -28,7 +32,9 @@
         },
         "variant_picker": {
           "type": "variant_picker",
-          "settings": {}
+          "settings": {
+            "swatch_map": ""
+          }
         },
         "buy_buttons": {
           "type": "buy_buttons",
@@ -36,7 +42,7 @@
             "show_quantity": true,
             "add_to_cart_label": "Add to Cart",
             "sold_out_label": "Sold out",
-            "show_dynamic_checkout": false
+            "show_dynamic_checkout": true
           }
         },
         "divider": {
@@ -45,10 +51,19 @@
         },
         "meta": {
           "type": "meta",
-          "settings": {}
+          "settings": {
+            "sku_label": "SKU",
+            "category_label": "Category",
+            "tags_label": "Tags",
+            "share_label": "Share",
+            "show_instagram": true,
+            "instagram_url": "",
+            "show_facebook": true
+          }
         }
       },
       "block_order": [
+        "judge_me_reviews_preview_badge_tUjnXN",
         "title",
         "price",
         "description",
@@ -59,11 +74,28 @@
       ],
       "settings": {
         "show_arrows": true,
-        "show_thumbnails": true
+        "show_thumbnails": true,
+        "section_bg": "",
+        "space_top": 0,
+        "space_bottom": 0
       }
     },
     "mw_reviews": {
       "type": "mw-product-reviews",
+      "blocks": {
+        "judge_me_reviews_review_widget_CnbpiC": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": true,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_CnbpiC"
+      ],
       "settings": {
         "heading": "Rating & Reviews",
         "empty_title": "No reviews found - be the first to review",

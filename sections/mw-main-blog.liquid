@@ -1,0 +1,107 @@
+{{ 'mw-content.css' | asset_url | stylesheet_tag }}
+{{ 'mw-collection.css' | asset_url | stylesheet_tag }}
+
+<section class="mw mw-section mw-content" style="{% render 'mw-section-style', section: section %}">
+  <div class="mw-container mw-content__inner">
+    <div class="mw-page-header mw-page-header--{{ section.settings.alignment }}">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="mw-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 class="mw-heading mw-heading--display">{{ blog.title | escape }}</h1>
+      {%- if section.settings.text != blank -%}
+        <div class="mw-body">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- paginate blog.articles by section.settings.posts_per_page -%}
+      {%- if blog.articles.size > 0 -%}
+        <div class="mw-posts__grid" style="--mw-cols: {{ section.settings.columns }};">
+          {%- for article in blog.articles -%}
+            {% render 'mw-post-card',
+              article: article,
+              show_date: section.settings.show_date,
+              show_excerpt: section.settings.show_excerpt,
+              read_more: section.settings.read_more_label
+            %}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <p class="mw-body">{{ section.settings.empty_text | escape }}</p>
+      {%- endif -%}
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="mw-pagination" aria-label="{{ 'general.pagination.label' | t }}">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" class="mw-pagination__step">
+              {% render 'mw-icon', name: 'arrow-up', class: 'mw-rot--90' %}
+              <span>{{ section.settings.previous_label | escape }}</span>
+            </a>
+          {%- else -%}
+            <span class="mw-pagination__step is-disabled">
+              {% render 'mw-icon', name: 'arrow-up', class: 'mw-rot--90' %}
+              <span>{{ section.settings.previous_label | escape }}</span>
+            </span>
+          {%- endif -%}
+          <ul class="mw-pagination__pages">
+            {%- for part in paginate.parts -%}
+              <li>
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="mw-pagination__page">{{ part.title }}</a>
+                {%- elsif part.title == paginate.current_page -%}
+                  <span class="mw-pagination__page is-current" aria-current="page">{{ part.title }}</span>
+                {%- else -%}
+                  <span class="mw-pagination__page mw-pagination__page--gap">...</span>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" class="mw-pagination__step">
+              <span>{{ section.settings.next_label | escape }}</span>
+              {% render 'mw-icon', name: 'arrow-up', class: 'mw-rot-90' %}
+            </a>
+          {%- else -%}
+            <span class="mw-pagination__step is-disabled">
+              <span>{{ section.settings.next_label | escape }}</span>
+              {% render 'mw-icon', name: 'arrow-up', class: 'mw-rot-90' %}
+            </span>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood blog",
+  "tag": "div",
+  "class": "mw-main-blog-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "default": "Journal", "label": "Eyebrow" },
+    { "type": "richtext", "id": "text", "label": "Intro text" },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Heading alignment",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    { "type": "range", "id": "posts_per_page", "min": 3, "max": 24, "step": 3, "default": 9, "label": "Posts per page" },
+    { "type": "range", "id": "columns", "min": 2, "max": 4, "step": 1, "default": 3, "label": "Columns on desktop" },
+    { "type": "checkbox", "id": "show_date", "default": true, "label": "Show date" },
+    { "type": "checkbox", "id": "show_excerpt", "default": true, "label": "Show excerpt" },
+    { "type": "text", "id": "read_more_label", "default": "Read more", "label": "Read more label" },
+    { "type": "text", "id": "empty_text", "default": "No articles yet. Check back soon.", "label": "Empty blog text" },
+    { "type": "text", "id": "previous_label", "default": "Previous", "label": "Pagination previous label" },
+    { "type": "text", "id": "next_label", "default": "Next", "label": "Pagination next label" },
+    { "type": "header", "content": "Section style" },
+    { "type": "color", "id": "section_bg", "label": "Background", "info": "Leave empty to use the theme color." },
+    { "type": "range", "id": "space_top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space above" },
+    { "type": "range", "id": "space_bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space below" }
+  ]
+}
+{% endschema %}
