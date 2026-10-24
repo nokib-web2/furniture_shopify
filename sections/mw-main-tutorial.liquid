@@ -1,0 +1,79 @@
+{{ 'mw-content.css' | asset_url | stylesheet_tag }}
+{{ 'mw-tutorials.css' | asset_url | stylesheet_tag }}
+{{ 'mw-shop-card.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mw-product.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign tutorial = metaobject
+  assign t_title = tutorial.title.value | default: tutorial.system.handle
+  assign t_category = tutorial.category.value
+  assign t_duration = tutorial.duration.value
+  assign products = tutorial.products.value
+-%}
+
+<section class="mw mw-section mw-content mw-tutorial-page" style="{% render 'mw-section-style', section: section %}">
+  <article class="mw-container mw-content__inner">
+    <div class="mw-page-header mw-page-header--center">
+      {%- if section.settings.back_label != blank -%}
+        <a href="{{ section.settings.back_link | default: '/pages/tutorials' }}" class="mw-article__back">← {{ section.settings.back_label | escape }}</a>
+      {%- endif -%}
+      {%- if t_category != blank or t_duration != blank -%}
+        <p class="mw-eyebrow">
+          {{- t_category | escape -}}
+          {%- if t_category != blank and t_duration != blank %} · {% endif -%}
+          {{- t_duration | escape -}}
+        </p>
+      {%- endif -%}
+      <h1 class="mw-heading mw-heading--display">{{ t_title | escape }}</h1>
+    </div>
+
+    <div class="mw-tutorial-page__player">
+      {%- capture player -%}{% render 'mw-tutorial-player', tutorial: tutorial, autoplay: false %}{%- endcapture -%}
+      {%- if player != blank -%}
+        {{ player }}
+      {%- elsif tutorial.cover.value != blank -%}
+        <span class="mw-media mw-tutorial-page__cover">
+          {{ tutorial.cover.value | image_url: width: 2000 | image_tag: loading: 'eager', sizes: '100vw', widths: '750, 1100, 1500, 2000' }}
+        </span>
+      {%- endif -%}
+    </div>
+
+    {%- if tutorial.description.value != blank -%}
+      <div class="mw-page-body mw-page-body--center mw-rte">
+        {%- if tutorial.description.type == 'rich_text_field' -%}
+          {{ tutorial.description | metafield_tag }}
+        {%- else -%}
+          <p>{{ tutorial.description.value | escape | newline_to_br }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if products.size > 0 and section.settings.products_heading != blank -%}
+      <div class="mw-tutorial-page__products">
+        <h2 class="mw-heading mw-heading--medium">{{ section.settings.products_heading | escape }}</h2>
+        <ul class="mw-tutorial-page__products-grid">
+          {%- for p in products limit: 3 -%}
+            <li>{% render 'mw-shop-card', product: p, size: 'md', sizes: '(min-width: 1200px) 25vw, (min-width: 750px) 45vw, 100vw' %}</li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  </article>
+</section>
+
+{% schema %}
+{
+  "name": "Meldwood tutorial",
+  "tag": "div",
+  "class": "mw-main-tutorial-section",
+  "settings": [
+    { "type": "text", "id": "back_label", "default": "All tutorials", "label": "Back link label" },
+    { "type": "url", "id": "back_link", "label": "Back link", "info": "Defaults to /pages/tutorials." },
+    { "type": "text", "id": "products_heading", "default": "Shop this product", "label": "Products heading", "info": "Shows the tutorial's linked products. Leave empty to hide." },
+    { "type": "header", "content": "Section style" },
+    { "type": "color", "id": "section_bg", "label": "Background", "info": "Leave empty to use the theme color." },
+    { "type": "range", "id": "space_top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space above" },
+    { "type": "range", "id": "space_bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space below" }
+  ]
+}
+{% endschema %}

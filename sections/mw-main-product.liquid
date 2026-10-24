@@ -1,14 +1,23 @@
 {{ 'mw-product.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'mw-product.js' | asset_url }}" defer="defer"></script>
+{%- assign tutorial_blocks = section.blocks | where: 'type', 'tutorial_link' -%}
+{%- if tutorial_blocks.size > 0 -%}
+  {{ 'mw-tutorials.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'mw-video.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 {%- liquid
   assign variant = product.selected_or_first_available_variant
   assign featured_media_id = variant.featured_media.id | default: product.featured_media.id
 -%}
 
-<section class="mw mw-section mw-product" id="MwProduct-{{ section.id }}" style="{% render 'mw-section-style', section: section %}">
+<section
+  class="mw mw-section mw-product"
+  id="MwProduct-{{ section.id }}"
+  style="{% render 'mw-section-style', section: section %} --mw-media-fit: {{ section.settings.media_fit | default: 'contain' }}; --mw-thumb-fit: {{ section.settings.thumb_fit | default: 'contain' }}; --mw-media-h: {{ section.settings.media_height | default: 480 }};"
+>
   <mw-product class="mw-product__inner" data-url="{{ product.url }}">
-    <div class="mw-product__gallery">
+    <div class="mw-product__gallery{% if section.settings.media_backdrop == 'blur' %} mw-product__gallery--blur{% endif %}">
       <div class="mw-product__main">
         {%- for media in product.media -%}
           <div
@@ -18,6 +27,9 @@
               hidden
             {% endunless %}
           >
+            {%- if section.settings.media_backdrop == 'blur' -%}
+              {{ media.preview_image | image_url: width: 160 | image_tag: class: 'mw-product__backdrop', loading: 'lazy', alt: '', aria-hidden: 'true' }}
+            {%- endif -%}
             {{
               media.preview_image
               | image_url: width: 2400
@@ -52,6 +64,9 @@
                 data-mw-thumb="{{ media.id }}"
                 aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index }}"
               >
+                {%- if section.settings.media_backdrop == 'blur' -%}
+                  {{ media.preview_image | image_url: width: 80 | image_tag: class: 'mw-product__backdrop', loading: 'lazy', alt: '', aria-hidden: 'true' }}
+                {%- endif -%}
                 {{
                   media.preview_image
                   | image_url: width: 600
@@ -123,6 +138,58 @@
               {%- endfor -%}
             </ul>
 
+          {%- when 'tutorial_link' -%}
+            {%- liquid
+              assign tutorial = product.metafields.custom.tutorials.value | first
+              if tutorial == blank
+                for t in shop.metaobjects.tutorials.values
+                  for p in t.products.value
+                    if p.id == product.id
+                      assign tutorial = t
+                      break
+                    endif
+                  endfor
+                  if tutorial != blank
+                    break
+                  endif
+                endfor
+              endif
+            -%}
+            {%- if tutorial != blank or request.design_mode -%}
+              <div class="mw-product__blk" data-mw-video {{ block.shopify_attributes }}>
+                <button
+                  type="button"
+                  class="mw-video-trigger"
+                  {% if tutorial != blank %}
+                    data-mw-video-open
+                  {% endif %}
+                >
+                  <span class="mw-video-trigger__icon" aria-hidden="true"></span>
+                  <span class="mw-video-trigger__text">{{ block.settings.label | escape }}</span>
+                  {%- liquid
+                    assign t_duration = tutorial.duration.value
+                    if tutorial == blank
+                      assign t_duration = '2 min'
+                    endif
+                  -%}
+                  {%- if block.settings.show_duration and t_duration != blank -%}
+                    <span class="mw-video-trigger__duration">· {{ t_duration | escape }}</span>
+                  {%- endif -%}
+                </button>
+                {%- if tutorial != blank -%}
+                  <template data-mw-video-template>
+                    {% render 'mw-tutorial-player', tutorial: tutorial, autoplay: true %}
+                    <div class="mw-video-modal__caption">
+                      <p class="mw-video-modal__title">{{ tutorial.title.value | escape }}</p>
+                      {%- if tutorial.system.url != blank and block.settings.page_label != blank -%}
+                        <a href="{{ tutorial.system.url }}" class="mw-video-modal__link">{{ block.settings.page_label | escape }}</a>
+                      {%- endif -%}
+                    </div>
+                  </template>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
           {%- when 'price' -%}
             <div class="mw-product__blk mw-product__blk--price" {{ block.shopify_attributes }}>
               <p class="mw-product__price">
@@ -141,7 +208,27 @@
                 {%- if block.settings.label != blank -%}
                   <h2 class="mw-product__label mw-product__label--dark">{{ block.settings.label | escape }}</h2>
                 {%- endif -%}
-                <div class="mw-product__description">{{ product.description }}</div>
+                {%- if block.settings.read_more -%}
+                  <mw-read-more class="mw-read-more" data-lines="{{ block.settings.lines }}">
+                    <div class="mw-product__description mw-read-more__content" id="MwDescription-{{ section.id }}">
+                      {{ product.description }}
+                    </div>
+                    <button
+                      type="button"
+                      class="mw-read-more__toggle"
+                      aria-expanded="false"
+                      aria-controls="MwDescription-{{ section.id }}"
+                      data-label-more="{{ block.settings.more_label | escape }}"
+                      data-label-less="{{ block.settings.less_label | escape }}"
+                      hidden
+                    >
+                      <span data-mw-read-more-label>{{ block.settings.more_label | escape }}</span>
+                      {% render 'mw-icon', name: 'caret-down', class: 'mw-read-more__icon' %}
+                    </button>
+                  </mw-read-more>
+                {%- else -%}
+                  <div class="mw-product__description">{{ product.description }}</div>
+                {%- endif -%}
               </div>
             {%- endif -%}
 
@@ -394,6 +481,66 @@
       "label": "Show thumbnails"
     },
     {
+      "type": "select",
+      "id": "media_fit",
+      "label": "Main image",
+      "default": "contain",
+      "options": [
+        {
+          "value": "contain",
+          "label": "Show the whole product"
+        },
+        {
+          "value": "cover",
+          "label": "Fill the frame (may crop)"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "thumb_fit",
+      "label": "Thumbnails",
+      "default": "contain",
+      "options": [
+        {
+          "value": "contain",
+          "label": "Show the whole product"
+        },
+        {
+          "value": "cover",
+          "label": "Fill the frame (may crop)"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "media_backdrop",
+      "label": "Empty space around images",
+      "default": "blur",
+      "options": [
+        {
+          "value": "blur",
+          "label": "Soft blurred photo"
+        },
+        {
+          "value": "none",
+          "label": "Plain background"
+        }
+      ],
+      "info": "Fills the sides when \"Show the whole product\" leaves space."
+    },
+    {
+      "type": "range",
+      "id": "media_height",
+      "min": 400,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "default": 480,
+      "label": "Main image height (desktop)",
+      "info": "480 matches the design. Taller frames show upright products (chairs, stools) larger."
+    },
+    {
       "type": "header",
       "content": "Section style"
     },
@@ -479,6 +626,33 @@
           "id": "label",
           "default": "Description",
           "label": "Label"
+        },
+        {
+          "type": "checkbox",
+          "id": "read_more",
+          "default": true,
+          "label": "Shorten long descriptions with Read more"
+        },
+        {
+          "type": "range",
+          "id": "lines",
+          "min": 2,
+          "max": 10,
+          "step": 1,
+          "default": 4,
+          "label": "Lines to show"
+        },
+        {
+          "type": "text",
+          "id": "more_label",
+          "default": "Read more",
+          "label": "Read more label"
+        },
+        {
+          "type": "text",
+          "id": "less_label",
+          "default": "Read less",
+          "label": "Read less label"
         }
       ]
     },
@@ -706,6 +880,35 @@
           "id": "text_3",
           "default": "<strong>No-Hassle Returns</strong>",
           "label": "Text 3"
+        }
+      ]
+    },
+    {
+      "type": "tutorial_link",
+      "name": "Tutorial video",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows the product's first tutorial (product metafield Tutorials, or a tutorial whose Products field includes this product). Hidden when the product has none."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "default": "Watch assembly video",
+          "label": "Label"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_duration",
+          "default": true,
+          "label": "Show duration"
+        },
+        {
+          "type": "text",
+          "id": "page_label",
+          "default": "Open tutorial page",
+          "label": "Popup link to tutorial page"
         }
       ]
     }

@@ -1,0 +1,86 @@
+{% comment %}
+  Tutorial card: cover, play button, duration, category and title. Clicking the cover
+  plays the video in the popup player (assets/mw-video.js).
+
+  Accepts:
+  - tutorial: {Object} Tutorials metaobject (leave empty with `sample` to show a design preview)
+  - sample: {Number} Sample number 1-3 for the theme editor preview (optional)
+  - sizes: {String} Image sizes attribute
+  - page_label: {String} Popup link text to the tutorial's own page (optional)
+
+  Usage:
+  {% render 'mw-tutorial-card', tutorial: tutorial, sizes: '(min-width: 1200px) 30vw, 85vw' %}
+{% endcomment %}
+{%- liquid
+  if tutorial
+    assign t_title = tutorial.title.value
+    assign t_duration = tutorial.duration.value
+    assign t_category = tutorial.category.value
+    assign t_cover = tutorial.cover.value | default: tutorial.video.value.preview_image
+    assign t_url = tutorial.system.url
+  else
+    case sample
+      when 2
+        assign t_title = 'How to stain Baltic birch'
+        assign t_duration = '5 min'
+        assign t_category = 'Finishing'
+      when 3
+        assign t_title = 'Care & cleaning'
+        assign t_duration = '1 min'
+        assign t_category = 'Care'
+      else
+        assign t_title = 'Lounge Chair – 2-minute assembly'
+        assign t_duration = '2 min'
+        assign t_category = 'How to Assemble'
+    endcase
+  endif
+-%}
+<article class="mw-tutorial-card{% unless tutorial %} mw-tutorial-card--sample{% endunless %}" data-mw-video>
+  <button
+    type="button"
+    class="mw-media mw-tutorial-card__media"
+    {% if tutorial %}
+      data-mw-video-open
+    {% endif %}
+    aria-label="{{ t_title | escape }}"
+  >
+    {%- if t_cover != blank -%}
+      {{ t_cover | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1200', sizes: sizes, alt: '' }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'mw-tutorial-card__placeholder' }}
+    {%- endif -%}
+    <span class="mw-tutorial-card__play" aria-hidden="true"></span>
+    {%- if t_duration != blank -%}
+      <span class="mw-tutorial-card__duration">{{ t_duration | escape }}</span>
+    {%- endif -%}
+  </button>
+
+  {%- if tutorial -%}
+    <template data-mw-video-template>
+      {% render 'mw-tutorial-player', tutorial: tutorial, autoplay: true %}
+      <div class="mw-video-modal__caption">
+        <p class="mw-video-modal__title">{{ t_title | escape }}</p>
+        {%- if t_url != blank -%}
+          {%- if page_label != blank -%}
+            <a href="{{ t_url }}" class="mw-video-modal__link">{{ page_label | escape }}</a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </template>
+  {%- endif -%}
+
+  {%- if t_category != blank or t_duration != blank -%}
+    <p class="mw-tutorial-card__meta">
+      {{- t_category | escape -}}
+      {%- if t_category != blank and t_duration != blank %} · {% endif -%}
+      {{- t_duration | escape -}}
+    </p>
+  {%- endif -%}
+  <h3 class="mw-tutorial-card__title">
+    {%- if t_url != blank -%}
+      <a href="{{ t_url }}">{{ t_title | escape }}</a>
+    {%- else -%}
+      {{ t_title | escape }}
+    {%- endif -%}
+  </h3>
+</article>

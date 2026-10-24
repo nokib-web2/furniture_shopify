@@ -418,3 +418,22 @@
     padding-inline: 16px;
   }
 }
+
+/* Mobile overflow guard: on very small phones (320px) the logo shrinks instead of
+   pushing the cart button off-screen. */
+@media screen and (max-width: 749px) {
+  .mw-header__inner {
+    min-width: 0;
+  }
+
+  .mw-header__logo {
+    flex: 0 1 199px;
+    width: auto;
+    min-width: 0;
+  }
+
+  .mw-header__actions,
+  .mw-header__drawer {
+    flex: none;
+  }
+}

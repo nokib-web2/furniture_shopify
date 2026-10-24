@@ -107,6 +107,74 @@ document.addEventListener('click', (event) => {
   form.querySelector('input:not([type="hidden"]), textarea')?.focus({ preventScroll: true });
 });
 
+/* Description "Read more": collapses to N lines only when the text is longer than that. */
+if (!customElements.get('mw-read-more')) {
+  customElements.define(
+    'mw-read-more',
+    class MwReadMore extends HTMLElement {
+      connectedCallback() {
+        this.content = this.querySelector('.mw-read-more__content');
+        this.button = this.querySelector('.mw-read-more__toggle');
+        this.label = this.querySelector('[data-mw-read-more-label]');
+        this.lines = parseInt(this.dataset.lines, 10) || 4;
+        this.expanded = false;
+        if (!this.content || !this.button) return;
+
+        this.button.addEventListener('click', () => this.toggle());
+        this.resizeObserver = new ResizeObserver(() => {
+          if (!this.expanded) this.measure();
+        });
+        this.resizeObserver.observe(this);
+        this.measure();
+      }
+
+      disconnectedCallback() {
+        this.resizeObserver?.disconnect();
+      }
+
+      collapsedHeight() {
+        const lineHeight = parseFloat(getComputedStyle(this.content).lineHeight) || 22;
+        return Math.round(lineHeight * this.lines);
+      }
+
+      measure() {
+        const limit = this.collapsedHeight();
+        this.content.style.maxHeight = 'none';
+        const needsClamp = this.content.scrollHeight > limit + 4;
+        this.button.hidden = !needsClamp;
+        this.classList.toggle('is-collapsed', needsClamp);
+        this.content.style.maxHeight = needsClamp ? `${limit}px` : 'none';
+      }
+
+      toggle() {
+        this.expanded = !this.expanded;
+        this.button.setAttribute('aria-expanded', String(this.expanded));
+        this.label.textContent = this.expanded ? this.button.dataset.labelLess : this.button.dataset.labelMore;
+
+        if (this.expanded) {
+          this.classList.remove('is-collapsed');
+          this.content.style.maxHeight = `${this.content.scrollHeight}px`;
+          this.content.addEventListener(
+            'transitionend',
+            () => {
+              if (this.expanded) this.content.style.maxHeight = 'none';
+            },
+            { once: true }
+          );
+        } else {
+          // Animate from the current full height back down to the collapsed height.
+          this.content.style.maxHeight = `${this.content.scrollHeight}px`;
+          this.content.offsetHeight;
+          this.content.style.maxHeight = `${this.collapsedHeight()}px`;
+          this.classList.add('is-collapsed');
+          const top = this.getBoundingClientRect().top;
+          if (top < 0) this.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+  );
+}
+
 if (!customElements.get('mw-review-slider')) {
   customElements.define(
     'mw-review-slider',

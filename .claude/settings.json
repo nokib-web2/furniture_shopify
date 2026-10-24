@@ -25,7 +25,27 @@
       "Bash(grep -ohE \"var\\\\\\(--mw-[a-z0-9-]+\" assets/mw-*.css sections/mw-*.liquid snippets/mw-*.liquid | sort -u | sed 's/var\\(//' > /tmp/used.txt; grep -ohE \"^\\\\s*--mw-[a-z0-9-]+:\" snippets/mw-fonts.liquid assets/mw-*.css | sed 's/[ :]//g' | sort -u > /tmp/def.txt; echo \"used but not defined globally:\"; comm -23 /tmp/used.txt /tmp/def.txt; echo \"--- base :root:\"; sed -n '1,35p' assets/mw-base.css)",
       "Read(//tmp/**)",
       "Bash(python -I \"C:/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/patch_reviews.py\" sections/mw-product-reviews.liquid)",
-      "Bash(node \"C:/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/migrate-pages.js\" \"oldTheme/theme_export__meldwood-com-sense__12OCT2026-0235pm/templates\" \"templates\")"
+      "Bash(node \"C:/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/migrate-pages.js\" \"oldTheme/theme_export__meldwood-com-sense__12OCT2026-0235pm/templates\" \"templates\")",
+      "Bash(node overflow-check.js \"http://127.0.0.1:9292\" \"/collections/all\" \"320,360,375,390,414,768,834,1024\")",
+      "Bash(MSYS_NO_PATHCONV=1 node overflow-check.js \"http://127.0.0.1:9292\" \"/collections/all\" \"320,360,375,390,414,768,834,1024\")",
+      "Bash(MSYS_NO_PATHCONV=1 node overflow-check.js \"http://127.0.0.1:9292\" \"/collections/all\" \"360,390\")",
+      "Bash(MSYS_NO_PATHCONV=1 node overflow-check.js \"https://meldwood.com\" \"/collections/all\" \"360,390\")",
+      "Bash(grep -E \"\\\\{$\")",
+      "Bash(curl -s --max-time 60 \"http://127.0.0.1:9292/collections/all\" -o shopraw.html)",
+      "Bash(curl -s \"https://meldwood.com/collections/all\")",
+      "Bash(MSYS_NO_PATHCONV=1 curl -s --max-time 90 \"http://127.0.0.1:9292/collections/all\" -o shopraw.html)",
+      "Bash(wc -c)",
+      "Bash(curl -s --max-time 60 -o shopraw.html -w \"http %{http_code}\\\\n\" \"http://127.0.0.1:9292/collections/all\")",
+      "Bash(echo \"exit $?\")",
+      "Bash(MSYS_NO_PATHCONV=1 MW_INJECT=fixes-only.css node overflow-check.js \"https://meldwood.com\" \"/,/collections/all,/products/lounge-chair,/pages/our-story,/pages/favorite-finishes,/pages/contact,/blogs/how-to-assemble\" \"320,360,375,390,414,768,834,1024\")",
+      "Bash(node -e \"const t=require\\('fs'\\).readFileSync\\('sections/mw-main-product.liquid','utf8'\\); const s=JSON.parse\\(t.match\\(/{% schema %}\\([\\\\s\\\\S]*\\){% endschema %}/\\)[1]\\); console.log\\('schema ok:', s.settings.filter\\(x=>/media|thumb/.test\\(x.id||''\\)\\).map\\(x=>x.id+'='+x.default\\).join\\(', '\\)\\)\")",
+      "Read(//c/Users/Nokib/AppData/Local/Temp/claude/c--pixelora-meldWood/5e6f4bb4-b93c-4631-9236-62bdff747f2c/scratchpad/templates-backup/**)",
+      "Bash(curl -s -m 20 http://127.0.0.1:9292/)",
+      "Bash(curl -sL -m 30 -A \"Mozilla/5.0\" https://unfnshed.com/)",
+      "Bash(grep -oiE '<[^>]*announcement[^>]*>.{0,1500}')",
+      "Bash(curl -sL -m 30 -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) Chrome/130 Safari/537.36\" https://unfnshed.com/ -o /tmp/u.html)",
+      "Bash(grep -oiE 'setTimeout\\\\\\(function \\\\\\(\\\\\\) \\\\{ cur.classList.{0,300}')",
+      "Bash(curl -s -m 40 -o /tmp/h2.html -w \"%{http_code} %{time_total}\\\\n\" http://127.0.0.1:9292/)"
     ],
     "additionalDirectories": [
       "C:\\Users\\Nokib\\AppData\\Local\\Temp\\claude\\c--pixelora-meldWood\\5e6f4bb4-b93c-4631-9236-62bdff747f2c\\scratchpad"

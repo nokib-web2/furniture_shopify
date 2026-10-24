@@ -1,0 +1,322 @@
+{{ 'mw-announcement.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  Messages are grouped into slides: a message with "Same slide as the previous message"
+  joins the slide before it, separated by a dot. Slides rotate (all screens or phones only)
+  or sit side by side in one row.
+{%- endcomment -%}
+{%- liquid
+  assign items = section.blocks | where: 'type', 'item'
+  assign slide_count = 0
+  for block in items
+    if forloop.first or block.settings.join_previous == false
+      assign slide_count = slide_count | plus: 1
+    endif
+  endfor
+
+  assign rotate = 'none'
+  if slide_count > 1
+    if section.settings.behavior == 'rotate'
+      assign rotate = 'all'
+    elsif section.settings.mobile_behavior == 'rotate'
+      assign rotate = 'mobile'
+    endif
+  endif
+-%}
+
+{%- if items.size > 0 -%}
+  <mw-announcement
+    class="mw mw-announcement mw-announcement--sep-{{ section.settings.separator }} mw-announcement--rotate-{{ rotate }}{% if section.settings.uppercase %} mw-announcement--upper{% endif %}"
+    style="--mw-ann-bg: {{ section.settings.background | default: 'var(--mw-surface-alt)' }}; --mw-ann-text: {{ section.settings.text_color | default: 'var(--mw-ink)' }}; --mw-ann-sep: {{ section.settings.separator_color | default: 'var(--mw-badge)' }}; --mw-ann-size: {{ section.settings.font_size }}; --mw-ann-h: {{ section.settings.height }}; --mw-ann-spacing: {{ section.settings.letter_spacing | divided_by: 100.0 }}em;"
+    data-rotate="{{ rotate }}"
+    data-speed="{{ section.settings.rotate_speed }}"
+    role="region"
+    aria-label="{{ 'sections.announcements.announcement' | t }}"
+  >
+    <div class="mw-announcement__track">
+      {%- for block in items -%}
+        {%- if forloop.first or block.settings.join_previous == false -%}
+          {%- unless forloop.first -%}</div>{%- endunless -%}
+          <div class="mw-announcement__slide{% if forloop.first %} is-on{% endif %}" data-mw-ann-slide>
+        {%- endif -%}
+
+        <span class="mw-announcement__item" {{ block.shopify_attributes }}>
+          {%- capture inner -%}
+            {%- if block.settings.icon != blank -%}
+              {{
+                block.settings.icon
+                | image_url: width: 96
+                | image_tag:
+                  class: 'mw-announcement__icon',
+                  alt: '',
+                  loading: 'eager',
+                  width: block.settings.icon_size,
+                  height: block.settings.icon_size
+              }}
+            {%- endif -%}
+            <span class="mw-announcement__text">{{ block.settings.text }}</span>
+            {%- if block.settings.link != blank and block.settings.show_arrow -%}
+              <svg class="mw-announcement__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            {%- endif -%}
+          {%- endcapture -%}
+
+          {%- if block.settings.link != blank -%}
+            <a
+              href="{{ block.settings.link }}"
+              class="mw-announcement__link mw-announcement__link--a"
+              {% if block.settings.new_tab %}
+                target="_blank" rel="noopener"
+              {% endif %}
+            >
+              {{- inner -}}
+            </a>
+          {%- else -%}
+            <span class="mw-announcement__link">{{ inner }}</span>
+          {%- endif -%}
+        </span>
+
+        {%- if forloop.last -%}</div>{%- endif -%}
+      {%- endfor -%}
+    </div>
+  </mw-announcement>
+
+  {%- if rotate != 'none' -%}
+    <script>
+      if (!customElements.get('mw-announcement')) {
+        customElements.define(
+          'mw-announcement',
+          class extends HTMLElement {
+            connectedCallback() {
+              this.slides = [...this.querySelectorAll('[data-mw-ann-slide]')];
+              this.index = 0;
+              this.paused = false;
+              this.mq = window.matchMedia('(max-width: 749px)');
+              this.reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+              const hold = () => (this.paused = true);
+              const go = () => (this.paused = false);
+              this.addEventListener('mouseenter', hold);
+              this.addEventListener('mouseleave', go);
+              this.addEventListener('focusin', hold);
+              this.addEventListener('focusout', go);
+              this.addEventListener('touchstart', hold, { passive: true });
+              this.addEventListener('touchend', () => setTimeout(go, 2000), { passive: true });
+              this.update = () => this.start();
+              this.mq.addEventListener('change', this.update);
+              this.start();
+            }
+
+            disconnectedCallback() {
+              clearInterval(this.timer);
+              this.mq.removeEventListener('change', this.update);
+            }
+
+            active() {
+              if (this.slides.length < 2 || this.reduce.matches) return false;
+              return this.dataset.rotate === 'all' || (this.dataset.rotate === 'mobile' && this.mq.matches);
+            }
+
+            start() {
+              clearInterval(this.timer);
+              if (!this.active()) return;
+              const ms = Math.max(2, Number(this.dataset.speed) || 4.5) * 1000;
+              this.timer = setInterval(() => {
+                if (!this.paused && !document.hidden) this.next();
+              }, ms);
+            }
+
+            next() {
+              const cur = this.slides[this.index];
+              this.index = (this.index + 1) % this.slides.length;
+              const nxt = this.slides[this.index];
+              cur.classList.remove('is-on');
+              cur.classList.add('is-off');
+              nxt.classList.remove('is-off');
+              nxt.classList.add('is-on');
+              setTimeout(() => cur.classList.remove('is-off'), 700);
+            }
+          }
+        );
+      }
+    </script>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Meldwood announcement",
+  "tag": "div",
+  "class": "mw-announcement-section",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "select",
+      "id": "behavior",
+      "label": "Messages",
+      "default": "rotate",
+      "options": [
+        { "value": "rotate", "label": "Rotate one slide at a time" },
+        { "value": "inline", "label": "Show all in one row" }
+      ],
+      "info": "Use \"Same slide as the previous message\" on a message to join it to the one before, with a dot between."
+    },
+    {
+      "type": "range",
+      "id": "rotate_speed",
+      "min": 2,
+      "max": 10,
+      "step": 0.5,
+      "unit": "s",
+      "default": 4.5,
+      "label": "Change slide every"
+    },
+    {
+      "type": "select",
+      "id": "mobile_behavior",
+      "label": "Phones, when showing all in one row",
+      "default": "rotate",
+      "options": [
+        { "value": "rotate", "label": "Rotate one slide at a time" },
+        { "value": "scroll", "label": "Swipe sideways" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "info": "Leave empty to use the theme's alt surface color."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "info": "Leave empty to use the theme ink color."
+    },
+    {
+      "type": "color",
+      "id": "separator_color",
+      "label": "Dot and hover underline",
+      "info": "Leave empty to use the theme badge red."
+    },
+    {
+      "type": "select",
+      "id": "separator",
+      "label": "Separator",
+      "default": "dot",
+      "options": [
+        { "value": "dot", "label": "Dot" },
+        { "value": "line", "label": "Line" },
+        { "value": "none", "label": "None" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "checkbox",
+      "id": "uppercase",
+      "default": true,
+      "label": "Uppercase"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 10,
+      "max": 18,
+      "step": 0.5,
+      "unit": "px",
+      "default": 11.5,
+      "label": "Font size"
+    },
+    {
+      "type": "range",
+      "id": "letter_spacing",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "default": 18,
+      "label": "Letter spacing",
+      "info": "In hundredths of an em."
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "min": 28,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 40,
+      "label": "Bar height"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Message",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "default": "Free shipping",
+          "label": "Text"
+        },
+        {
+          "type": "checkbox",
+          "id": "join_previous",
+          "default": false,
+          "label": "Same slide as the previous message"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon",
+          "info": "Optional. Square SVG or PNG works best."
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "min": 10,
+          "max": 32,
+          "step": 1,
+          "unit": "px",
+          "default": 16,
+          "label": "Icon size"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_arrow",
+          "default": true,
+          "label": "Show arrow after linked text"
+        },
+        {
+          "type": "checkbox",
+          "id": "new_tab",
+          "default": false,
+          "label": "Open link in a new tab"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Meldwood announcement",
+      "blocks": [
+        { "type": "item", "settings": { "text": "Free shipping" } },
+        { "type": "item", "settings": { "text": "14-day returns", "join_previous": true } }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}

@@ -11,6 +11,9 @@
 
 body {
   background: var(--mw-bg);
+  /* Safety net: nothing may widen the page sideways on phones. "clip" (unlike "hidden")
+     keeps sticky elements and vertical scrolling working. */
+  overflow-x: clip;
 }
 
 .mw {

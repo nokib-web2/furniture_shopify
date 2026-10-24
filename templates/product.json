@@ -27,7 +27,11 @@
         "description": {
           "type": "description",
           "settings": {
-            "label": "Description"
+            "label": "Description",
+            "read_more": true,
+            "lines": 4,
+            "more_label": "Read more",
+            "less_label": "Read less"
           }
         },
         "variant_picker": {
@@ -75,6 +79,9 @@
       "settings": {
         "show_arrows": true,
         "show_thumbnails": true,
+        "media_fit": "contain",
+        "thumb_fit": "contain",
+        "media_height": 480,
         "section_bg": "",
         "space_top": 0,
         "space_bottom": 0
@@ -123,7 +130,7 @@
       "settings": {
         "heading": "Related Products",
         "products_to_show": 3,
-        "collection": "parametric",
+        "collection": "",
         "section_bg": "",
         "space_top": 0,
         "space_bottom": 0

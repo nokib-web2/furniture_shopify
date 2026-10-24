@@ -8,7 +8,20 @@
   if mobile_link == blank and first_tab.settings.collection != blank
     assign mobile_link = first_tab.settings.collection.url
   endif
+
+  assign tutorials_count = shop.metaobjects.tutorials.values.size | default: 0
+  assign has_tutorial_tab = false
+  for block in tabs
+    if block.settings.content == 'tutorials'
+      assign has_tutorial_tab = true
+    endif
+  endfor
 -%}
+
+{%- if has_tutorial_tab -%}
+  {{ 'mw-tutorials.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'mw-video.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
 
 <section class="mw mw-section mw-products mw-products--featured" style="{% render 'mw-section-style', section: section %}">
   <mw-tabs class="mw-container mw-products__inner">
@@ -47,8 +60,24 @@
     </div>
 
     {%- for block in tabs -%}
+      {%- liquid
+        assign is_tutorials = false
+        if block.settings.content == 'tutorials'
+          assign is_tutorials = true
+        endif
+        assign is_empty = false
+        if is_tutorials and tutorials_count == 0
+          assign is_empty = true
+        elsif is_tutorials == false and block.settings.collection.products_count == 0
+          assign is_empty = true
+        endif
+        assign show_samples = false
+        if is_empty and is_tutorials and request.design_mode
+          assign show_samples = true
+        endif
+      -%}
       <div
-        class="mw-products__grid"
+        class="mw-products__grid{% if is_tutorials %} mw-products__grid--tutorials{% endif %}{% if is_empty and show_samples == false %} mw-products__grid--empty{% endif %}"
         role="tabpanel"
         id="MwPanel-{{ block.id }}"
         aria-labelledby="MwTab-{{ block.id }}"
@@ -57,13 +86,31 @@
           hidden
         {% endunless %}
       >
-        {%- for product in block.settings.collection.products limit: section.settings.products_to_show -%}
-          {% render 'mw-product-card',
-            product: product,
-            style: 'featured',
-            sizes: '(min-width: 1200px) 30vw, (min-width: 750px) 46vw, 100vw'
-          %}
-        {%- endfor -%}
+        {%- if is_empty -%}
+          {%- if show_samples -%}
+            {%- for i in (1..3) -%}
+              {% render 'mw-tutorial-card', sample: i, sizes: '(min-width: 1200px) 30vw, 46vw' %}
+            {%- endfor -%}
+          {%- elsif block.settings.empty_text != blank -%}
+            <p class="mw-products__empty">{{ block.settings.empty_text | escape }}</p>
+          {%- endif -%}
+        {%- elsif is_tutorials -%}
+          {%- for tutorial in shop.metaobjects.tutorials.values limit: section.settings.products_to_show -%}
+            {% render 'mw-tutorial-card',
+              tutorial: tutorial,
+              sizes: '(min-width: 1200px) 30vw, (min-width: 750px) 46vw, 100vw',
+              page_label: block.settings.page_label
+            %}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for product in block.settings.collection.products limit: section.settings.products_to_show -%}
+            {% render 'mw-product-card',
+              product: product,
+              style: 'featured',
+              sizes: '(min-width: 1200px) 30vw, (min-width: 750px) 46vw, 100vw'
+            %}
+          {%- endfor -%}
+        {%- endif -%}
       </div>
     {%- endfor -%}
   </mw-tabs>
@@ -148,9 +195,40 @@
           "label": "Label"
         },
         {
+          "type": "select",
+          "id": "content",
+          "label": "Content",
+          "default": "products",
+          "options": [
+            {
+              "value": "products",
+              "label": "Products from a collection"
+            },
+            {
+              "value": "tutorials",
+              "label": "Tutorial videos"
+            }
+          ]
+        },
+        {
           "type": "collection",
           "id": "collection",
-          "label": "Collection"
+          "label": "Collection",
+          "info": "Products from a collection only."
+        },
+        {
+          "type": "text",
+          "id": "page_label",
+          "default": "Open tutorial page",
+          "label": "Popup link to tutorial page",
+          "info": "Tutorial videos only."
+        },
+        {
+          "type": "text",
+          "id": "empty_text",
+          "default": "New pieces are coming soon.",
+          "label": "Message when empty",
+          "info": "Shown when the collection has no products or no tutorials are published yet."
         }
       ]
     }

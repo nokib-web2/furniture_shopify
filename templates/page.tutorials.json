@@ -58,11 +58,25 @@
         "read_more_label": "Read more",
         "view_all_label": "View all"
       }
+    },
+    "tutorials_library": {
+      "type": "mw-tutorials",
+      "settings": {
+        "source": "all",
+        "eyebrow": "Video tutorials",
+        "heading": "Watch & build",
+        "heading_size": "medium",
+        "limit": 12,
+        "columns": 3,
+        "view_all_label": "",
+        "page_label": "Open tutorial page"
+      }
     }
   },
   "order": [
     "main",
     "rich_text_Pgr4dy",
+    "tutorials_library",
     "featured_blog_iDTNXR"
   ]
 }

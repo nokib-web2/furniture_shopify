@@ -56,6 +56,28 @@
   display: none;
 }
 
+/* Empty tab: keeps the tab in place (Figma) with a short message instead of cards */
+.mw .mw-products__grid--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(max(220px, calc(420 * var(--mw-u))));
+  border: 1px dashed var(--mw-border);
+  border-radius: calc(max(24px, calc(40 * var(--mw-u))));
+}
+
+.mw .mw-products__grid--empty[hidden] {
+  display: none;
+}
+
+.mw-products__empty {
+  padding: 24px;
+  color: var(--mw-secondary);
+  font-family: var(--mw-font-body);
+  font-size: calc(max(16px, calc(20 * var(--mw-u))) * var(--mw-ts, 1));
+  text-align: center;
+}
+
 /* ---------- Desktop (1920 frame) ---------- */
 @media screen and (min-width: 1200px) {
   .mw-products--featured {
@@ -256,4 +278,14 @@
   font-family: var(--mw-font-body);
   font-size: calc(max(14px, calc(18 * var(--mw-u))) * var(--mw-ts, 1));
   line-height: 1.5;
+}
+
+/* Mobile overflow guard: section headings wrap on narrow screens. */
+@media screen and (max-width: 749px) {
+  .mw-products__heading {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
 }

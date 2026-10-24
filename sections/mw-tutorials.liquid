@@ -1,0 +1,148 @@
+{{ 'mw-content.css' | asset_url | stylesheet_tag }}
+{{ 'mw-tutorials.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mw-video.js' | asset_url }}" defer="defer"></script>
+
+{%- comment -%}
+  Tutorials come from the "Tutorials" metaobject (Content → Metaobjects).
+  Source "This product": the product's custom.tutorials metafield, plus any tutorial whose
+  Products field includes the product. Source "All tutorials": every published tutorial.
+{%- endcomment -%}
+{%- liquid
+  assign limit = section.settings.limit
+  assign count = 0
+  assign seen = ','
+  assign source = section.settings.source
+  if source == 'product' and product == blank
+    assign source = 'all'
+  endif
+  assign exclude = ''
+  if metaobject.system.type == 'tutorials'
+    assign exclude = metaobject.system.handle
+  endif
+  assign sizes = '(min-width: 1200px) 30vw, (min-width: 750px) 45vw, 82vw'
+-%}
+
+{%- capture cards -%}
+  {%- if source == 'product' -%}
+    {%- for tutorial in product.metafields.custom.tutorials.value -%}
+      {%- assign key = ',' | append: tutorial.system.handle | append: ',' -%}
+      {%- if count < limit and tutorial.system.handle != exclude -%}
+        {%- unless seen contains key -%}
+          {%- assign seen = seen | append: tutorial.system.handle | append: ',' -%}
+          {%- assign count = count | plus: 1 -%}
+          <li>{% render 'mw-tutorial-card', tutorial: tutorial, sizes: sizes, page_label: section.settings.page_label %}</li>
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+
+  {%- for tutorial in shop.metaobjects.tutorials.values -%}
+    {%- if count >= limit -%}{%- break -%}{%- endif -%}
+    {%- assign key = ',' | append: tutorial.system.handle | append: ',' -%}
+    {%- if seen contains key or tutorial.system.handle == exclude -%}{%- continue -%}{%- endif -%}
+    {%- assign include = true -%}
+    {%- if source == 'product' -%}
+      {%- assign include = false -%}
+      {%- for p in tutorial.products.value -%}
+        {%- if p.id == product.id -%}{%- assign include = true -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+    {%- if include -%}
+      {%- assign seen = seen | append: tutorial.system.handle | append: ',' -%}
+      {%- assign count = count | plus: 1 -%}
+      <li>{% render 'mw-tutorial-card', tutorial: tutorial, sizes: sizes, page_label: section.settings.page_label %}</li>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if count == 0 and request.design_mode -%}
+  {%- capture cards -%}
+    {%- for i in (1..3) -%}
+      <li>{% render 'mw-tutorial-card', sample: i, sizes: sizes %}</li>
+    {%- endfor -%}
+  {%- endcapture -%}
+{%- endif -%}
+
+{%- if count > 0 or request.design_mode -%}
+  <section class="mw mw-section mw-content mw-tutorials" style="{% render 'mw-section-style', section: section %}">
+    <div class="mw-container mw-content__inner">
+      <div class="mw-posts__header">
+        <div class="mw-posts__header-text">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="mw-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="mw-heading mw-heading--{{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <div class="mw-body">{{ section.settings.text }}</div>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.view_all_label != blank -%}
+          <a href="{{ section.settings.view_all_link | default: '/pages/tutorials' }}" class="mw-arrow-link">
+            <span>{{ section.settings.view_all_label | escape }}</span>
+            {% render 'mw-icon', name: 'arrow-right' %}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if count == 0 -%}
+        <p class="mw-tutorials__hint">
+          Design preview. Add tutorials in Content → Metaobjects → Tutorials to replace these sample cards.
+          Visitors don't see this section until tutorials exist.
+        </p>
+      {%- endif -%}
+
+      <ul class="mw-tutorials__grid" style="--mw-cols: {{ section.settings.columns }};">
+        {{ cards }}
+      </ul>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Meldwood tutorials",
+  "tag": "div",
+  "class": "mw-tutorials-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "source",
+      "label": "Show",
+      "default": "all",
+      "options": [
+        { "value": "all", "label": "All tutorials" },
+        { "value": "product", "label": "This product's tutorials (product pages)" }
+      ],
+      "info": "Tutorials are managed in Content → Metaobjects → Tutorials."
+    },
+    { "type": "text", "id": "eyebrow", "default": "Tutorials", "label": "Eyebrow" },
+    { "type": "inline_richtext", "id": "heading", "default": "Build it, finish it, love it", "label": "Heading" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "medium",
+      "options": [
+        { "value": "display", "label": "Display" },
+        { "value": "large", "label": "Large" },
+        { "value": "medium", "label": "Medium" }
+      ]
+    },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "range", "id": "limit", "min": 1, "max": 12, "step": 1, "default": 3, "label": "Number of tutorials" },
+    { "type": "range", "id": "columns", "min": 2, "max": 4, "step": 1, "default": 3, "label": "Columns on desktop", "info": "Phones show a swipeable row." },
+    { "type": "text", "id": "view_all_label", "default": "View all tutorials", "label": "View all label" },
+    { "type": "url", "id": "view_all_link", "label": "View all link", "info": "Defaults to /pages/tutorials." },
+    { "type": "text", "id": "page_label", "default": "Open tutorial page", "label": "Popup link to tutorial page" },
+    { "type": "header", "content": "Section style" },
+    { "type": "color", "id": "section_bg", "label": "Background", "info": "Leave empty to use the theme color." },
+    { "type": "range", "id": "space_top", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space above" },
+    { "type": "range", "id": "space_bottom", "min": 0, "max": 200, "step": 4, "unit": "px", "default": 0, "label": "Extra space below" }
+  ],
+  "presets": [
+    { "name": "Meldwood tutorials" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,72 @@
+{% comment %}
+  Video player for a Tutorials metaobject. Uses the uploaded video file first,
+  otherwise the YouTube / Vimeo link.
+
+  Accepts:
+  - tutorial: {Object} Tutorials metaobject
+  - autoplay: {Boolean} Start playing (used in the popup, after the shopper's click)
+
+  Usage:
+  {% render 'mw-tutorial-player', tutorial: tutorial, autoplay: true %}
+{% endcomment %}
+{%- liquid
+  assign video_file = tutorial.video.value
+  assign url = tutorial.video_url.value | default: tutorial.video_link.value | strip
+  assign provider = ''
+  assign video_id = ''
+
+  if video_file == blank and url != blank
+    assign clean_url = url | split: '#' | first
+    if clean_url contains 'youtu'
+      assign provider = 'youtube'
+      if clean_url contains 'youtu.be/'
+        assign video_id = clean_url | split: 'youtu.be/' | last | split: '?' | first
+      elsif clean_url contains '/shorts/'
+        assign video_id = clean_url | split: '/shorts/' | last | split: '?' | first
+      elsif clean_url contains '/embed/'
+        assign video_id = clean_url | split: '/embed/' | last | split: '?' | first
+      else
+        assign video_id = clean_url | split: 'v=' | last | split: '&' | first
+      endif
+    elsif clean_url contains 'vimeo.com'
+      assign provider = 'vimeo'
+      assign video_id = clean_url | split: '?' | first | split: '/' | last
+    endif
+  endif
+-%}
+
+{%- if video_file != blank -%}
+  <div class="mw-player" style="--mw-player-ratio: {{ video_file.aspect_ratio | default: 1.7778 }};">
+    {{
+      video_file
+      | video_tag:
+        controls: true,
+        playsinline: true,
+        preload: 'metadata',
+        class: 'mw-player__video',
+        image_size: '1600x'
+    }}
+  </div>
+{%- elsif provider == 'youtube' and video_id != blank -%}
+  <div class="mw-player">
+    <iframe
+      class="mw-player__frame"
+      src="https://www.youtube-nocookie.com/embed/{{ video_id | escape }}?rel=0&modestbranding=1&playsinline=1{% if autoplay %}&autoplay=1{% endif %}"
+      title="{{ tutorial.title.value | escape }}"
+      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+      allowfullscreen
+      loading="lazy"
+    ></iframe>
+  </div>
+{%- elsif provider == 'vimeo' and video_id != blank -%}
+  <div class="mw-player">
+    <iframe
+      class="mw-player__frame"
+      src="https://player.vimeo.com/video/{{ video_id | escape }}?dnt=1&title=0&byline=0{% if autoplay %}&autoplay=1{% endif %}"
+      title="{{ tutorial.title.value | escape }}"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen
+      loading="lazy"
+    ></iframe>
+  </div>
+{%- endif -%}

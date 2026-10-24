@@ -791,3 +791,28 @@ mw-collection-browser {
     animation-duration: 2s;
   }
 }
+
+/* Mobile overflow guard: long headings wrap instead of pushing the carousel arrows
+   and toolbar off-screen (this caused the white strip when zooming out on phones). */
+@media screen and (max-width: 1199px) {
+  .mw-collection__toolbar .mw-collection__title,
+  .mw-collection__recs-header .mw-collection__title {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+  }
+
+  .mw-collection__recs-controls {
+    flex: none;
+  }
+
+  .mw-collection__panel,
+  .mw-collection__layout,
+  .mw-collection__main,
+  .mw-collection__recs {
+    min-width: 0;
+    max-width: 100%;
+  }
+}

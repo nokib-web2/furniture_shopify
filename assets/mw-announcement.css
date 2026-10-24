@@ -1,0 +1,223 @@
+/* Meldwood announcement bar (header group). */
+
+.mw-announcement {
+  display: block;
+  background: var(--mw-ann-bg, var(--mw-surface-alt));
+  color: var(--mw-ann-text, var(--mw-ink));
+  text-align: center;
+}
+
+.mw-announcement__track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(var(--mw-ann-h, 40) * 1px);
+  padding: 0 16px;
+  overflow: hidden;
+}
+
+.mw-announcement__slide,
+.mw-announcement__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+/* Separator: between messages on a slide, and between slides in a row */
+.mw-announcement__item + .mw-announcement__item::before,
+.mw-announcement--rotate-none .mw-announcement__slide + .mw-announcement__slide::before {
+  content: '';
+  flex: none;
+  margin-inline: 14px;
+}
+
+.mw-announcement--sep-dot .mw-announcement__item + .mw-announcement__item::before,
+.mw-announcement--sep-dot.mw-announcement--rotate-none .mw-announcement__slide + .mw-announcement__slide::before {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--mw-ann-sep);
+}
+
+.mw-announcement--sep-line .mw-announcement__item + .mw-announcement__item::before,
+.mw-announcement--sep-line.mw-announcement--rotate-none .mw-announcement__slide + .mw-announcement__slide::before {
+  width: 1px;
+  height: 12px;
+  background: var(--mw-ann-sep);
+}
+
+.mw .mw-announcement__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  font-family: var(--mw-font-body);
+  font-weight: 600;
+  font-size: calc(var(--mw-ann-size, 11.5) * 1px * var(--mw-ts, 1));
+  line-height: 16px;
+  letter-spacing: var(--mw-ann-spacing, 0.18em);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.mw-announcement--upper .mw-announcement__link {
+  text-transform: uppercase;
+}
+
+.mw-announcement__text a,
+.mw-announcement__text strong {
+  color: inherit;
+}
+
+/* Linked message: thin accent line drawn under it on hover */
+.mw .mw-announcement__link--a {
+  padding-bottom: 1px;
+  background: linear-gradient(var(--mw-ann-sep), var(--mw-ann-sep)) 0 100% / 0 1.5px no-repeat;
+  transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mw .mw-announcement__link--a:hover {
+  background-size: 100% 1.5px;
+}
+
+.mw .mw-announcement__link--a:focus-visible {
+  outline: 1.5px solid currentColor;
+  outline-offset: 3px;
+}
+
+.mw .mw-announcement__icon {
+  flex: none;
+  width: auto;
+  object-fit: contain;
+}
+
+.mw-announcement__arrow {
+  flex: none;
+  width: 11px;
+  height: 11px;
+  opacity: 0.55;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+.mw-announcement__link--a:hover .mw-announcement__arrow {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+/* ---------- Rotating slides: next slide rises in, current one leaves upward ---------- */
+.mw-announcement--rotate-all .mw-announcement__slide {
+  position: absolute;
+  inset: 0;
+  padding: 0 16px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(100%);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease, visibility 0s linear 0.7s;
+}
+
+.mw-announcement--rotate-all .mw-announcement__slide.is-on {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.mw-announcement--rotate-all .mw-announcement__slide.is-off {
+  opacity: 0;
+  visibility: visible;
+  transform: translateY(-100%);
+  transition-delay: 0s;
+}
+
+/* Overlay header sits under the bar instead of on top of it */
+.shopify-section:has(> .mw-header--overlay) {
+  position: relative;
+}
+
+/* ---------- Mobile ---------- */
+@media screen and (max-width: 749px) {
+  .mw .mw-announcement__link {
+    font-size: calc((var(--mw-ann-size, 11.5) - 1) * 1px * var(--mw-ts, 1));
+    line-height: 14px;
+    letter-spacing: calc(var(--mw-ann-spacing, 0.18em) * 0.78);
+  }
+
+  .mw-announcement__item + .mw-announcement__item::before,
+  .mw-announcement--rotate-none .mw-announcement__slide + .mw-announcement__slide::before {
+    margin-inline: 10px;
+  }
+
+  /* Row mode, phones rotate */
+  .mw-announcement--rotate-mobile .mw-announcement__slide {
+    position: absolute;
+    inset: 0;
+    padding: 0 16px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(100%);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease, visibility 0s linear 0.7s;
+  }
+
+  .mw-announcement--rotate-mobile .mw-announcement__slide.is-on {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .mw-announcement--rotate-mobile .mw-announcement__slide.is-off {
+    opacity: 0;
+    visibility: visible;
+    transform: translateY(-100%);
+    transition-delay: 0s;
+  }
+
+  /* Row mode, phones swipe */
+  .mw-announcement--rotate-none .mw-announcement__track {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .mw-announcement--rotate-none .mw-announcement__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mw-announcement--rotate-none .mw-announcement__slide:first-child {
+    margin-inline-start: auto;
+  }
+
+  .mw-announcement--rotate-none .mw-announcement__slide:last-child {
+    margin-inline-end: auto;
+  }
+}
+
+/* ---------- Desktop row mode: slides sit side by side ---------- */
+@media screen and (min-width: 750px) {
+  .mw-announcement--rotate-mobile .mw-announcement__slide + .mw-announcement__slide::before {
+    content: '';
+    flex: none;
+    margin-inline: 14px;
+  }
+
+  .mw-announcement--sep-dot.mw-announcement--rotate-mobile .mw-announcement__slide + .mw-announcement__slide::before {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--mw-ann-sep);
+  }
+
+  .mw-announcement--sep-line.mw-announcement--rotate-mobile .mw-announcement__slide + .mw-announcement__slide::before {
+    width: 1px;
+    height: 12px;
+    background: var(--mw-ann-sep);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw-announcement__slide {
+    transition: none !important;
+  }
+}

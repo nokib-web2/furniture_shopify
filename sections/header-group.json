@@ -55,6 +55,55 @@
         "padding_bottom": 20
       }
     },
+    "mw-announcement": {
+      "type": "mw-announcement-bar",
+      "blocks": {
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "text": "Watch our assembly tutorials",
+            "link": "/pages/tutorials",
+            "show_arrow": true
+          }
+        },
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "text": "Free shipping",
+            "link": "",
+            "show_arrow": false
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "text": "14-day returns",
+            "link": "",
+            "join_previous": true,
+            "show_arrow": false
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "text": "Explore our favorite finishes",
+            "link": "shopify://pages/favorite-finishes",
+            "show_arrow": true
+          }
+        }
+      },
+      "block_order": ["item_3", "item_1", "item_2", "item_4"],
+      "settings": {
+        "behavior": "rotate",
+        "rotate_speed": 4.5,
+        "mobile_behavior": "rotate",
+        "separator": "dot",
+        "uppercase": true,
+        "font_size": 11.5,
+        "letter_spacing": 18,
+        "height": 40
+      }
+    },
     "mw-header": {
       "type": "mw-header",
       "settings": {
@@ -71,6 +120,7 @@
   "order": [
     "announcement-bar",
     "header",
+    "mw-announcement",
     "mw-header"
   ]
 }

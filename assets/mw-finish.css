@@ -467,3 +467,27 @@ mw-finish-picker {
     border-radius: 20px;
   }
 }
+
+/* Mobile overflow guard: the finish swatches share the available width instead of
+   using fixed 96px columns, so all four fit on small phones. */
+@media screen and (max-width: 749px) {
+  .mw-finish__swatches {
+    width: 100%;
+  }
+
+  .mw-finish__swatches > li {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .mw-finish__swatch,
+  .mw-finish__swatches > li:last-child .mw-finish__swatch {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .mw-finish__swatch-label {
+    overflow-wrap: anywhere;
+  }
+}

@@ -29,7 +29,8 @@
 .mw-product__img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: var(--mw-media-fit, contain);
+  object-position: center;
 }
 
 .mw-product__nav {
@@ -106,7 +107,31 @@
 .mw-product__thumb-img {
   width: 100%;
   height: 100%;
+  object-fit: var(--mw-thumb-fit, contain);
+  object-position: center;
+}
+
+/* Blurred copy of the photo behind it fills the side space left by "contain" */
+.mw-product__backdrop {
+  display: none;
+}
+
+.mw-product__gallery--blur .mw-product__backdrop {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  filter: blur(28px) saturate(1.1);
+  opacity: 0.85;
+  transform: scale(1.25);
+  pointer-events: none;
+}
+
+.mw-product__gallery--blur .mw-product__img,
+.mw-product__gallery--blur .mw-product__thumb-img {
+  position: relative;
 }
 
 .mw-product__details {
@@ -917,7 +942,7 @@ product-recommendations.mw-related {
   }
 
   .mw-product__main {
-    height: calc(480 * var(--mw-u));
+    height: calc(var(--mw-media-h, 480) * var(--mw-u));
     border-radius: calc(16 * var(--mw-u));
   }
 
@@ -1225,4 +1250,56 @@ product-recommendations.mw-related {
   width: 28px;
   height: 28px;
   object-fit: contain;
+}
+
+/* Description "Read more" (only active when the text is longer than the chosen lines) */
+mw-read-more {
+  display: block;
+}
+
+.mw-read-more__content {
+  overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mw-read-more.is-collapsed .mw-read-more__content {
+  -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+}
+
+.mw-read-more__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mw-ink);
+  font-family: var(--mw-font-body);
+  font-weight: 600;
+  font-size: calc(14px * var(--mw-ts, 1));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.mw-read-more__toggle[hidden] {
+  display: none;
+}
+
+.mw-read-more__icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+}
+
+.mw-read-more__toggle[aria-expanded='true'] .mw-read-more__icon {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw-read-more__content {
+    transition: none;
+  }
 }

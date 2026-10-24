@@ -15,8 +15,8 @@
         "slide_1": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Lounge_Chair-Walnut.jpg",
-            "link": "shopify://products/lounge-chair"
+            "image": "shopify://shop_images/Rectangle-coffee-table-web.webp",
+            "link": "shopify://products/rectangle-coffee-table"
           }
         },
         "slide_2": {
@@ -26,25 +26,25 @@
             "link": "shopify://products/lounge-chair"
           }
         },
-        "slide_3": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/Round_Coffe_Table-_Raw.jpg",
-            "link": "shopify://products/round-coffee-table"
-          }
-        },
-        "slide_4": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/oval-console-table.webp",
-            "link": "shopify://products/modern-console-table"
-          }
-        },
         "slide_5": {
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/KidsTableandChair-Beige.jpg",
             "link": "shopify://collections/all"
+          }
+        },
+        "slide_4": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/8.webp",
+            "link": "shopify://products/side-table"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Round_Coffe_Table-_Raw.jpg",
+            "link": "shopify://products/round-coffee-table"
           }
         },
         "chip_1": {
@@ -75,9 +75,9 @@
       "block_order": [
         "slide_1",
         "slide_2",
-        "slide_3",
-        "slide_4",
         "slide_5",
+        "slide_4",
+        "slide_3",
         "chip_1",
         "chip_2",
         "chip_3",
@@ -108,28 +108,40 @@
           "type": "tab",
           "settings": {
             "label": "Shop All",
-            "collection": "all"
+            "content": "products",
+            "collection": "all",
+            "page_label": "Open tutorial page",
+            "empty_text": "New pieces are coming soon."
           }
         },
         "tab_2": {
           "type": "tab",
           "settings": {
             "label": "Most Loved",
-            "collection": "most-loved"
+            "content": "products",
+            "collection": "most-loved",
+            "page_label": "Open tutorial page",
+            "empty_text": "New pieces are coming soon."
           }
         },
         "tab_3": {
           "type": "tab",
           "settings": {
             "label": "Favorite Finishes",
-            "collection": "tool-free-modern-furniture"
+            "content": "products",
+            "collection": "tool-free-modern-furniture",
+            "page_label": "Open tutorial page",
+            "empty_text": "New pieces are coming soon."
           }
         },
         "tab_4": {
           "type": "tab",
           "settings": {
             "label": "Tutorials",
-            "collection": "home-decor"
+            "content": "tutorials",
+            "collection": "",
+            "page_label": "Open tutorial page",
+            "empty_text": "Tutorial videos are coming soon."
           }
         }
       },
@@ -153,6 +165,7 @@
       "type": "mw-best-sellers",
       "settings": {
         "heading": "Best Sellers",
+        "subheading": "",
         "collection": "all",
         "products_to_show": 4,
         "link_label": "View All",
@@ -209,7 +222,7 @@
         "show_line_art": true,
         "story_link_label": "Our Complete Story",
         "story_link": "shopify://pages/our-story",
-        "stat_value": "12K+",
+        "stat_value": "600+",
         "stat_label": "Vetted Customer Spaces Furnished",
         "avatar_1": "shopify://shop_images/f9821bc4dab4a2865bdd290eca4192c94bde67fb.png",
         "avatar_2": "shopify://shop_images/8ca39b7245ad39b4d4b35a4685a9e677c13f2c4f.png",

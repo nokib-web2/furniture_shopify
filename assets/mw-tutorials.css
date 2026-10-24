@@ -1,0 +1,408 @@
+/* Meldwood tutorials: cards, swipe row, popup player, tutorial page. */
+
+.mw-tutorials__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--mw-cols, 3), minmax(0, 1fr));
+  gap: calc(max(24px, calc(40 * var(--mw-u))));
+}
+
+.mw-tutorials__grid > li {
+  display: flex;
+  min-width: 0;
+}
+
+.mw-tutorials__hint {
+  padding: 12px 16px;
+  border: 1px dashed var(--mw-border);
+  border-radius: 12px;
+  color: var(--mw-secondary);
+  font-family: var(--mw-font-body);
+  font-size: 14px;
+}
+
+/* ---------- Card ---------- */
+.mw-tutorial-card {
+  display: flex;
+  flex-direction: column;
+  gap: calc(max(10px, calc(14 * var(--mw-u))));
+  width: 100%;
+  min-width: 0;
+}
+
+.mw .mw-tutorial-card__media {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  aspect-ratio: 16 / 10;
+  border-radius: calc(max(20px, calc(40 * var(--mw-u))));
+  cursor: pointer;
+}
+
+.mw-tutorial-card--sample .mw-tutorial-card__media {
+  cursor: default;
+}
+
+.mw-tutorial-card__media img {
+  transition: transform 0.6s ease;
+}
+
+.mw-tutorial-card__placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--mw-placeholder);
+  fill: color-mix(in srgb, var(--mw-ink) 18%, transparent);
+}
+
+.mw-tutorial-card:hover .mw-tutorial-card__media img {
+  transform: scale(1.04);
+}
+
+/* Play button: white circle with a dark triangle */
+.mw-tutorial-card__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: calc(max(56px, calc(76 * var(--mw-u))));
+  height: calc(max(56px, calc(76 * var(--mw-u))));
+  border-radius: 50%;
+  background: var(--mw-panel);
+  box-shadow: 0 10px 30px rgba(18, 19, 22, 0.25);
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mw-tutorial-card__play::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  border-style: solid;
+  border-width: 9px 0 9px 15px;
+  border-color: transparent transparent transparent var(--mw-dark);
+  transform: translate(-50%, -50%);
+}
+
+.mw-tutorial-card:hover .mw-tutorial-card__play {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.mw-tutorial-card__media:focus-visible {
+  outline: 2px solid var(--mw-dark);
+  outline-offset: 3px;
+}
+
+.mw-tutorial-card__duration {
+  position: absolute;
+  right: calc(max(12px, calc(18 * var(--mw-u))));
+  bottom: calc(max(12px, calc(18 * var(--mw-u))));
+  z-index: 1;
+  padding: 5px 12px;
+  border-radius: 100px;
+  background: color-mix(in srgb, var(--mw-dark) 72%, transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--mw-on-dark);
+  font-family: var(--mw-font-body);
+  font-weight: 600;
+  font-size: calc(13px * var(--mw-ts, 1));
+}
+
+.mw-tutorial-card__meta {
+  margin-top: calc(max(4px, calc(6 * var(--mw-u))));
+  color: var(--mw-tan);
+  font-family: var(--mw-font-body);
+  font-weight: 600;
+  font-size: calc(max(12px, calc(14 * var(--mw-u))) * var(--mw-ts, 1));
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mw-tutorial-card__title {
+  color: var(--mw-ink);
+  font-family: var(--mw-font-body);
+  font-weight: 500;
+  font-size: calc(max(18px, calc(24 * var(--mw-u))) * var(--mw-ts, 1));
+  line-height: 1.35;
+}
+
+.mw-tutorial-card__title a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Player ---------- */
+.mw-player {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: var(--mw-player-ratio, 16 / 9);
+  border-radius: calc(max(16px, calc(32 * var(--mw-u))));
+  background: #000;
+}
+
+.mw-player__video,
+.mw-player__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: contain;
+}
+
+/* ---------- Popup ---------- */
+.mw-video-modal {
+  width: min(1100px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+
+.mw-video-modal::backdrop {
+  background: rgba(10, 10, 12, 0.82);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.mw-video-modal[open] {
+  animation: mw-video-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes mw-video-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mw-video-modal .mw-player {
+  max-height: calc(100vh - 140px);
+}
+
+.mw-video-modal__close {
+  position: absolute;
+  top: -52px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--mw-panel);
+  color: var(--mw-dark);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mw-video-modal__caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 14px 4px 0;
+  color: var(--mw-on-dark);
+  font-family: var(--mw-font-body);
+}
+
+.mw-video-modal__title {
+  font-weight: 500;
+  font-size: 17px;
+}
+
+.mw-video-modal__link {
+  color: var(--mw-on-dark);
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  opacity: 0.85;
+}
+
+/* ---------- Product "Watch video" block ---------- */
+.mw-video-trigger {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mw-ink);
+  font-family: var(--mw-font-body);
+  font-weight: 600;
+  font-size: calc(15px * var(--mw-ts, 1));
+  cursor: pointer;
+}
+
+.mw-video-trigger__icon {
+  position: relative;
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--mw-dark);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mw-video-trigger__icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent var(--mw-on-dark);
+  transform: translate(-50%, -50%);
+}
+
+.mw-video-trigger:hover .mw-video-trigger__icon {
+  transform: scale(1.08);
+}
+
+.mw-video-trigger__text {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--mw-tan);
+}
+
+.mw-video-trigger__duration {
+  color: var(--mw-secondary);
+  font-weight: 400;
+}
+
+/* ---------- Tutorial page ---------- */
+.mw-tutorial-page__player {
+  width: 100%;
+  max-width: calc(max(320px, calc(1280 * var(--mw-u))));
+  margin-inline: auto;
+}
+
+.mw-tutorial-page__cover {
+  aspect-ratio: 16 / 9;
+}
+
+.mw-tutorial-page__products {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--mw-border);
+}
+
+.mw-tutorial-page__products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: calc(max(20px, calc(32 * var(--mw-u))));
+}
+
+.mw-tutorial-page__products-grid > li {
+  display: flex;
+  min-width: 0;
+}
+
+.mw-tutorial-page__products-grid .mw-shop-card {
+  flex: 1 1 auto;
+}
+
+/* ---------- Tablet ---------- */
+@media screen and (max-width: 1199px) {
+  .mw-tutorials__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mw-tutorial-page__products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Mobile: swipeable row ---------- */
+@media screen and (max-width: 749px) {
+  .mw-tutorials__grid {
+    display: flex;
+    gap: 16px;
+    margin-inline: -16px;
+    padding-inline: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
+    scrollbar-width: none;
+  }
+
+  .mw-tutorials__grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mw-tutorials__grid > li {
+    flex: none;
+    width: 82%;
+    scroll-snap-align: start;
+  }
+
+  .mw-tutorial-page__products-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mw-video-modal__close {
+    top: -50px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mw-video-modal[open] {
+    animation: none;
+  }
+
+  .mw-tutorial-card:hover .mw-tutorial-card__media img,
+  .mw-tutorial-card:hover .mw-tutorial-card__play {
+    transform: translate(-50%, -50%);
+  }
+
+  .mw-tutorial-card:hover .mw-tutorial-card__media img {
+    transform: none;
+  }
+}
+
+/* Tutorial cards inside the homepage Featured Collection tabs: same shape as product cards */
+.mw-products__grid--tutorials .mw-tutorial-card__media {
+  aspect-ratio: 560 / 513.63;
+}
+
+@media screen and (min-width: 1200px) {
+  .mw-products__grid--tutorials .mw-tutorial-card__media {
+    border-radius: calc(40 * var(--mw-u));
+  }
+
+  .mw-products__grid--tutorials .mw-tutorial-card__title {
+    font-weight: 400;
+    font-size: calc(24 * var(--mw-u) * var(--mw-ts, 1));
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .mw-products__grid--tutorials .mw-tutorial-card__media {
+    aspect-ratio: 357 / 321;
+    border-radius: 24px;
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 1199px) {
+  .mw-products__grid--tutorials > :nth-child(n + 3) {
+    display: none;
+  }
+}
